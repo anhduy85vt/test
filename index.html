@@ -9,31 +9,30 @@
     <style>
         body { background: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; margin:0; display: flex; }
         .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        
-        /* SIDEBAR */
         .nav-item { transition: 0.3s; cursor: pointer; padding: 0.8rem 1.2rem; display: flex; align-items: center; border-radius: 12px; margin-bottom: 0.5rem; font-size: 13px; font-weight: 600; color: #94a3b8; }
         .nav-item:hover { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
         .nav-item.active { background: #3b82f6 !important; color: white !important; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
 
-        /* MINI BATTERY WIDGET */
+        /* MINI BATTERY */
         .mini-bat-wrapper { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 12px; }
         .mini-bat-case { width: 35px; height: 18px; border: 2px solid #475569; border-radius: 4px; position: relative; padding: 1px; }
         .mini-bat-case::after { content: ''; width: 3px; height: 8px; background: #475569; position: absolute; right: -5px; top: 3px; border-radius: 0 2px 2px 0; }
-        .mini-bat-fill { height: 100%; border-radius: 1px; transition: 0.5s; width: 0%; }
+        .mini-bat-fill { height: 100%; border-radius: 1px; transition: 0.5s; }
         
-        /* KEYBOARD & SECTIONS */
+        /* SECTIONS */
         .test-section { display: none; height: 100%; width: 100%; animation: fadeIn 0.3s ease-out; flex-direction: column; align-items: center; justify-content: center; }
         .test-section.active { display: flex !important; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        
         .kb-master-wrapper { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #334155; display: flex; gap: 12px; zoom: 0.82; }
         .key-group { display: flex; flex-direction: column; gap: 4px; }
         .row { display: flex; gap: 4px; }
         .key { background: #1e293b; color: #94a3b8; font-size: 10px; font-weight: bold; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #334155; text-transform: uppercase; }
         .key-pressed { background: #3b82f6 !important; color: white !important; box-shadow: 0 0 15px #3b82f6; }
         .key-passed { background: #10b981 !important; color: white !important; }
-        .w-tab { width: 55px; } .w-caps { width: 65px; } .w-shift-l { width: 95px; }
-        .w-backspace { width: 89px; } .w-enter { width: 85px; } .w-shift-r { width: 110px; }
-        .w-space { width: 288px; } .w-numpad-0 { width: 89px; } .h-double { height: 88px; } .w-ctrl { width: 55px; }
+        
+        /* STEP CARD */
+        .step-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 20px; height: 100%; }
     </style>
 </head>
 <body class="p-4 gap-4">
@@ -41,15 +40,13 @@
     <div class="w-64 glass rounded-3xl p-6 flex flex-col shadow-2xl">
         <div class="mb-6 text-center">
             <h1 class="text-xl font-black italic text-blue-400 uppercase tracking-tighter">Anh Duy Tech</h1>
-            <p class="text-[9px] text-gray-500 tracking-[0.2em] mb-4">HARDWARE TEST TOOL</p>
+            <p class="text-[9px] text-gray-500 tracking-[0.2em] mb-4 uppercase">Chuyên gia phần cứng</p>
             
             <div class="mini-bat-wrapper">
-                <div class="mini-bat-case">
-                    <div id="mini-fill" class="mini-bat-fill bg-green-500"></div>
-                </div>
+                <div class="mini-bat-case"><div id="mini-fill" class="mini-bat-fill"></div></div>
                 <div class="flex flex-col items-start leading-none">
                     <span id="mini-text" class="text-sm font-black tracking-tighter">--%</span>
-                    <span id="mini-status" class="text-[8px] text-gray-500 uppercase font-bold mt-1 tracking-tighter">Sẵn sàng</span>
+                    <span id="mini-status" class="text-[8px] text-gray-500 uppercase font-bold mt-1">Checking</span>
                 </div>
                 <i id="mini-bolt" class="fas fa-bolt text-yellow-400 text-[10px] hidden animate-pulse"></i>
             </div>
@@ -59,19 +56,16 @@
             <div onclick="showTab('keyboard')" id="m-keyboard" class="nav-item active"><i class="fas fa-keyboard w-8"></i> BÀN PHÍM</div>
             <div onclick="showTab('camera')" id="m-camera" class="nav-item"><i class="fas fa-camera w-8"></i> CAMERA</div>
             <div onclick="showTab('mic')" id="m-mic" class="nav-item"><i class="fas fa-microphone w-8"></i> MICROPHONE</div>
-            <div onclick="showTab('battery_health')" id="m-battery_health" class="nav-item"><i class="fas fa-chart-line w-8"></i> PHÂN TÍCH CHAI PIN</div>
+            <div onclick="showTab('battery_health')" id="m-battery_health" class="nav-item"><i class="fas fa-heartbeat w-8"></i> PHÂN TÍCH CHAI PIN</div>
         </nav>
-
-        <div class="border-t border-white/10 pt-4 mt-auto">
-            <p class="text-[10px] text-blue-300 font-mono italic text-center">ANHDUY85VT@GMAIL.COM</p>
-        </div>
+        <p class="text-[10px] text-blue-300 font-mono italic text-center mt-auto opacity-50">ANHDUY85VT@GMAIL.COM</p>
     </div>
 
     <div class="flex-1 glass rounded-3xl overflow-hidden relative">
         
         <section id="keyboard" class="test-section active">
-            <div class="flex justify-between w-full max-w-6xl mb-4 px-10">
-                <span class="text-blue-400 font-bold uppercase text-[10px]">Keyboard Pro Test</span>
+             <div class="flex justify-between w-full max-w-6xl mb-4 px-10">
+                <span class="text-blue-400 font-bold uppercase text-[10px] tracking-widest">Keyboard Test System</span>
                 <button onclick="resetKb()" class="bg-red-500 text-white px-4 py-1 rounded-full text-[10px] font-bold">RESET</button>
             </div>
             <div class="kb-master-wrapper">
@@ -118,38 +112,50 @@
         </section>
 
         <section id="camera" class="test-section">
-            <video id="v" autoplay playsinline muted class="max-w-xl w-full rounded-2xl border-4 border-gray-800 bg-black aspect-video shadow-2xl"></video>
-            <button onclick="startCam()" class="mt-6 bg-blue-600 hover:bg-blue-500 px-10 py-2 rounded-full font-bold transition-all">START CAMERA</button>
+            <video id="v" autoplay playsinline muted class="max-w-xl w-full rounded-3xl border-4 border-gray-800 bg-black aspect-video"></video>
+            <button onclick="startCam()" class="mt-6 bg-blue-600 px-10 py-2 rounded-full font-bold">START CAM</button>
         </section>
-
         <section id="mic" class="test-section">
-            <div id="m-status" class="text-8xl font-black text-green-500 mb-4 tracking-tighter">0%</div>
-            <div class="w-64 h-3 bg-gray-900 rounded-full overflow-hidden p-0.5 border border-gray-800">
-                <div id="m-bar" class="h-full bg-green-500 w-0 transition-all shadow-[0_0_15px_#22c55e]"></div>
-            </div>
-            <button onclick="startMic()" class="mt-10 bg-green-600 hover:bg-green-500 px-10 py-2 rounded-full font-bold transition-all">START MICROPHONE</button>
+            <div id="m-status" class="text-8xl font-black text-green-500 mb-2">0%</div>
+            <div class="w-64 h-3 bg-gray-900 rounded-full overflow-hidden p-0.5"><div id="m-bar" class="h-full bg-green-500 w-0 transition-all"></div></div>
+            <button onclick="startMic()" class="mt-10 bg-green-600 px-10 py-2 rounded-full font-bold">START MIC</button>
         </section>
 
-        <section id="battery_health" class="test-section p-10">
-            <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass p-6 rounded-3xl border border-blue-500/20">
-                    <h3 class="text-blue-400 font-bold uppercase mb-4 text-xs tracking-widest">1. Lấy dữ liệu Windows</h3>
-                    <div class="bg-black/40 p-3 rounded-lg font-mono text-green-400 text-[11px] mb-6 border border-white/5">powercfg /batteryreport</div>
-                    <button onclick="copyCmd()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold text-xs transition-all">COPY LỆNH CMD</button>
+        <section id="battery_health" class="test-section p-8 overflow-y-auto">
+            <h2 class="text-xl font-black text-blue-400 mb-8 uppercase italic tracking-widest">Quy trình kiểm tra Pin chuyên nghiệp</h2>
+            
+            <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="step-card">
+                    <span class="text-blue-500 font-black text-2xl">01.</span>
+                    <h3 class="text-white font-bold mb-3 uppercase text-xs mt-2">Chạy lệnh hệ thống</h3>
+                    <p class="text-[10px] text-gray-500 mb-4 leading-relaxed">Nhấn <b>Win + R</b>, gõ <b>cmd</b>. Sau đó dán lệnh này vào để xuất file báo cáo:</p>
+                    <div class="bg-black/50 p-3 rounded-lg font-mono text-green-400 text-[10px] mb-4 border border-white/5 select-all">powercfg /batteryreport</div>
+                    <button onclick="copyBtn('powercfg /batteryreport')" class="w-full py-2 bg-blue-600/20 hover:bg-blue-600 border border-blue-500/50 rounded-lg font-bold text-[10px] transition-all">COPY LỆNH</button>
                 </div>
-                <div class="glass p-6 rounded-3xl border border-green-500/20">
-                    <h3 class="text-green-400 font-bold uppercase mb-4 text-xs tracking-widest">2. Phân tích độ chai</h3>
+
+                <div class="step-card">
+                    <span class="text-blue-500 font-black text-2xl">02.</span>
+                    <h3 class="text-white font-bold mb-3 uppercase text-xs mt-2">Mở file báo cáo</h3>
+                    <p class="text-[10px] text-gray-500 mb-4 leading-relaxed">Dán lệnh này vào CMD để mở ngay thư mục chứa file, sau đó mở file <b>battery-report.html</b>:</p>
+                    <div class="bg-black/50 p-3 rounded-lg font-mono text-yellow-400 text-[10px] mb-4 border border-white/5">explorer .</div>
+                    <button onclick="copyBtn('explorer .')" class="w-full py-2 bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-500/50 rounded-lg font-bold text-[10px] transition-all uppercase">Mở thư mục User</button>
+                </div>
+
+                <div class="step-card">
+                    <span class="text-blue-500 font-black text-2xl">03.</span>
+                    <h3 class="text-white font-bold mb-3 uppercase text-xs mt-2">Nhập số & Phân tích</h3>
                     <div class="space-y-3">
-                        <input id="in-design" type="number" placeholder="Design Capacity (mWh)" class="w-full bg-gray-900/50 p-2.5 rounded-xl text-xs border border-white/10 focus:border-green-500 outline-none">
-                        <input id="in-full" type="number" placeholder="Full Charge Capacity (mWh)" class="w-full bg-gray-900/50 p-2.5 rounded-xl text-xs border border-white/10 focus:border-green-500 outline-none">
-                        <button onclick="calcHealth()" class="w-full py-3 bg-green-600 hover:bg-green-500 rounded-xl font-bold text-xs transition-all uppercase">Kiểm tra kết quả</button>
+                        <input id="in-design" type="number" placeholder="Design Capacity (mWh)" class="w-full bg-gray-900 p-2 rounded-lg text-[10px] border border-white/10 outline-none focus:border-blue-500">
+                        <input id="in-full" type="number" placeholder="Full Charge Capacity (mWh)" class="w-full bg-gray-900 p-2 rounded-lg text-[10px] border border-white/10 outline-none focus:border-blue-500">
+                        <button onclick="calcHealth()" class="w-full py-2 bg-green-600 hover:bg-green-500 rounded-lg font-bold text-[10px] transition-all uppercase">Xác nhận độ chai</button>
                     </div>
                 </div>
             </div>
-            <div id="health-result" class="mt-8 glass p-8 rounded-3xl border border-white/10 hidden w-full max-w-4xl text-center shadow-2xl">
-                <h4 class="text-gray-500 uppercase text-[10px] font-black mb-2 tracking-[0.3em]">Kết quả phân tích</h4>
-                <div id="res-percent" class="text-8xl font-black mb-2 text-white tracking-tighter">0%</div>
-                <p id="res-desc" class="text-base font-bold tracking-widest uppercase italic"></p>
+
+            <div id="health-result" class="mt-8 glass p-6 rounded-3xl border border-white/10 hidden w-full max-w-2xl text-center shadow-2xl animate-bounce-short">
+                <p class="text-gray-500 uppercase text-[9px] font-black tracking-widest mb-1">Tỷ lệ sức khỏe pin</p>
+                <div id="res-percent" class="text-7xl font-black text-white">0%</div>
+                <p id="res-desc" class="text-xs font-bold uppercase tracking-widest mt-2"></p>
             </div>
         </section>
     </div>
@@ -162,35 +168,24 @@
             document.getElementById('m-' + id).classList.add('active');
         }
 
-        // AUTO MINI BATTERY WIDGET
-        function initMiniBattery() {
+        // SIDEBAR PIN
+        function initBattery() {
             if(navigator.getBattery) {
                 navigator.getBattery().then(bat => {
-                    const update = () => {
+                    const upd = () => {
                         const lv = Math.round(bat.level * 100);
                         const fill = document.getElementById('mini-fill');
-                        const text = document.getElementById('mini-text');
-                        const status = document.getElementById('mini-status');
-                        const bolt = document.getElementById('mini-bolt');
-                        
                         fill.style.width = lv + "%";
-                        text.innerText = lv + "%";
-                        
-                        // Màu sắc widget
-                        if(lv <= 20) fill.className = "mini-bat-fill bg-red-500";
-                        else if(lv <= 50) fill.className = "mini-bat-fill bg-yellow-500";
-                        else fill.className = "mini-bat-fill bg-green-500";
-
-                        status.innerText = bat.charging ? "Đang sạc" : "Dùng pin";
-                        bolt.style.display = bat.charging ? "block" : "none";
+                        fill.className = `mini-bat-fill ${lv < 20 ? 'bg-red-500' : lv < 50 ? 'bg-yellow-500' : 'bg-green-500'}`;
+                        document.getElementById('mini-text').innerText = lv + "%";
+                        document.getElementById('mini-status').innerText = bat.charging ? "Sạc Pin" : "Dùng Pin";
+                        document.getElementById('mini-bolt').style.display = bat.charging ? "block" : "none";
                     };
-                    update();
-                    bat.onlevelchange = update;
-                    bat.onchargingchange = update;
+                    upd(); bat.onlevelchange = upd; bat.onchargingchange = upd;
                 });
             }
         }
-        initMiniBattery();
+        initBattery();
 
         // KEYBOARD
         window.onkeydown = (e) => {
@@ -206,7 +201,7 @@
         };
         function resetKb() { document.querySelectorAll('.key').forEach(k => k.classList.remove('key-passed')); }
 
-        // CAM & MIC (Giữ nguyên logic ổn định cũ)
+        // CAMERA & MIC
         async function startCam() { try { const s = await navigator.mediaDevices.getUserMedia({video:true}); document.getElementById('v').srcObject = s; } catch(e) {} }
         async function startMic() {
             try {
@@ -217,7 +212,7 @@
                 const data = new Uint8Array(ana.frequencyBinCount);
                 function loop() {
                     ana.getByteFrequencyData(data);
-                    let v = Math.round(data.reduce((a,b)=>a+b)/data.length * 3.5);
+                    let v = Math.round(data.reduce((a,b)=>a+b)/data.length * 4);
                     document.getElementById('m-bar').style.width = Math.min(v, 100) + "%";
                     document.getElementById('m-status').innerText = Math.min(v, 100) + "%";
                     requestAnimationFrame(loop);
@@ -226,10 +221,10 @@
             } catch(e) {}
         }
 
-        // HEALTH CALC
-        function copyCmd() {
-            navigator.clipboard.writeText("powercfg /batteryreport");
-            alert("Đã Copy lệnh! Anh Duy Tech hãy dán vào CMD nhé.");
+        // COPY & CALC
+        function copyBtn(txt) {
+            navigator.clipboard.writeText(txt);
+            alert("Đã Copy: " + txt);
         }
         function calcHealth() {
             const d = document.getElementById('in-design').value;
@@ -240,9 +235,9 @@
             res.classList.remove('hidden');
             document.getElementById('res-percent').innerText = h + "%";
             const desc = document.getElementById('res-desc');
-            if(h > 80) { desc.innerText = "Sức khỏe tốt"; desc.className = "text-green-500 font-bold tracking-widest"; }
-            else if(h > 60) { desc.innerText = "Pin đã yếu"; desc.className = "text-yellow-500 font-bold tracking-widest"; }
-            else { desc.innerText = "Cần thay Pin ngay"; desc.className = "text-red-500 font-bold tracking-widest"; }
+            if(h > 80) { desc.innerText = "Pin Tuyệt Vời"; desc.className = "text-green-500 font-bold tracking-widest"; }
+            else if(h > 60) { desc.innerText = "Pin Đã Chai"; desc.className = "text-yellow-500 font-bold tracking-widest"; }
+            else { desc.innerText = "Thay Pin Ngay"; desc.className = "text-red-500 font-bold tracking-widest"; }
         }
     </script>
 </body>
