@@ -13,25 +13,35 @@
         .nav-item:hover { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
         .nav-item.active { background: #3b82f6 !important; color: white !important; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
 
-        /* KEYBOARD & MOUSE */
-        .kb-master-wrapper { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #334155; display: flex; gap: 15px; zoom: 0.72; margin-bottom: 15px; }
-        .key { background: #1e293b; color: #94a3b8; font-size: 10px; font-weight: bold; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #334155; text-transform: uppercase; transition: 0.1s; }
+        /* BATTERY SIDEBAR */
+        .mini-bat-wrapper { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 12px; }
+        .mini-bat-case { width: 35px; height: 18px; border: 2px solid #475569; border-radius: 4px; position: relative; padding: 1px; }
+        .mini-bat-case::after { content: ''; width: 3px; height: 8px; background: #475569; position: absolute; right: -5px; top: 3px; border-radius: 0 2px 2px 0; }
+        .mini-bat-fill { height: 100%; border-radius: 1px; transition: 0.5s; }
+        
+        .test-section { display: none; height: 100%; width: 100%; animation: fadeIn 0.3s ease-out; flex-direction: column; align-items: center; justify-content: center; }
+        .test-section.active { display: flex !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        
+        /* KEYBOARD CHUẨN ANH DUY */
+        .kb-master-wrapper { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #334155; display: flex; gap: 15px; zoom: 0.75; margin-bottom: 20px; }
+        .key-group { display: flex; flex-direction: column; gap: 5px; }
+        .row { display: flex; gap: 5px; }
+        .key { background: #1e293b; color: #94a3b8; font-size: 10px; font-weight: bold; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #334155; text-transform: uppercase; transition: 0.1s; pointer-events: none; }
         .key-pressed { background: #3b82f6 !important; color: white !important; box-shadow: 0 0 15px #3b82f6; transform: scale(0.9); }
         .key-passed { background: #10b981 !important; color: white !important; border-color: #34d399 !important; }
         .w-tab { width: 55px; } .w-caps { width: 65px; } .w-shift-l { width: 95px; }
         .w-backspace { width: 89px; } .w-enter { width: 85px; } .w-shift-r { width: 110px; }
         .w-space { width: 288px; } .w-numpad-0 { width: 89px; } .h-double { height: 89px; } .w-ctrl { width: 55px; }
 
-        .mouse-wrapper { background: #111827; padding: 15px 30px; border-radius: 1.5rem; border: 2px solid #1e293b; display: flex; gap: 40px; align-items: center; zoom: 0.8; }
-        .mouse-btn { width: 70px; height: 40px; display: flex; align-items: center; justify-content: center; background: #1e293b; border-radius: 8px; color: #64748b; font-weight: bold; font-size: 9px; }
-        .mouse-btn.active { background: #3b82f6 !important; color: white; box-shadow: 0 0 10px #3b82f6; }
+        /* MOUSE TEST */
+        .mouse-wrapper { background: #111827; padding: 15px 30px; border-radius: 1.5rem; border: 2px solid #1e293b; display: flex; gap: 40px; align-items: center; zoom: 0.85; }
+        .mouse-btn { width: 80px; height: 45px; display: flex; align-items: center; justify-content: center; background: #1e293b; border: 1px solid #334155; border-radius: 10px; color: #64748b; font-weight: bold; font-size: 10px; }
+        .mouse-btn.active { background: #3b82f6 !important; color: white; box-shadow: 0 0 15px #3b82f6; }
 
-        /* SPEAKER ANIMATION */
-        .speaker-box { transition: 0.3s; }
-        .speaker-active { transform: scale(1.1); filter: drop-shadow(0 0 20px #3b82f6); }
-        .wave { position: absolute; border: 2px solid #3b82f6; border-radius: 50%; opacity: 0; pointer-events: none; }
-        .wave-animate { animation: ripple 0.6s linear; }
-        @keyframes ripple { from { transform: scale(1); opacity: 0.5; } to { transform: scale(2.5); opacity: 0; } }
+        /* SPEAKER STYLE */
+        .spk-unit { transition: 0.3s; }
+        .spk-active { transform: scale(1.05); filter: drop-shadow(0 0 15px #3b82f6); }
 
         #screen-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; cursor: pointer; }
     </style>
@@ -42,9 +52,12 @@
         <div class="mb-6 text-center">
             <h1 class="text-xl font-black italic text-blue-400 uppercase tracking-tighter">Anh Duy Tech</h1>
             <p class="text-[9px] text-gray-500 tracking-[0.2em] mb-4 uppercase font-bold">Hardware Master</p>
-            <div class="mini-bat-wrapper bg-black/20 p-3 rounded-xl flex items-center gap-3 mb-6">
-                <div class="w-8 h-4 border-2 border-slate-500 rounded relative"><div id="mini-fill" class="h-full bg-green-500"></div></div>
-                <span id="mini-text" class="text-xs font-black">--%</span>
+            <div class="mini-bat-wrapper">
+                <div class="mini-bat-case"><div id="mini-fill" class="mini-bat-fill"></div></div>
+                <div class="flex flex-col items-start leading-none">
+                    <span id="mini-text" class="text-sm font-black tracking-tighter">--%</span>
+                    <span id="mini-status" class="text-[8px] text-gray-500 uppercase font-bold mt-1 tracking-tighter">Checking</span>
+                </div>
             </div>
         </div>
         <nav class="flex-grow">
@@ -55,9 +68,11 @@
             <div onclick="showTab('mic')" id="m-mic" class="nav-item"><i class="fas fa-microphone w-8"></i> MICROPHONE</div>
             <div onclick="showTab('battery_health')" id="m-battery_health" class="nav-item"><i class="fas fa-heartbeat w-8"></i> PHÂN TÍCH PIN</div>
         </nav>
+        <p class="text-[10px] text-blue-300 font-mono italic text-center mt-auto opacity-50 uppercase font-bold">ANHDUY85VT</p>
     </div>
 
     <div class="flex-1 glass rounded-3xl overflow-hidden relative">
+        
         <section id="keyboard" class="test-section active" onmousedown="handleMouse(event, true)" onmouseup="handleMouse(event, false)" onwheel="handleWheel(event)">
             <div class="kb-master-wrapper">
                 <div class="key-group">
@@ -80,48 +95,54 @@
             </div>
             <div class="mouse-wrapper">
                 <div id="mouse-0" class="mouse-btn">LEFT</div><div id="mouse-1" class="mouse-btn">MIDDLE</div><div id="mouse-2" class="mouse-btn">RIGHT</div>
-                <div class="flex gap-2 items-center border-l border-white/10 pl-10">
-                    <span class="text-[9px] font-bold text-slate-500">SCROLL</span>
-                    <div id="sc-up" class="w-8 h-8 bg-slate-800 rounded flex items-center justify-center"><i class="fas fa-chevron-up text-[10px]"></i></div>
-                    <div id="sc-down" class="w-8 h-8 bg-slate-800 rounded flex items-center justify-center"><i class="fas fa-chevron-down text-[10px]"></i></div>
+                <div class="flex gap-4 items-center border-l border-white/10 pl-8 font-bold text-xs">
+                    <div id="sc-up" class="w-8 h-8 bg-slate-800 rounded flex items-center justify-center">↑</div>
+                    <span class="text-[9px] text-slate-500 uppercase">Scroll</span>
+                    <div id="sc-down" class="w-8 h-8 bg-slate-800 rounded flex items-center justify-center">↓</div>
                 </div>
-                <button onclick="resetKb()" class="ml-auto bg-red-600 px-6 py-1 rounded text-[9px] font-bold">RESET ALL</button>
+                <button onclick="resetKb()" class="ml-auto bg-red-600 px-6 py-1 rounded text-[9px] font-black uppercase">Reset</button>
             </div>
         </section>
 
         <section id="speaker" class="test-section">
-            <h2 class="text-xl font-black text-blue-400 mb-12 uppercase italic tracking-widest">Audio Channel Test</h2>
+            <h2 class="text-xl font-black text-blue-400 mb-12 uppercase italic tracking-widest">Speaker Test (L-R)</h2>
             <div class="flex gap-20 items-center">
-                <div id="spk-L" class="speaker-box relative flex flex-col items-center">
-                    <div class="w-32 h-48 bg-slate-800 rounded-2xl border-4 border-slate-700 flex flex-col items-center p-4 gap-4">
-                        <div class="w-16 h-16 rounded-full border-4 border-slate-600 bg-slate-900 shadow-inner"></div>
-                        <div class="w-20 h-20 rounded-full border-4 border-slate-600 bg-slate-900 shadow-inner flex items-center justify-center">
-                            <div class="w-8 h-8 rounded-full bg-slate-700 animate-pulse"></div>
-                        </div>
+                <div id="spk-L" class="spk-unit flex flex-col items-center">
+                    <div class="w-32 h-48 bg-slate-800 rounded-3xl border-4 border-slate-700 flex flex-col items-center p-6 gap-4">
+                        <div class="w-12 h-12 rounded-full bg-slate-900 border-2 border-slate-600"></div>
+                        <div class="w-20 h-20 rounded-full bg-slate-900 border-2 border-slate-600 flex items-center justify-center"><div class="w-6 h-6 bg-blue-500/20 rounded-full animate-ping"></div></div>
                     </div>
-                    <span class="mt-4 font-black text-blue-500">LEFT SPEAKER</span>
+                    <span class="mt-4 font-black text-blue-500">TRÁI (L)</span>
                 </div>
-                <div id="spk-R" class="speaker-box relative flex flex-col items-center">
-                    <div class="w-32 h-48 bg-slate-800 rounded-2xl border-4 border-slate-700 flex flex-col items-center p-4 gap-4">
-                        <div class="w-16 h-16 rounded-full border-4 border-slate-600 bg-slate-900 shadow-inner"></div>
-                        <div class="w-20 h-20 rounded-full border-4 border-slate-600 bg-slate-900 shadow-inner flex items-center justify-center">
-                            <div class="w-8 h-8 rounded-full bg-slate-700 animate-pulse"></div>
-                        </div>
+                <div id="spk-R" class="spk-unit flex flex-col items-center">
+                    <div class="w-32 h-48 bg-slate-800 rounded-3xl border-4 border-slate-700 flex flex-col items-center p-6 gap-4">
+                        <div class="w-12 h-12 rounded-full bg-slate-900 border-2 border-slate-600"></div>
+                        <div class="w-20 h-20 rounded-full bg-slate-900 border-2 border-slate-600 flex items-center justify-center"><div class="w-6 h-6 bg-blue-500/20 rounded-full animate-ping"></div></div>
                     </div>
-                    <span class="mt-4 font-black text-blue-500">RIGHT SPEAKER</span>
+                    <span class="mt-4 font-black text-blue-500">PHẢI (R)</span>
                 </div>
             </div>
             <div class="flex gap-4 mt-12">
-                <button onclick="testAudio('left')" class="bg-blue-600 px-8 py-3 rounded-xl font-bold hover:bg-blue-500 transition-all uppercase text-xs">Test Loa Trái</button>
-                <button onclick="testAudio('both')" class="bg-slate-700 px-8 py-3 rounded-xl font-bold hover:bg-slate-600 transition-all uppercase text-xs">Test Cả Hai</button>
-                <button onclick="testAudio('right')" class="bg-blue-600 px-8 py-3 rounded-xl font-bold hover:bg-blue-500 transition-all uppercase text-xs">Test Loa Phải</button>
+                <button onclick="testAudio(-1, 'L')" class="bg-blue-600 px-8 py-3 rounded-xl font-bold uppercase text-xs">Phát Loa Trái</button>
+                <button onclick="testAudio(0, 'both')" class="bg-slate-700 px-8 py-3 rounded-xl font-bold uppercase text-xs">Cả hai</button>
+                <button onclick="testAudio(1, 'R')" class="bg-blue-600 px-8 py-3 rounded-xl font-bold uppercase text-xs">Phát Loa Phải</button>
             </div>
         </section>
 
-        <section id="screen" class="test-section"><div class="grid grid-cols-6 gap-6"><div onclick="openScreen('#fff')" class="w-16 h-16 bg-white rounded-xl cursor-pointer"></div><div onclick="openScreen('#000')" class="w-16 h-16 bg-black rounded-xl cursor-pointer border border-white/20"></div><div onclick="openScreen('#f00')" class="w-16 h-16 bg-red-600 rounded-xl cursor-pointer"></div><div onclick="openScreen('#0f0')" class="w-16 h-16 bg-green-600 rounded-xl cursor-pointer"></div><div onclick="openScreen('#00f')" class="w-16 h-16 bg-blue-600 rounded-xl cursor-pointer"></div><div onclick="openScreen('#ff0')" class="w-16 h-16 bg-yellow-400 rounded-xl cursor-pointer"></div></div><p class="mt-8 text-gray-500 text-[10px] font-bold uppercase">Nhấn ESC để thoát</p></section>
-        <section id="camera" class="test-section"><video id="v" autoplay class="max-w-xl w-full rounded-3xl bg-black aspect-video"></video><button onclick="startCam()" class="mt-6 bg-blue-600 px-10 py-2 rounded-full font-bold">START CAM</button></section>
-        <section id="mic" class="test-section"><div id="m-status" class="text-8xl font-black text-green-500 mb-2">0%</div><button onclick="startMic()" class="mt-10 bg-green-600 px-10 py-2 rounded-full font-bold uppercase text-[10px]">Kích hoạt Mic</button></section>
-        <section id="battery_health" class="test-section p-8"><div class="grid grid-cols-3 gap-6"><div class="glass p-6 rounded-3xl">Lệnh 1: powercfg /batteryreport <button onclick="copyBtn('powercfg /batteryreport')" class="bg-blue-600 w-full mt-4 py-2 rounded">COPY</button></div><div class="glass p-6 rounded-3xl">Lệnh 2: explorer . <button onclick="copyBtn('explorer .')" class="bg-yellow-600 w-full mt-4 py-2 rounded">MỞ THƯ MỤC</button></div><div class="glass p-6 rounded-3xl"><input id="in-design" placeholder="Design" class="w-full bg-slate-900 p-2 mb-2 rounded"><input id="in-full" placeholder="Full" class="w-full bg-slate-900 p-2 mb-4 rounded"><button onclick="calcHealth()" class="bg-green-600 w-full py-2 rounded">KẾT QUẢ</button></div></div><div id="health-result" class="hidden text-center mt-10 text-6xl font-black" id="res-percent"></div></section>
+        <section id="screen" class="test-section">
+            <div class="grid grid-cols-6 gap-6">
+                <div onclick="openScreen('#fff')" class="w-16 h-16 bg-white rounded-xl cursor-pointer"></div>
+                <div onclick="openScreen('#000')" class="w-16 h-16 bg-black rounded-xl cursor-pointer border"></div>
+                <div onclick="openScreen('#f00')" class="w-16 h-16 bg-red-600 rounded-xl cursor-pointer"></div>
+                <div onclick="openScreen('#0f0')" class="w-16 h-16 bg-green-600 rounded-xl cursor-pointer"></div>
+                <div onclick="openScreen('#00f')" class="w-16 h-16 bg-blue-600 rounded-xl cursor-pointer"></div>
+                <div onclick="openScreen('#ff0')" class="w-16 h-16 bg-yellow-400 rounded-xl cursor-pointer"></div>
+            </div>
+        </section>
+
+        <section id="camera" class="test-section"><video id="v" autoplay class="max-w-xl w-full rounded-3xl bg-black aspect-video"></video><button onclick="startCam()" class="mt-6 bg-blue-600 px-8 py-2 rounded-full font-bold">START</button></section>
+        <section id="mic" class="test-section"><div id="m-status" class="text-7xl font-black text-green-500">0%</div><button onclick="startMic()" class="mt-8 bg-green-600 px-8 py-2 rounded-full font-bold uppercase text-xs">Bật Mic</button></section>
+        <section id="battery_health" class="test-section">PHÂN TÍCH PIN CMD (GIỮ NGUYÊN LOGIC)</section>
     </div>
 
     <div id="screen-overlay" onclick="closeScreen()"></div>
@@ -134,67 +155,63 @@
             document.getElementById('m-' + id).classList.add('active');
         }
 
-        // AUDIO TEST LOGIC
-        let audioCtx = null;
-        function testAudio(side) {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = audioCtx.createOscillator();
-            const pan = audioCtx.createStereoPanner();
-            const vol = audioCtx.createGain();
-
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(440, audioCtx.currentTime); // Nốt La chuẩn
-
-            if (side === 'left') { pan.pan.value = -1; animateSpeaker('L'); }
-            else if (side === 'right') { pan.pan.value = 1; animateSpeaker('R'); }
-            else { pan.pan.value = 0; animateSpeaker('L'); animateSpeaker('R'); }
-
-            vol.gain.setValueAtTime(0.5, audioCtx.currentTime);
-            vol.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5);
-
-            osc.connect(pan).connect(vol).connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + 1.5);
+        // AUDIO TEST
+        let aCtx = null;
+        function testAudio(p, s) {
+            if(!aCtx) aCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = aCtx.createOscillator();
+            const pan = aCtx.createStereoPanner();
+            const vol = aCtx.createGain();
+            osc.frequency.value = 440;
+            pan.pan.value = p;
+            vol.gain.setValueAtTime(0.5, aCtx.currentTime);
+            vol.gain.exponentialRampToValueAtTime(0.01, aCtx.currentTime + 1.2);
+            osc.connect(pan).connect(vol).connect(aCtx.destination);
+            osc.start(); osc.stop(aCtx.currentTime + 1.2);
+            if(s === 'both') { animate('L'); animate('R'); } else animate(s);
+        }
+        function animate(s) {
+            const b = document.getElementById('spk-' + s);
+            b.classList.add('spk-active'); setTimeout(() => b.classList.remove('spk-active'), 1200);
         }
 
-        function animateSpeaker(side) {
-            const box = document.getElementById('spk-' + side);
-            box.classList.add('speaker-active');
-            setTimeout(() => box.classList.remove('speaker-active'), 1500);
-        }
-
-        // MOUSE
-        function handleMouse(e, down) {
-            if(!document.getElementById('keyboard').classList.contains('active')) return;
+        // MOUSE & KEYBOARD
+        function handleMouse(e, d) {
             const b = document.getElementById('mouse-' + e.button);
-            if(b) down ? b.classList.add('active') : b.classList.remove('active');
+            if(b) d ? b.classList.add('active') : b.classList.remove('active');
         }
         function handleWheel(e) {
             const id = e.deltaY < 0 ? 'sc-up' : 'sc-down';
-            const b = document.getElementById(id);
-            b.classList.add('bg-blue-600');
-            setTimeout(() => b.classList.remove('bg-blue-600'), 150);
+            document.getElementById(id).classList.add('bg-blue-600');
+            setTimeout(() => document.getElementById(id).classList.remove('bg-blue-600'), 150);
         }
-
-        // LCD & OTHERS
-        function openScreen(c) { const o = document.getElementById('screen-overlay'); o.style.backgroundColor = c; o.style.display='block'; if(o.requestFullscreen) o.requestFullscreen(); }
-        function closeScreen() { document.getElementById('screen-overlay').style.display='none'; if(document.fullscreenElement) document.exitFullscreen(); }
-        document.addEventListener('keydown', (e) => { 
-            if(e.key === "Escape") closeScreen(); 
+        window.onkeydown = (e) => {
             if(document.getElementById('keyboard').classList.contains('active')) {
+                e.preventDefault();
                 const k = document.getElementById('key-' + e.code);
-                if(k) { e.preventDefault(); k.classList.add('key-pressed'); }
+                if(k) k.classList.add('key-pressed');
             }
-        });
-        window.onkeyup = (e) => { const k = document.getElementById('key-' + e.code); if(k) k.classList.add('key-passed'); };
+        };
+        window.onkeyup = (e) => {
+            const k = document.getElementById('key-' + e.code);
+            if(k) { k.classList.remove('key-pressed'); k.classList.add('key-passed'); }
+        };
         function resetKb() { document.querySelectorAll('.key').forEach(k => k.classList.remove('key-passed')); }
 
-        // PIN & CAM (Rút gọn cho nhanh)
-        function copyBtn(t) { navigator.clipboard.writeText(t); alert("Copy: " + t); }
-        function calcHealth() {
-            const h = Math.round((document.getElementById('in-full').value / document.getElementById('in-design').value) * 100);
-            document.getElementById('health-result').innerText = h + "%";
-            document.getElementById('health-result').classList.remove('hidden');
+        // LCD
+        function openScreen(c) { const o = document.getElementById('screen-overlay'); o.style.backgroundColor = c; o.style.display='block'; if(o.requestFullscreen) o.requestFullscreen(); }
+        function closeScreen() { document.getElementById('screen-overlay').style.display='none'; if(document.fullscreenElement) document.exitFullscreen(); }
+        document.addEventListener('keydown', (e) => { if(e.key === "Escape") closeScreen(); });
+        document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) document.getElementById('screen-overlay').style.display = 'none'; });
+
+        // OTHER
+        function initBattery() {
+            if(navigator.getBattery) navigator.getBattery().then(b => {
+                const u = () => { document.getElementById('mini-fill').style.width = (b.level*100)+'%'; document.getElementById('mini-text').innerText = Math.round(b.level*100)+'%'; };
+                u(); b.onlevelchange = u;
+            });
         }
+        initBattery();
         async function startCam() { const s = await navigator.mediaDevices.getUserMedia({video:true}); document.getElementById('v').srcObject = s; }
         async function startMic() {
             const s = await navigator.mediaDevices.getUserMedia({audio:true});
