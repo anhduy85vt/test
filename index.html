@@ -16,19 +16,21 @@
         .test-section { display: none; height: 100%; width: 100%; animation: fadeIn 0.3s ease-out; flex-direction: column; align-items: center; justify-content: center; }
         .test-section.active { display: flex !important; }
 
-        /* KEYBOARD & MOUSE */
-        .kb-master-wrapper { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #334155; display: flex; gap: 15px; zoom: 0.75; margin-bottom: 20px; }
-        .key { background: #1e293b; color: #94a3b8; font-size: 10px; font-weight: bold; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #334155; text-transform: uppercase; transition: 0.1s; }
-        .key-pressed { background: #3b82f6 !important; color: white !important; box-shadow: 0 0 15px #3b82f6; }
-        .key-passed { background: #10b981 !important; color: white !important; }
+        /* KEYBOARD FULL LAYOUT */
+        .kb-master-wrapper { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #334155; display: flex; gap: 15px; zoom: 0.72; margin-bottom: 20px; }
+        .key-group { display: flex; flex-direction: column; gap: 5px; }
+        .row { display: flex; gap: 5px; }
+        .key { background: #1e293b; color: #94a3b8; font-size: 10px; font-weight: bold; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #334155; text-transform: uppercase; transition: 0.1s; pointer-events: none; }
+        .key-pressed { background: #3b82f6 !important; color: white !important; box-shadow: 0 0 15px #3b82f6; transform: scale(0.9); }
+        .key-passed { background: #10b981 !important; color: white !important; border-color: #34d399 !important; }
+        
+        /* MOUSE */
         .mouse-wrapper { background: #111827; padding: 15px 30px; border-radius: 1.5rem; border: 2px solid #1e293b; display: flex; gap: 40px; align-items: center; zoom: 0.85; }
-        .mouse-btn { width: 80px; height: 45px; display: flex; align-items: center; justify-content: center; background: #1e293b; border-radius: 10px; color: #64748b; font-weight: bold; font-size: 10px; border: 1px solid #334155; }
+        .mouse-btn { width: 80px; height: 45px; display: flex; align-items: center; justify-content: center; background: #1e293b; border: 1px solid #334155; border-radius: 10px; color: #64748b; font-weight: bold; font-size: 10px; }
         .mouse-btn.active { background: #3b82f6 !important; color: white; }
 
-        /* SPEAKER */
         .spk-unit { transition: 0.3s; }
         .spk-active { transform: scale(1.1); filter: drop-shadow(0 0 20px #3b82f6); }
-
         #screen-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; cursor: pointer; }
     </style>
 </head>
@@ -36,7 +38,7 @@
 
     <div class="w-64 glass rounded-3xl p-6 flex flex-col shadow-2xl">
         <div class="mb-6 text-center">
-            <h1 class="text-xl font-black italic text-blue-400 uppercase">Anh Duy Tech</h1>
+            <h1 class="text-xl font-black italic text-blue-400 uppercase tracking-tighter">Anh Duy Tech</h1>
             <p class="text-[9px] text-gray-500 tracking-[0.2em] mb-4 uppercase font-bold">Hardware Master</p>
         </div>
         <nav class="flex-grow">
@@ -50,21 +52,31 @@
     </div>
 
     <div class="flex-1 glass rounded-3xl overflow-hidden relative">
+        
         <section id="keyboard" class="test-section active" onmousedown="handleMouse(event, true)" onmouseup="handleMouse(event, false)" onwheel="handleWheel(event)">
             <div class="kb-master-wrapper">
-                <div class="flex flex-col gap-1">
-                    <div class="flex gap-1"><div class="key" id="key-Escape">Esc</div><div style="width:30px"></div><div class="key" id="key-F1">F1</div><div class="key" id="key-F2">F2</div><div class="key" id="key-F3">F3</div><div class="key" id="key-F4">F4</div><div class="key" id="key-F5">F5</div><div class="key" id="key-F6">F6</div><div class="key" id="key-F7">F7</div><div class="key" id="key-F8">F8</div><div class="key" id="key-F9">F9</div><div class="key" id="key-F10">F10</div><div class="key" id="key-F11">F11</div><div class="key" id="key-F12">F12</div></div>
-                    <div class="flex gap-1"><div class="key" id="key-Backquote">`</div><div class="key" id="key-Digit1">1</div><div class="key" id="key-Digit2">2</div><div class="key" id="key-Digit3">3</div><div class="key" id="key-Digit4">4</div><div class="key" id="key-Digit5">5</div><div class="key" id="key-Digit6">6</div><div class="key" id="key-Digit7">7</div><div class="key" id="key-Digit8">8</div><div class="key" id="key-Digit9">9</div><div class="key" id="key-Digit0">0</div><div class="key" id="key-Minus">-</div><div class="key" id="key-Equal">=</div><div class="key" style="width:89px" id="key-Backspace">Back</div></div>
-                    <div class="flex gap-1"><div class="key" style="width:55px" id="key-Tab">Tab</div><div class="key" id="key-KeyQ">Q</div><div class="key" id="key-KeyW">W</div><div class="key" id="key-KeyE">E</div><div class="key" id="key-KeyR">R</div><div class="key" id="key-KeyT">T</div><div class="key" id="key-KeyY">Y</div><div class="key" id="key-KeyU">U</div><div class="key" id="key-KeyI">I</div><div class="key" id="key-KeyO">O</div><div class="key" id="key-KeyP">P</div><div class="key" id="key-BracketLeft">[</div><div class="key" id="key-BracketRight">]</div><div class="key" id="key-Backslash">\</div></div>
-                    <div class="flex gap-1"><div class="key" style="width:65px" id="key-CapsLock">Caps</div><div class="key" id="key-KeyA">A</div><div class="key" id="key-KeyS">S</div><div class="key" id="key-KeyD">D</div><div class="key" id="key-KeyF">F</div><div class="key" id="key-KeyG">G</div><div class="key" id="key-KeyH">H</div><div class="key" id="key-KeyJ">J</div><div class="key" id="key-KeyK">K</div><div class="key" id="key-KeyL">L</div><div class="key" id="key-Semicolon">;</div><div class="key" id="key-Quote">'</div><div class="key" style="width:85px" id="key-Enter">Enter</div></div>
-                    <div class="flex gap-1"><div class="key" style="width:95px" id="key-ShiftLeft">Shift</div><div class="key" id="key-KeyZ">Z</div><div class="key" id="key-KeyX">X</div><div class="key" id="key-KeyC">C</div><div class="key" id="key-KeyV">V</div><div class="key" id="key-KeyB">B</div><div class="key" id="key-KeyN">N</div><div class="key" id="key-KeyM">M</div><div class="key" id="key-Comma">,</div><div class="key" id="key-Period">.</div><div class="key" id="key-Slash">/</div><div class="key" style="width:110px" id="key-ShiftRight">Shift</div></div>
-                    <div class="flex gap-1"><div class="key" style="width:55px">Ctrl</div><div class="key">Win</div><div class="key">Alt</div><div class="key" id="key-Space" style="width:288px">Space</div><div class="key">Alt</div><div class="key">Win</div><div class="key" style="width:55px">Ctrl</div></div>
+                <div class="key-group">
+                    <div class="row"><div class="key" id="key-Escape">Esc</div><div style="width:30px"></div><div class="key" id="key-F1">F1</div><div class="key" id="key-F2">F2</div><div class="key" id="key-F3">F3</div><div class="key" id="key-F4">F4</div><div style="width:20px"></div><div class="key" id="key-F5">F5</div><div class="key" id="key-F6">F6</div><div class="key" id="key-F7">F7</div><div class="key" id="key-F8">F8</div><div style="width:20px"></div><div class="key" id="key-F9">F9</div><div class="key" id="key-F10">F10</div><div class="key" id="key-F11">F11</div><div class="key" id="key-F12">F12</div></div>
+                    <div class="row"><div class="key" id="key-Backquote">`</div><div class="key" id="key-Digit1">1</div><div class="key" id="key-Digit2">2</div><div class="key" id="key-Digit3">3</div><div class="key" id="key-Digit4">4</div><div class="key" id="key-Digit5">5</div><div class="key" id="key-Digit6">6</div><div class="key" id="key-Digit7">7</div><div class="key" id="key-Digit8">8</div><div class="key" id="key-Digit9">9</div><div class="key" id="key-Digit0">0</div><div class="key" id="key-Minus">-</div><div class="key" id="key-Equal">=</div><div class="key" style="width:89px" id="key-Backspace">Back</div></div>
+                    <div class="row"><div class="key" style="width:55px" id="key-Tab">Tab</div><div class="key" id="key-KeyQ">Q</div><div class="key" id="key-KeyW">W</div><div class="key" id="key-KeyE">E</div><div class="key" id="key-KeyR">R</div><div class="key" id="key-KeyT">T</div><div class="key" id="key-KeyY">Y</div><div class="key" id="key-KeyU">U</div><div class="key" id="key-KeyI">I</div><div class="key" id="key-KeyO">O</div><div class="key" id="key-KeyP">P</div><div class="key" id="key-BracketLeft">[</div><div class="key" id="key-BracketRight">]</div><div class="key" style="width:55px" id="key-Backslash">\</div></div>
+                    <div class="row"><div class="key" style="width:65px" id="key-CapsLock">Caps</div><div class="key" id="key-KeyA">A</div><div class="key" id="key-KeyS">S</div><div class="key" id="key-KeyD">D</div><div class="key" id="key-KeyF">F</div><div class="key" id="key-KeyG">G</div><div class="key" id="key-KeyH">H</div><div class="key" id="key-KeyJ">J</div><div class="key" id="key-KeyK">K</div><div class="key" id="key-KeyL">L</div><div class="key" id="key-Semicolon">;</div><div class="key" id="key-Quote">'</div><div class="key" style="width:85px" id="key-Enter">Enter</div></div>
+                    <div class="row"><div class="key" style="width:95px" id="key-ShiftLeft">Shift</div><div class="key" id="key-KeyZ">Z</div><div class="key" id="key-KeyX">X</div><div class="key" id="key-KeyC">C</div><div class="key" id="key-KeyV">V</div><div class="key" id="key-KeyB">B</div><div class="key" id="key-KeyN">N</div><div class="key" id="key-KeyM">M</div><div class="key" id="key-Comma">,</div><div class="key" id="key-Period">.</div><div class="key" id="key-Slash">/</div><div class="key" style="width:110px" id="key-ShiftRight">Shift</div></div>
+                    <div class="row"><div class="key" style="width:55px" id="key-ControlLeft">Ctrl</div><div class="key" id="key-MetaLeft">Win</div><div class="key" id="key-AltLeft">Alt</div><div class="key" style="width:288px" id="key-Space">Space</div><div class="key" id="key-AltRight">Alt</div><div class="key" id="key-MetaRight">Win</div><div class="key" id="key-ContextMenu">Fn</div><div class="key" style="width:55px" id="key-ControlRight">Ctrl</div></div>
+                </div>
+                <div class="key-group">
+                    <div style="height:46px"></div><div class="row"><div class="key" id="key-Insert">Ins</div><div class="key" id="key-Home">Hm</div><div class="key" id="key-PageUp">Pu</div></div><div class="row"><div class="key" id="key-Delete">Del</div><div class="key" id="key-End">End</div><div class="key" id="key-PageDown">Pd</div></div>
+                    <div style="height:46px"></div><div class="row flex justify-center"><div class="key" id="key-ArrowUp">↑</div></div><div class="row"><div class="key" id="key-ArrowLeft">←</div><div class="key" id="key-ArrowDown">↓</div><div class="key" id="key-ArrowRight">→</div></div>
+                </div>
+                <div class="key-group">
+                    <div style="height:46px"></div><div class="row"><div class="key" id="key-NumLock">Num</div><div class="key" id="key-NumpadDivide">/</div><div class="key" id="key-NumpadMultiply">*</div><div class="key" id="key-NumpadSubtract">-</div></div>
+                    <div class="row"><div class="key-group" style="gap:5px"><div class="row"><div class="key" id="key-Numpad7">7</div><div class="key" id="key-Numpad8">8</div><div class="key" id="key-Numpad9">9</div></div><div class="row"><div class="key" id="key-Numpad4">4</div><div class="key" id="key-Numpad5">5</div><div class="key" id="key-Numpad6">6</div></div></div><div class="key" style="height:89px" id="key-NumpadAdd">+</div></div>
+                    <div class="row"><div class="key-group" style="gap:5px"><div class="row"><div class="key" id="key-Numpad1">1</div><div class="key" id="key-Numpad2">2</div><div class="key" id="key-Numpad3">3</div></div><div class="row"><div class="key" style="width:89px" id="key-Numpad0">0</div><div class="key" id="key-NumpadDecimal">.</div></div></div><div class="key" style="height:89px" id="key-NumpadEnter">Ent</div></div>
                 </div>
             </div>
             <div class="mouse-wrapper">
-                <div id="mouse-0" class="mouse-btn">LEFT</div><div id="mouse-1" class="mouse-btn">MID</div><div id="mouse-2" class="mouse-btn">RIGHT</div>
-                <div class="flex gap-2 items-center ml-4"><div id="sc-up" class="w-8 h-8 bg-slate-800 rounded flex justify-center items-center">↑</div><div id="sc-down" class="w-8 h-8 bg-slate-800 rounded flex justify-center items-center">↓</div></div>
-                <button onclick="resetKb()" class="ml-auto bg-red-600 px-6 py-1 rounded text-[10px] font-bold">RESET</button>
+                <div id="mouse-0" class="mouse-btn">LEFT CLICK</div><div id="mouse-1" class="mouse-btn">MIDDLE</div><div id="mouse-2" class="mouse-btn">RIGHT CLICK</div>
+                <div class="flex gap-4 items-center ml-8"><div id="sc-up" class="w-10 h-10 bg-slate-800 rounded flex justify-center items-center">↑</div><div id="sc-down" class="w-10 h-10 bg-slate-800 rounded flex justify-center items-center">↓</div></div>
+                <button onclick="resetKb()" class="ml-auto bg-red-600 px-8 py-2 rounded-xl text-xs font-black uppercase">Reset</button>
             </div>
         </section>
 
@@ -80,54 +92,48 @@
         </section>
 
         <section id="speaker" class="test-section">
-            <h2 class="text-xl font-bold mb-10 text-blue-400">TEST KÊNH LOA TRÁI / PHẢI</h2>
+            <h2 class="text-xl font-black text-blue-400 mb-10 uppercase italic">Kênh âm thanh L/R</h2>
             <div class="flex gap-20">
                 <div id="spk-L" class="spk-unit flex flex-col items-center">
-                    <div class="w-32 h-40 bg-slate-800 rounded-2xl border-4 border-slate-700 flex flex-col items-center justify-center gap-4">
+                    <div class="w-32 h-44 bg-slate-800 rounded-3xl border-4 border-slate-700 flex flex-col items-center justify-center gap-4">
                         <div class="w-12 h-12 rounded-full bg-slate-900 border-2 border-slate-600"></div>
                         <div class="w-16 h-16 rounded-full bg-slate-900 border-2 border-slate-600"></div>
                     </div>
-                    <button onclick="playSpk(-1, 'L')" class="mt-6 bg-blue-600 px-6 py-2 rounded-lg font-bold uppercase text-xs">Loa Trái</button>
+                    <button onclick="playAudio(-1, 'L')" class="mt-6 bg-blue-600 px-6 py-2 rounded-lg font-bold">LOA TRÁI</button>
                 </div>
                 <div id="spk-R" class="spk-unit flex flex-col items-center">
-                    <div class="w-32 h-40 bg-slate-800 rounded-2xl border-4 border-slate-700 flex flex-col items-center justify-center gap-4">
+                    <div class="w-32 h-44 bg-slate-800 rounded-3xl border-4 border-slate-700 flex flex-col items-center justify-center gap-4">
                         <div class="w-12 h-12 rounded-full bg-slate-900 border-2 border-slate-600"></div>
                         <div class="w-16 h-16 rounded-full bg-slate-900 border-2 border-slate-600"></div>
                     </div>
-                    <button onclick="playSpk(1, 'R')" class="mt-6 bg-blue-600 px-6 py-2 rounded-lg font-bold uppercase text-xs">Loa Phải</button>
+                    <button onclick="playAudio(1, 'R')" class="mt-6 bg-blue-600 px-6 py-2 rounded-lg font-bold">LOA PHẢI</button>
                 </div>
             </div>
-            <button onclick="playSpk(0, 'both')" class="mt-10 bg-slate-700 px-10 py-3 rounded-xl font-bold uppercase text-xs">Test Cả Hai</button>
         </section>
 
         <section id="mic" class="test-section">
             <div id="m-status" class="text-9xl font-black text-green-500">0%</div>
-            <button onclick="startMic()" class="mt-10 bg-green-600 px-10 py-3 rounded-full font-bold uppercase text-xs">Kích hoạt Mic</button>
-        </section>
-
-        <section id="camera" class="test-section">
-            <video id="v" autoplay class="max-w-xl w-full rounded-3xl bg-black aspect-video border-4 border-slate-800"></video>
-            <button onclick="startCam()" class="mt-6 bg-blue-600 px-10 py-2 rounded-full font-bold">START CAM</button>
+            <button onclick="startMic()" class="mt-10 bg-green-600 px-10 py-3 rounded-full font-bold">BẬT MIC</button>
         </section>
 
         <section id="battery_health" class="test-section p-10">
             <div class="grid grid-cols-3 gap-6 w-full max-w-5xl">
                 <div class="glass p-6 rounded-3xl text-center">
-                    <p class="text-xs font-bold text-gray-400 mb-4 uppercase">Bước 1: Lấy dữ liệu</p>
                     <button onclick="copyCmd()" class="bg-blue-600 w-full py-4 rounded-2xl font-black italic">COPY LỆNH CMD</button>
                 </div>
                 <div class="glass p-6 rounded-3xl text-center">
-                    <p class="text-xs font-bold text-gray-400 mb-4 uppercase">Bước 2: Tìm file</p>
                     <button onclick="openFolder()" class="bg-yellow-600 w-full py-4 rounded-2xl font-black italic text-black">MỞ THƯ MỤC</button>
                 </div>
                 <div class="glass p-6 rounded-3xl">
-                    <input id="in-design" placeholder="Design Capacity" class="w-full bg-slate-900 p-2 mb-2 rounded-lg text-sm border border-white/10">
-                    <input id="in-full" placeholder="Full Charge" class="w-full bg-slate-900 p-2 mb-4 rounded-lg text-sm border border-white/10">
-                    <button onclick="calcHealth()" class="w-full bg-green-600 py-2 rounded-lg font-bold uppercase text-xs">Tính % Chai</button>
+                    <input id="in-design" placeholder="Design Capacity" class="w-full bg-slate-900 p-2 mb-2 rounded-lg border border-white/10">
+                    <input id="in-full" placeholder="Full Charge" class="w-full bg-slate-900 p-2 mb-4 rounded-lg border border-white/10">
+                    <button onclick="calcHealth()" class="w-full bg-green-600 py-2 rounded-lg font-bold">TÍNH % CHAI</button>
                 </div>
             </div>
             <div id="health-result" class="hidden mt-10 text-7xl font-black"></div>
         </section>
+
+        <section id="camera" class="test-section"><video id="v" autoplay class="max-w-xl w-full rounded-3xl bg-black border-4 border-slate-800 aspect-video"></video><button onclick="startCam()" class="mt-8 bg-blue-600 px-10 py-3 rounded-full font-bold">BẬT CAM</button></section>
     </div>
 
     <div id="screen-overlay" onclick="closeScreen()"></div>
@@ -139,7 +145,7 @@
             document.getElementById('m-' + id).classList.add('active');
         }
 
-        // KEYBOARD
+        // KEYBOARD & MOUSE
         window.onkeydown = (e) => {
             if(document.getElementById('keyboard').classList.contains('active')) {
                 e.preventDefault();
@@ -160,80 +166,64 @@
             setTimeout(() => document.getElementById(id).classList.remove('bg-blue-600'), 150);
         }
 
-        // SPEAKER (Sử dụng chuông dồn dập 100% nghe được)
-        let aCtx;
-        function playSpk(p, side) {
-            if(!aCtx) aCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if(aCtx.state === 'suspended') aCtx.resume();
-            
-            const duration = 1.5;
-            const osc = aCtx.createOscillator();
-            const pan = aCtx.createStereoPanner();
-            const gain = aCtx.createGain();
-
-            osc.type = 'square'; // Tiếng tạch tạch rõ hơn
-            osc.frequency.setValueAtTime(150, aCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(40, aCtx.currentTime + duration);
-
-            pan.pan.value = p;
-            gain.gain.setValueAtTime(0.3, aCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, aCtx.currentTime + duration);
-
-            osc.connect(pan).connect(gain).connect(aCtx.destination);
-            osc.start(); osc.stop(aCtx.currentTime + duration);
-
-            // Animate
-            document.querySelectorAll('.spk-unit').forEach(u => u.classList.remove('spk-active'));
-            if(side === 'both') {
-                document.getElementById('spk-L').classList.add('spk-active');
-                document.getElementById('spk-R').classList.add('spk-active');
-            } else { document.getElementById('spk-' + side).classList.add('spk-active'); }
-            setTimeout(() => document.querySelectorAll('.spk-unit').forEach(u => u.classList.remove('spk-active')), duration*1000);
-        }
-
-        // MIC (Max 100%)
-        async function startMic() {
-            try {
-                const s = await navigator.mediaDevices.getUserMedia({audio:true});
-                const ctx = new AudioContext(); const ana = ctx.createAnalyser();
-                ctx.createMediaStreamSource(s).connect(ana);
-                const d = new Uint8Array(ana.frequencyBinCount);
-                function loop() {
-                    ana.getByteFrequencyData(d);
-                    let v = Math.max(...d);
-                    v = Math.round((v / 255) * 100); // Quy đổi ra % chuẩn
-                    document.getElementById('m-status').innerText = (v > 100 ? 100 : v) + "%";
-                    requestAnimationFrame(loop);
-                }
-                loop();
-            } catch(e) { alert("Chưa bật quyền Mic!"); }
-        }
-
-        // MÀN HÌNH (Esc 1 lần thoát hẳn)
+        // MÀN HÌNH (SỬA LỖI ESC)
         function openScreen(c) {
             const o = document.getElementById('screen-overlay');
-            o.style.backgroundColor = c;
-            o.style.display = 'block';
-            if(o.requestFullscreen) o.requestFullscreen();
+            o.style.backgroundColor = c; o.style.display = 'block';
+            if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
         }
         function closeScreen() {
             const o = document.getElementById('screen-overlay');
             o.style.display = 'none';
             if(document.fullscreenElement) document.exitFullscreen();
         }
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) document.getElementById('screen-overlay').style.display = 'none';
+        });
 
-        // PIN
+        // LOA (SQUARE WAVE)
+        let aCtx;
+        function playAudio(p, s) {
+            if(!aCtx) aCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = aCtx.createOscillator();
+            const pan = aCtx.createStereoPanner();
+            const gn = aCtx.createGain();
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(220, aCtx.currentTime);
+            pan.pan.value = p;
+            gn.gain.setValueAtTime(0.2, aCtx.currentTime);
+            gn.gain.exponentialRampToValueAtTime(0.01, aCtx.currentTime + 1);
+            osc.connect(pan).connect(gn).connect(aCtx.destination);
+            osc.start(); osc.stop(aCtx.currentTime + 1);
+            const unit = document.getElementById('spk-' + s);
+            unit.classList.add('spk-active'); setTimeout(() => unit.classList.remove('spk-active'), 1000);
+        }
+
+        // MIC (MAX 100%)
+        async function startMic() {
+            const s = await navigator.mediaDevices.getUserMedia({audio:true});
+            const ctx = new AudioContext(); const ana = ctx.createAnalyser();
+            ctx.createMediaStreamSource(s).connect(ana);
+            const data = new Uint8Array(ana.frequencyBinCount);
+            function loop() {
+                ana.getByteFrequencyData(data);
+                let v = Math.round((Math.max(...data) / 255) * 100);
+                document.getElementById('m-status').innerText = (v > 100 ? 100 : v) + "%";
+                requestAnimationFrame(loop);
+            }
+            loop();
+        }
+
+        // PIN & CAM
         function copyCmd() { navigator.clipboard.writeText('powercfg /batteryreport'); alert("Đã copy lệnh!"); }
-        function openFolder() { navigator.clipboard.writeText('explorer .'); alert("Copy lệnh mở thư mục!"); }
+        function openFolder() { navigator.clipboard.writeText('explorer .'); alert("Đã copy lệnh mở thư mục!"); }
         function calcHealth() {
             const d = document.getElementById('in-design').value;
             const f = document.getElementById('in-full').value;
-            if(d && f) {
-                const h = Math.round((f / d) * 100);
-                const res = document.getElementById('health-result');
-                res.innerText = h + "%"; res.classList.remove('hidden');
-                res.style.color = h > 80 ? '#10b981' : '#ef4444';
-            }
+            const res = document.getElementById('health-result');
+            const h = Math.round((f / d) * 100);
+            res.innerText = h + "%"; res.classList.remove('hidden');
+            res.style.color = h > 80 ? '#10b981' : '#ef4444';
         }
         async function startCam() { const s = await navigator.mediaDevices.getUserMedia({video:true}); document.getElementById('v').srcObject = s; }
     </script>
