@@ -10,30 +10,34 @@
         body { background: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; margin:0; display: flex; }
         .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        .nav-item { transition: 0.3s; cursor: pointer; padding: 0.8rem 1.2rem; display: flex; align-items: center; border-radius: 12px; margin-bottom: 0.5rem; font-size: 14px; font-weight: 600; color: #94a3b8; }
+        /* SIDEBAR NAVIGATION */
+        .nav-item { transition: 0.3s; cursor: pointer; padding: 0.8rem 1.2rem; display: flex; align-items: center; border-radius: 12px; margin-bottom: 0.5rem; font-size: 13px; font-weight: 600; color: #94a3b8; }
         .nav-item:hover { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
         .nav-item.active { background: #3b82f6 !important; color: white !important; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
         
-        .test-section { display: none; height: 100%; width: 100%; animation: fadeIn 0.3s ease-out; flex-direction: column; align-items: center; justify-content: center; }
+        /* TAB SYSTEM */
+        .test-section { display: none; height: 100%; width: 100%; animation: fadeIn 0.3s ease-out; flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .test-section.active { display: flex !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.99); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* KEYBOARD STYLE */
+        /* KEYBOARD FULL LAYOUT */
         .kb-master-wrapper { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #334155; display: flex; gap: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); zoom: 0.82; }
         .key-group { display: flex; flex-direction: column; gap: 4px; }
         .row { display: flex; gap: 4px; }
-        .key { background: #1e293b; color: #94a3b8; font-size: 10px; font-weight: bold; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #334155; text-transform: uppercase; }
+        .key { background: #1e293b; color: #94a3b8; font-size: 10px; font-weight: bold; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #334155; text-transform: uppercase; transition: 0.1s; }
         .key-pressed { background: #3b82f6 !important; color: white !important; transform: scale(0.9); box-shadow: 0 0 15px #3b82f6; }
-        .key-passed { background: #10b981 !important; color: white !important; }
+        .key-passed { background: #10b981 !important; color: white !important; border-color: #34d399 !important; }
+
+        /* KEY WIDTHS */
         .w-tab { width: 55px; } .w-caps { width: 65px; } .w-shift-l { width: 95px; }
         .w-backspace { width: 89px; } .w-enter { width: 85px; } .w-shift-r { width: 110px; }
         .w-space { width: 288px; } .w-numpad-0 { width: 89px; } .h-double { height: 88px; } .w-ctrl { width: 55px; }
 
-        /* BATTERY STYLE */
-        .battery-body { width: 180px; height: 320px; border: 8px solid #334155; border-radius: 25px; position: relative; padding: 10px; display: flex; align-items: flex-end; }
-        .battery-head { width: 60px; height: 15px; background: #334155; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); border-radius: 5px 5px 0 0; }
-        .battery-level { width: 100%; transition: 1s ease-in-out; border-radius: 12px; position: relative; overflow: hidden; }
-        .charge-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; color: white; display: none; }
+        /* BATTERY & HEALTH STYLES */
+        .battery-body { width: 150px; height: 280px; border: 8px solid #334155; border-radius: 20px; position: relative; padding: 8px; display: flex; align-items: flex-end; }
+        .battery-head { width: 50px; height: 12px; background: #334155; position: absolute; top: -18px; left: 50%; transform: translateX(-50%); border-radius: 4px 4px 0 0; }
+        .battery-level { width: 100%; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 10px; position: relative; }
+        .charge-bolt { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 30px; color: white; display: none; }
     </style>
 </head>
 <body class="p-4 gap-4">
@@ -43,23 +47,26 @@
             <h1 class="text-xl font-black italic text-blue-400 uppercase tracking-tighter">Anh Duy Master</h1>
             <p class="text-[9px] text-gray-500 tracking-[0.2em]">HARDWARE TEST TOOL</p>
         </div>
+
         <nav class="flex-grow">
             <div onclick="showTab('keyboard')" id="m-keyboard" class="nav-item active"><i class="fas fa-keyboard w-8"></i> BÀN PHÍM</div>
             <div onclick="showTab('camera')" id="m-camera" class="nav-item"><i class="fas fa-camera w-8"></i> CAMERA</div>
             <div onclick="showTab('mic')" id="m-mic" class="nav-item"><i class="fas fa-microphone w-8"></i> MICROPHONE</div>
-            <div onclick="showTab('battery')" id="m-battery" class="nav-item"><i class="fas fa-battery-three-quarters w-8"></i> KIỂM TRA PIN</div>
+            <div onclick="showTab('battery')" id="m-battery" class="nav-item"><i class="fas fa-battery-three-quarters w-8"></i> TRẠNG THÁI PIN</div>
+            <div onclick="showTab('battery_health')" id="m-battery_health" class="nav-item"><i class="fas fa-heartbeat w-8"></i> SỨC KHỎE PIN</div>
         </nav>
+
         <div class="border-t border-white/10 pt-4 mt-auto">
-            <p class="text-[11px] text-blue-300 font-mono italic text-center underline">ANHDUY85VT@GMAIL.COM</p>
+            <p class="text-[10px] text-blue-300 font-mono italic text-center">ANHDUY85VT@GMAIL.COM</p>
         </div>
     </div>
 
     <div class="flex-1 glass rounded-3xl overflow-hidden relative">
         
         <section id="keyboard" class="test-section active">
-            <div class="flex justify-between w-full max-w-6xl mb-4 px-4">
-                <h2 class="text-blue-400 font-bold uppercase tracking-widest text-sm"><i class="fas fa-keyboard mr-2"></i>Full Keyboard Test</h2>
-                <button onclick="resetKb()" class="bg-red-500 text-white px-4 py-1 rounded-full text-xs font-bold hover:bg-red-600 transition-all">RESET</button>
+            <div class="flex justify-between w-full max-w-6xl mb-4 px-10">
+                <h2 class="text-blue-400 font-bold uppercase tracking-widest text-xs">Full Keyboard Layout</h2>
+                <button onclick="resetKb()" class="bg-red-500 hover:bg-red-600 text-white px-5 py-1 rounded-full text-[10px] font-bold transition-all">RESET</button>
             </div>
             <div class="kb-master-wrapper">
                 <div class="key-group">
@@ -116,43 +123,66 @@
 
         <section id="camera" class="test-section">
             <h2 class="text-xl font-bold text-blue-400 mb-6 uppercase tracking-widest">Camera Live Check</h2>
-            <div class="relative max-w-2xl w-full rounded-3xl overflow-hidden border-8 border-gray-900 shadow-2xl bg-black">
+            <div class="max-w-2xl w-full rounded-3xl overflow-hidden border-8 border-gray-900 bg-black">
                 <video id="v" autoplay playsinline muted class="w-full aspect-video object-cover"></video>
             </div>
             <button onclick="startCam()" class="mt-8 bg-blue-600 hover:bg-blue-500 px-12 py-3 rounded-full font-bold transition-all">BẬT CAMERA</button>
         </section>
 
         <section id="mic" class="test-section">
-            <h2 class="text-xl font-bold text-green-400 mb-6 uppercase tracking-widest">Microphone Check</h2>
-            <div class="max-w-md w-full bg-gray-950 p-10 rounded-3xl border border-gray-800">
-                <div class="h-8 bg-gray-900 rounded-xl overflow-hidden p-1 border border-gray-800">
+            <h2 class="text-xl font-bold text-green-400 mb-6 uppercase tracking-widest">Microphone Level</h2>
+            <div class="max-w-md w-full glass p-10 rounded-3xl">
+                <div class="h-8 bg-gray-950 rounded-xl overflow-hidden p-1">
                     <div id="m-bar" class="h-full bg-gradient-to-r from-green-600 to-green-400 w-0 rounded-lg transition-all duration-75"></div>
                 </div>
                 <div id="m-status" class="text-center mt-6 text-6xl font-mono font-black text-green-500">0%</div>
             </div>
-            <button onclick="startMic()" class="mt-10 bg-green-600 hover:bg-green-500 px-12 py-3 rounded-full font-bold transition-all">BẬT MICROPHONE</button>
+            <button onclick="startMic()" class="mt-10 bg-green-600 hover:bg-green-500 px-12 py-3 rounded-full font-bold transition-all">BẬT MIC</button>
         </section>
 
         <section id="battery" class="test-section">
-            <div class="flex flex-row items-center gap-20">
+            <div class="flex flex-row items-center gap-16">
                 <div class="battery-body glass">
                     <div class="battery-head"></div>
                     <div id="bat-level" class="battery-level bg-green-500" style="height: 0%">
-                        <i id="bat-charge" class="fas fa-bolt charge-icon"></i>
+                        <i id="bat-charge" class="fas fa-bolt charge-bolt"></i>
                     </div>
                 </div>
-                <div class="flex flex-col gap-6">
-                    <div class="glass p-6 rounded-2xl w-64 border border-white/10">
-                        <p class="text-gray-400 text-xs font-bold uppercase mb-2">Phần trăm Pin</p>
+                <div class="flex flex-col gap-4">
+                    <div class="glass p-5 rounded-2xl w-60 border border-white/10">
+                        <p class="text-gray-400 text-[10px] uppercase font-bold">Phần trăm Pin</p>
                         <h3 id="bat-text" class="text-5xl font-black text-white">--%</h3>
                     </div>
-                    <div class="glass p-6 rounded-2xl w-64 border border-white/10">
-                        <p class="text-gray-400 text-xs font-bold uppercase mb-2">Trạng thái sạc</p>
-                        <h3 id="bat-status" class="text-2xl font-bold text-blue-400">Đang kiểm tra...</h3>
+                    <div class="glass p-5 rounded-2xl w-60 border border-white/10">
+                        <p class="text-gray-400 text-[10px] uppercase font-bold">Trạng thái</p>
+                        <h3 id="bat-status" class="text-xl font-bold text-blue-400">Checking...</h3>
                     </div>
-                    <div class="glass p-6 rounded-2xl w-64 border border-white/10">
-                        <p class="text-gray-400 text-xs font-bold uppercase mb-2">Thời gian còn lại</p>
-                        <h3 id="bat-time" class="text-xl font-mono text-gray-300">--:--</h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="battery_health" class="test-section p-8">
+            <div class="max-w-4xl w-full">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass p-6 rounded-3xl border border-red-500/20 text-center">
+                        <h3 class="text-red-400 font-bold mb-2 uppercase text-sm">Stress Test (Xả Pin)</h3>
+                        <p class="text-[10px] text-gray-400 mb-6 italic">Ép máy chạy nặng để xem pin có tụt ảo hoặc sập nguồn không.</p>
+                        <div class="h-4 bg-gray-900 rounded-full mb-6 p-1 border border-gray-800">
+                            <div id="stress-bar" class="h-full bg-red-600 w-0 rounded-full transition-all"></div>
+                        </div>
+                        <button onclick="runStressTest()" id="btn-stress" class="w-full py-4 bg-red-600 hover:bg-red-500 rounded-2xl font-bold transition-all text-xs">BẮT ĐẦU TEST XẢ PIN</button>
+                    </div>
+                    <div class="glass p-6 rounded-3xl border border-blue-500/20 text-center">
+                        <h3 class="text-blue-400 font-bold mb-2 uppercase text-sm">Báo cáo độ chai (Windows)</h3>
+                        <p class="text-[10px] text-gray-400 mb-4 italic">Lấy thông số Full Charge Capacity chính xác nhất.</p>
+                        <div class="bg-black/50 p-4 rounded-xl font-mono text-[11px] text-green-400 mb-6 border border-white/5 break-all">powercfg /batteryreport</div>
+                        <button onclick="copyCommand()" class="w-full py-4 bg-blue-600/30 hover:bg-blue-600 border border-blue-500 rounded-2xl font-bold transition-all text-xs uppercase">Copy lệnh check chai</button>
+                    </div>
+                </div>
+                <div class="mt-6 glass p-5 rounded-3xl border border-white/5">
+                    <h3 class="text-gray-500 font-bold mb-3 text-[10px] uppercase tracking-tighter">Nhật ký Master Log</h3>
+                    <div id="battery-log" class="h-28 overflow-y-auto font-mono text-[10px] text-gray-500 space-y-1 pr-2">
+                        <div class="text-blue-500">> Hệ thống đã sẵn sàng kiểm tra sức khỏe pin...</div>
                     </div>
                 </div>
             </div>
@@ -160,6 +190,7 @@
     </div>
 
     <script>
+        // HÀM CHUYỂN TAB HOÀN CHỈNH
         function showTab(id) {
             document.querySelectorAll('.test-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -168,7 +199,7 @@
             if(id === 'battery') updateBattery();
         }
 
-        // BÀN PHÍM
+        // BÀN PHÍM LOGIC
         window.addEventListener('keydown', (e) => {
             if(document.getElementById('keyboard').classList.contains('active')) {
                 e.preventDefault();
@@ -182,9 +213,10 @@
         });
         function resetKb() { document.querySelectorAll('.key').forEach(k => k.classList.remove('key-passed')); }
 
-        // CAMERA & MIC (Giữ nguyên logic trước)
+        // CAMERA & MIC LOGIC
         async function startCam() {
-            try { const s = await navigator.mediaDevices.getUserMedia({video:true}); document.getElementById('v').srcObject = s; } catch(e) {}
+            try { const s = await navigator.mediaDevices.getUserMedia({video:true}); document.getElementById('v').srcObject = s; } 
+            catch(e) { alert("Lỗi Camera! Hãy kiểm tra quyền truy cập."); }
         }
         async function startMic() {
             try {
@@ -201,45 +233,52 @@
                     requestAnimationFrame(loop);
                 }
                 loop();
-            } catch(e) {}
+            } catch(e) { alert("Lỗi Mic!"); }
         }
 
-        // --- PIN LOGIC ---
+        // PIN TRẠNG THÁI
         function updateBattery() {
-            if (!navigator.getBattery) {
-                document.getElementById('bat-status').innerText = "Không hỗ trợ trình duyệt này";
-                return;
-            }
+            if (!navigator.getBattery) { document.getElementById('bat-status').innerText = "Không hỗ trợ trình duyệt này"; return; }
             navigator.getBattery().then(bat => {
-                function updateAll() {
-                    const level = Math.round(bat.level * 100);
-                    document.getElementById('bat-level').style.height = level + "%";
-                    document.getElementById('bat-text').innerText = level + "%";
-                    
-                    // Màu sắc theo dung lượng
-                    const bar = document.getElementById('bat-level');
-                    if(level <= 20) bar.className = "battery-level bg-red-500";
-                    else if(level <= 50) bar.className = "battery-level bg-yellow-500";
-                    else bar.className = "battery-level bg-green-500";
-
-                    // Trạng thái sạc
-                    document.getElementById('bat-status').innerText = bat.charging ? "ĐANG SẠC" : "ĐANG DÙNG PIN";
+                const refresh = () => {
+                    const lv = Math.round(bat.level * 100);
+                    document.getElementById('bat-level').style.height = lv + "%";
+                    document.getElementById('bat-text').innerText = lv + "%";
+                    document.getElementById('bat-status').innerText = bat.charging ? "ĐANG SẠC..." : "ĐANG DÙNG PIN";
                     document.getElementById('bat-charge').style.display = bat.charging ? "block" : "none";
-
-                    // Thời gian
-                    let time = bat.charging ? bat.chargingTime : bat.dischargingTime;
-                    if(time === Infinity || isNaN(time)) {
-                        document.getElementById('bat-time').innerText = "Đang tính...";
-                    } else {
-                        let h = Math.floor(time / 3600);
-                        let m = Math.floor((time % 3600) / 60);
-                        document.getElementById('bat-time').innerText = h + " giờ " + m + " phút";
-                    }
-                }
-                updateAll();
-                bat.addEventListener('chargingchange', updateAll);
-                bat.addEventListener('levelchange', updateAll);
+                };
+                refresh();
+                bat.onlevelchange = refresh; bat.onchargingchange = refresh;
             });
+        }
+
+        // SỨC KHỎE PIN & STRESS TEST
+        let sInt;
+        function runStressTest() {
+            const btn = document.getElementById('btn-stress');
+            const bar = document.getElementById('stress-bar');
+            const log = document.getElementById('battery-log');
+            if (btn.innerText.includes("BẮT ĐẦU")) {
+                btn.innerText = "DỪNG TEST (CPU 100%)";
+                btn.classList.add('bg-orange-600');
+                let p = 0;
+                sInt = setInterval(() => {
+                    p = (p + 10) % 100; bar.style.width = p + "%";
+                    let el = document.createElement('div');
+                    el.innerHTML = `<span>[${new Date().toLocaleTimeString()}]</span> <span class="text-red-400">Ép tải:</span> Đang xả pin kiểm tra cell...`;
+                    log.prepend(el);
+                    for(let i=0; i<3000000; i++) { Math.sqrt(i); }
+                }, 1000);
+            } else {
+                clearInterval(sInt);
+                btn.innerText = "BẮT ĐẦU TEST XẢ PIN";
+                btn.classList.remove('bg-orange-600');
+                bar.style.width = "0%";
+            }
+        }
+        function copyCommand() {
+            navigator.clipboard.writeText("powercfg /batteryreport");
+            alert("Đã copy lệnh! Anh Duy dán vào CMD để check chai pin nhé.");
         }
     </script>
 </body>
