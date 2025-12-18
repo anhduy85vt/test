@@ -15,33 +15,30 @@
         .nav-item:hover { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
         .nav-item.active { background: #3b82f6 !important; color: white !important; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
         
-        /* TAB SYSTEM - CỰC QUAN TRỌNG */
-        .test-section { 
-            display: none; /* Mặc định ẩn tất cả */
-            height: 100%; 
-            width: 100%;
-            animation: fadeIn 0.3s ease-out; 
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        /* Chỉ section nào có class .active mới được hiển thị */
-        .test-section.active { 
-            display: flex !important; 
-        }
+        /* TAB SYSTEM */
+        .test-section { display: none; height: 100%; width: 100%; animation: fadeIn 0.3s ease-out; flex-direction: column; align-items: center; justify-content: center; }
+        .test-section.active { display: flex !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.99); } to { opacity: 1; transform: scale(1); } }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* KEYBOARD STYLE */
-        .kb-container { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #334155; display: inline-flex; gap: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); }
-        .key-column { display: flex; flex-direction: column; gap: 4px; }
-        .row { display: flex; gap: 4px; }
-        .key { background: #1e293b; color: #94a3b8; font-size: 9px; font-weight: bold; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #334155; text-transform: uppercase; user-select: none; }
+        /* KEYBOARD FULL LAYOUT */
+        .kb-master-wrapper { background: #111827; padding: 25px; border-radius: 1.5rem; border: 3px solid #334155; display: flex; gap: 15px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); zoom: 0.85; } /* Zoom nhẹ để vừa màn hình laptop */
+        .key-group { display: flex; flex-direction: column; gap: 5px; }
+        .row { display: flex; gap: 5px; }
+        
+        .key { 
+            background: #1e293b; color: #94a3b8; font-size: 10px; font-weight: bold; 
+            width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; 
+            border-radius: 6px; border: 1px solid #334155; transition: 0.05s; text-transform: uppercase; user-select: none;
+        }
+        
         .key-pressed { background: #3b82f6 !important; color: white !important; transform: scale(0.9); box-shadow: 0 0 15px #3b82f6; }
-        .key-passed { background: #10b981 !important; color: white !important; }
-        .w-tab { width: 55px; } .w-caps { width: 68px; } .w-shift-l { width: 90px; }
-        .w-backspace { width: 84px; } .w-enter { width: 89px; } .w-shift-r { width: 104px; }
-        .w-space { width: 282px; } .w-numpad-0 { width: 80px; } .h-double { height: 80px; } 
+        .key-passed { background: #10b981 !important; color: white !important; border-color: #34d399 !important; }
+
+        /* KEY WIDTHS */
+        .w-tab { width: 55px; } .w-caps { width: 65px; } .w-shift-l { width: 95px; }
+        .w-backspace { width: 89px; } .w-enter { width: 85px; } .w-shift-r { width: 110px; }
+        .w-space { width: 288px; } .w-numpad-0 { width: 89px; }
+        .h-double { height: 89px; } .w-ctrl { width: 55px; }
     </style>
 </head>
 <body class="p-4 gap-4">
@@ -51,39 +48,37 @@
             <h1 class="text-xl font-black italic text-blue-400 uppercase tracking-tighter">Anh Duy Master</h1>
             <p class="text-[9px] text-gray-500 tracking-[0.2em]">HARDWARE TEST TOOL</p>
         </div>
-
         <nav class="flex-grow">
             <div onclick="showTab('keyboard')" id="m-keyboard" class="nav-item active"><i class="fas fa-keyboard w-8"></i> BÀN PHÍM</div>
             <div onclick="showTab('camera')" id="m-camera" class="nav-item"><i class="fas fa-camera w-8"></i> CAMERA</div>
             <div onclick="showTab('mic')" id="m-mic" class="nav-item"><i class="fas fa-microphone w-8"></i> MICROPHONE</div>
         </nav>
-
         <div class="border-t border-white/10 pt-4 mt-auto">
-            <p class="text-[9px] text-gray-500 font-bold mb-1 uppercase">Hỗ trợ kỹ thuật:</p>
-            <p class="text-[11px] text-blue-300 font-mono italic underline">ANHDUY85VT@GMAIL.COM</p>
+            <p class="text-[9px] text-gray-500 font-bold mb-1 uppercase text-center italic">ANHDUY85VT@GMAIL.COM</p>
         </div>
     </div>
 
-    <div class="flex-1 relative glass rounded-3xl overflow-hidden">
+    <div class="flex-1 glass rounded-3xl overflow-hidden relative">
         
-        <section id="keyboard" class="test-section active p-6">
-            <div class="w-full flex justify-between items-center mb-6 px-10">
-                <span class="text-xs font-bold text-gray-500 uppercase tracking-widest"><i class="fas fa-circle text-red-500 animate-pulse mr-2"></i>Keyboard Live Test</span>
-                <button onclick="resetKb()" class="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-6 py-1.5 rounded-full border border-red-500/50 text-xs font-bold transition-all">RESET</button>
+        <section id="keyboard" class="test-section active">
+            <div class="flex justify-between w-full max-w-6xl mb-4 px-4">
+                <h2 class="text-blue-400 font-bold uppercase tracking-widest text-sm"><i class="fas fa-keyboard mr-2"></i>Full Keyboard Test</h2>
+                <button onclick="resetKb()" class="bg-red-500 text-white px-4 py-1 rounded-full text-xs font-bold hover:bg-red-600 transition-all">RESET</button>
             </div>
-            <div class="kb-container scale-90 lg:scale-100">
-                <div class="key-column">
+
+            <div class="kb-master-wrapper">
+                <div class="key-group">
                     <div class="row">
-                        <div class="key" id="key-Escape">Esc</div><div style="width:40px"></div>
-                        <div class="key" id="key-F1">F1</div><div class="key" id="key-F2">F2</div><div class="key" id="key-F3">F3</div><div class="key" id="key-F4">F4</div><div style="width:15px"></div>
-                        <div class="key" id="key-F5">F5</div><div class="key" id="key-F6">F6</div><div class="key" id="key-F7">F7</div><div class="key" id="key-F8">F8</div><div style="width:15px"></div>
+                        <div class="key" id="key-Escape">Esc</div><div style="width:30px"></div>
+                        <div class="key" id="key-F1">F1</div><div class="key" id="key-F2">F2</div><div class="key" id="key-F3">F3</div><div class="key" id="key-F4">F4</div><div style="width:20px"></div>
+                        <div class="key" id="key-F5">F5</div><div class="key" id="key-F6">F6</div><div class="key" id="key-F7">F7</div><div class="key" id="key-F8">F8</div><div style="width:20px"></div>
                         <div class="key" id="key-F9">F9</div><div class="key" id="key-F10">F10</div><div class="key" id="key-F11">F11</div><div class="key" id="key-F12">F12</div>
                     </div>
                     <div class="row">
-                        <div class="key" id="key-Backquote">`</div><div class="key" id="key-Digit1">1</div><div class="key" id="key-Digit2">2</div><div class="key" id="key-Digit3">3</div><div class="key" id="key-Digit4">4</div><div class="key" id="key-Digit5">5</div><div class="key" id="key-Digit6">6</div><div class="key" id="key-Digit7">7</div><div class="key" id="key-Digit8">8</div><div class="key" id="key-Digit9">9</div><div class="key" id="key-Digit0">0</div><div class="key" id="key-Minus">-</div><div class="key" id="key-Equal">=</div><div class="key w-backspace" id="key-Backspace">Bksp</div>
+                        <div class="key" id="key-Backquote">`</div><div class="key" id="key-Digit1">1</div><div class="key" id="key-Digit2">2</div><div class="key" id="key-Digit3">3</div><div class="key" id="key-Digit4">4</div><div class="key" id="key-Digit5">5</div><div class="key" id="key-Digit6">6</div><div class="key" id="key-Digit7">7</div><div class="key" id="key-Digit8">8</div><div class="key" id="key-Digit9">9</div><div class="key" id="key-Digit0">0</div><div class="key" id="key-Minus">-</div><div class="key" id="key-Equal">=</div><div class="key w-backspace" id="key-Backspace">Back</div>
                     </div>
                     <div class="row">
-                        <div class="key w-tab" id="key-Tab">Tab</div><div class="key" id="key-KeyQ">Q</div><div class="key" id="key-KeyW">W</div><div class="key" id="key-KeyE">E</div><div class="key" id="key-KeyR">R</div><div class="key" id="key-KeyT">T</div><div class="key" id="key-KeyY">Y</div><div class="key" id="key-KeyU">U</div><div class="key" id="key-KeyI">I</div><div class="key" id="key-KeyO">O</div><div class="key" id="key-KeyP">P</div><div class="key" id="key-BracketLeft">[</div><div class="key" id="key-BracketRight">]</div><div class="key" id="key-Backslash">\</div>
+                        <div class="key w-tab" id="key-Tab">Tab</div><div class="key" id="key-KeyQ">Q</div><div class="key" id="key-KeyW">W</div><div class="key" id="key-KeyE">E</div><div class="key" id="key-KeyR">R</div><div class="key" id="key-KeyT">T</div><div class="key" id="key-KeyY">Y</div><div class="key" id="key-KeyU">U</div><div class="key" id="key-KeyI">I</div><div class="key" id="key-KeyO">O</div><div class="key" id="key-KeyP">P</div><div class="key" id="key-BracketLeft">[</div><div class="key" id="key-BracketRight">]</div><div class="key w-tab" id="key-Backslash">\</div>
                     </div>
                     <div class="row">
                         <div class="key w-caps" id="key-CapsLock">Caps</div><div class="key" id="key-KeyA">A</div><div class="key" id="key-KeyS">S</div><div class="key" id="key-KeyD">D</div><div class="key" id="key-KeyF">F</div><div class="key" id="key-KeyG">G</div><div class="key" id="key-KeyH">H</div><div class="key" id="key-KeyJ">J</div><div class="key" id="key-KeyK">K</div><div class="key" id="key-KeyL">L</div><div class="key" id="key-Semicolon">;</div><div class="key" id="key-Quote">'</div><div class="key w-enter" id="key-Enter">Enter</div>
@@ -92,84 +87,94 @@
                         <div class="key w-shift-l" id="key-ShiftLeft">Shift</div><div class="key" id="key-KeyZ">Z</div><div class="key" id="key-KeyX">X</div><div class="key" id="key-KeyC">C</div><div class="key" id="key-KeyV">V</div><div class="key" id="key-KeyB">B</div><div class="key" id="key-KeyN">N</div><div class="key" id="key-KeyM">M</div><div class="key" id="key-Comma">,</div><div class="key" id="key-Period">.</div><div class="key" id="key-Slash">/</div><div class="key w-shift-r" id="key-ShiftRight">Shift</div>
                     </div>
                     <div class="row">
-                        <div class="key" id="key-ControlLeft">Ctrl</div><div class="key" id="key-MetaLeft">Win</div><div class="key" id="key-AltLeft">Alt</div><div class="key w-space" id="key-Space">Space</div><div class="key" id="key-AltRight">Alt</div><div class="key" id="key-MetaRight">Win</div><div class="key" id="key-ContextMenu">Fn</div><div class="key" id="key-ControlRight">Ctrl</div>
+                        <div class="key w-ctrl" id="key-ControlLeft">Ctrl</div><div class="key" id="key-MetaLeft">Win</div><div class="key" id="key-AltLeft">Alt</div><div class="key w-space" id="key-Space">Space</div><div class="key" id="key-AltRight">Alt</div><div class="key" id="key-MetaRight">Win</div><div class="key" id="key-ContextMenu">Fn</div><div class="key w-ctrl" id="key-ControlRight">Ctrl</div>
                     </div>
                 </div>
-                <div class="key-column">
+
+                <div class="key-group">
                     <div class="row"><div class="key" id="key-PrintScreen">Prt</div><div class="key" id="key-ScrollLock">Scr</div><div class="key" id="key-Pause">Pau</div></div>
                     <div class="row"><div class="key" id="key-Insert">Ins</div><div class="key" id="key-Home">Hm</div><div class="key" id="key-PageUp">Pu</div></div>
                     <div class="row"><div class="key" id="key-Delete">Del</div><div class="key" id="key-End">End</div><div class="key" id="key-PageDown">Pd</div></div>
-                    <div style="height:42px"></div>
+                    <div style="height:47px"></div>
                     <div class="row flex justify-center"><div class="key" id="key-ArrowUp">↑</div></div>
                     <div class="row"><div class="key" id="key-ArrowLeft">←</div><div class="key" id="key-ArrowDown">↓</div><div class="key" id="key-ArrowRight">→</div></div>
+                </div>
+
+                <div class="key-group">
+                    <div style="height:47px"></div>
+                    <div class="row"><div class="key" id="key-NumLock">Num</div><div class="key" id="key-NumpadDivide">/</div><div class="key" id="key-NumpadMultiply">*</div><div class="key" id="key-NumpadSubtract">-</div></div>
+                    <div class="row">
+                        <div class="key-group" style="gap:5px">
+                            <div class="row"><div class="key" id="key-Numpad7">7</div><div class="key" id="key-Numpad8">8</div><div class="key" id="key-Numpad9">9</div></div>
+                            <div class="row"><div class="key" id="key-Numpad4">4</div><div class="key" id="key-Numpad5">5</div><div class="key" id="key-Numpad6">6</div></div>
+                        </div>
+                        <div class="key h-double" id="key-NumpadAdd">+</div>
+                    </div>
+                    <div class="row">
+                        <div class="key-group" style="gap:5px">
+                            <div class="row"><div class="key" id="key-Numpad1">1</div><div class="key" id="key-Numpad2">2</div><div class="key" id="key-Numpad3">3</div></div>
+                            <div class="row"><div class="key w-numpad-0" id="key-Numpad0">0</div><div class="key" id="key-NumpadDecimal">.</div></div>
+                        </div>
+                        <div class="key h-double" id="key-NumpadEnter">Ent</div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="camera" class="test-section p-8">
-            <h2 class="text-xl font-bold text-blue-400 mb-6 uppercase tracking-widest">Camera Live Check</h2>
-            <div class="relative max-w-2xl w-full rounded-3xl overflow-hidden border-8 border-gray-900 shadow-2xl bg-black">
+            <h2 class="text-xl font-bold text-blue-400 mb-6 uppercase tracking-widest text-center">Camera System</h2>
+            <div class="max-w-2xl w-full rounded-3xl overflow-hidden border-8 border-gray-900 shadow-2xl bg-black">
                 <video id="v" autoplay playsinline muted class="w-full aspect-video object-cover"></video>
             </div>
-            <button onclick="startCam()" class="mt-8 bg-blue-600 hover:bg-blue-500 px-12 py-3 rounded-full font-bold shadow-lg transition-all">BẬT CAMERA</button>
+            <button onclick="startCam()" class="mt-8 bg-blue-600 hover:bg-blue-500 px-12 py-3 rounded-full font-bold transition-all">START CAMERA</button>
         </section>
 
         <section id="mic" class="test-section p-8">
-            <h2 class="text-xl font-bold text-green-400 mb-6 uppercase tracking-widest">Microphone Check</h2>
-            <div class="max-w-md w-full bg-gray-950 p-10 rounded-3xl border border-gray-800">
+            <h2 class="text-xl font-bold text-green-400 mb-6 uppercase tracking-widest text-center">Audio System</h2>
+            <div class="max-w-md w-full bg-gray-950 p-10 rounded-3xl border border-gray-800 shadow-inner">
                 <div class="h-8 bg-gray-900 rounded-xl overflow-hidden p-1 border border-gray-800">
                     <div id="m-bar" class="h-full bg-gradient-to-r from-green-600 to-green-400 w-0 rounded-lg transition-all duration-75"></div>
                 </div>
                 <div id="m-status" class="text-center mt-6 text-6xl font-mono font-black text-green-500">0%</div>
             </div>
-            <button onclick="startMic()" class="mt-10 bg-green-600 hover:bg-green-500 px-12 py-3 rounded-full font-bold shadow-lg transition-all">BẬT MICROPHONE</button>
+            <button onclick="startMic()" class="mt-10 bg-green-600 hover:bg-green-500 px-12 py-3 rounded-full font-bold transition-all">START MICROPHONE</button>
         </section>
-
     </div>
 
     <script>
-        // Hàm chuyển tab fix lỗi không mất tab cũ
+        // CHUYỂN TAB 
         function showTab(id) {
-            // Ẩn toàn bộ section trước
-            const sections = document.querySelectorAll('.test-section');
-            sections.forEach(s => {
-                s.classList.remove('active');
-            });
-
-            // Bỏ active menu
-            const menus = document.querySelectorAll('.nav-item');
-            menus.forEach(m => {
-                m.classList.remove('active');
-            });
-
-            // Hiện đúng section được chọn
+            document.querySelectorAll('.test-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.getElementById('m-' + id).classList.add('active');
         }
 
-        // Bàn phím
-        window.onkeydown = (e) => {
+        // BÀN PHÍM LOGIC
+        window.addEventListener('keydown', (e) => {
             if(document.getElementById('keyboard').classList.contains('active')) {
                 e.preventDefault();
                 const k = document.getElementById('key-' + e.code);
                 if(k) k.classList.add('key-pressed');
             }
-        };
-        window.onkeyup = (e) => {
+        });
+        window.addEventListener('keyup', (e) => {
             const k = document.getElementById('key-' + e.code);
             if(k) { k.classList.remove('key-pressed'); k.classList.add('key-passed'); }
-        };
-        function resetKb() { document.querySelectorAll('.key').forEach(k => k.classList.remove('key-passed')); }
+        });
+        function resetKb() {
+            document.querySelectorAll('.key').forEach(k => k.classList.remove('key-passed'));
+        }
 
-        // Camera
+        // CAMERA LOGIC
         async function startCam() {
             try {
                 const s = await navigator.mediaDevices.getUserMedia({video:true});
                 document.getElementById('v').srcObject = s;
-            } catch(e) { alert("Lỗi Camera: Kiểm tra quyền truy cập hoặc HTTPS!"); }
+            } catch(e) { alert("Lỗi Camera! Hãy kiểm tra quyền hoặc kết nối."); }
         }
 
-        // Mic
+        // MIC LOGIC
         async function startMic() {
             try {
                 const s = await navigator.mediaDevices.getUserMedia({audio:true});
@@ -185,7 +190,7 @@
                     requestAnimationFrame(loop);
                 }
                 loop();
-            } catch(e) { alert("Lỗi Mic: Hãy kiểm tra thiết bị!"); }
+            } catch(e) { alert("Lỗi Mic!"); }
         }
     </script>
 </body>
