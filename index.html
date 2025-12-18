@@ -54,7 +54,6 @@
                 <i id="mini-bolt" class="fas fa-bolt text-yellow-400 text-[10px] hidden animate-pulse"></i>
             </div>
         </div>
-
         <nav class="flex-grow">
             <div onclick="showTab('keyboard')" id="m-keyboard" class="nav-item active"><i class="fas fa-keyboard w-8"></i> BÀN PHÍM</div>
             <div onclick="showTab('screen')" id="m-screen" class="nav-item"><i class="fas fa-desktop w-8"></i> MÀN HÌNH</div>
@@ -66,10 +65,9 @@
     </div>
 
     <div class="flex-1 glass rounded-3xl overflow-hidden relative">
-        
         <section id="keyboard" class="test-section active">
             <div class="flex justify-between w-full max-w-6xl mb-4 px-10">
-                <span class="text-blue-400 font-bold uppercase text-[10px] tracking-widest">Full-size Keyboard Layout</span>
+                <span class="text-blue-400 font-bold uppercase text-[10px] tracking-widest">Keyboard Master Layout</span>
                 <button onclick="resetKb()" class="bg-red-500 text-white px-4 py-1 rounded-full text-[10px] font-bold">RESET</button>
             </div>
             <div class="kb-master-wrapper">
@@ -125,27 +123,20 @@
 
         <section id="screen" class="test-section">
             <h2 class="text-xl font-black text-blue-400 mb-8 uppercase italic tracking-widest">LCD Color Test</h2>
-            <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
-                <div onclick="openScreen('#ffffff')" class="w-16 h-16 bg-white rounded-2xl cursor-pointer border border-white/20 hover:scale-110 transition-all"></div>
-                <div onclick="openScreen('#000000')" class="w-16 h-16 bg-black rounded-2xl cursor-pointer border border-white/20 hover:scale-110 transition-all"></div>
-                <div onclick="openScreen('#ff0000')" class="w-16 h-16 bg-red-600 rounded-2xl cursor-pointer border border-white/20 hover:scale-110 transition-all"></div>
-                <div onclick="openScreen('#00ff00')" class="w-16 h-16 bg-green-600 rounded-2xl cursor-pointer border border-white/20 hover:scale-110 transition-all"></div>
-                <div onclick="openScreen('#0000ff')" class="w-16 h-16 bg-blue-600 rounded-2xl cursor-pointer border border-white/20 hover:scale-110 transition-all"></div>
-                <div onclick="openScreen('#ffff00')" class="w-16 h-16 bg-yellow-400 rounded-2xl cursor-pointer border border-white/20 hover:scale-110 transition-all"></div>
+            <div class="grid grid-cols-3 md:grid-cols-6 gap-6">
+                <div onclick="openScreen('#ffffff')" class="w-16 h-16 bg-white rounded-2xl cursor-pointer border border-white/20 hover:scale-110 shadow-lg"></div>
+                <div onclick="openScreen('#000000')" class="w-16 h-16 bg-black rounded-2xl cursor-pointer border border-white/20 hover:scale-110 shadow-lg"></div>
+                <div onclick="openScreen('#ff0000')" class="w-16 h-16 bg-red-600 rounded-2xl cursor-pointer border border-white/20 hover:scale-110 shadow-lg"></div>
+                <div onclick="openScreen('#00ff00')" class="w-16 h-16 bg-green-600 rounded-2xl cursor-pointer border border-white/20 hover:scale-110 shadow-lg"></div>
+                <div onclick="openScreen('#0000ff')" class="w-16 h-16 bg-blue-600 rounded-2xl cursor-pointer border border-white/20 hover:scale-110 shadow-lg"></div>
+                <div onclick="openScreen('#ffff00')" class="w-16 h-16 bg-yellow-400 rounded-2xl cursor-pointer border border-white/20 hover:scale-110 shadow-lg"></div>
             </div>
-            <p class="mt-8 text-gray-500 text-[10px] uppercase font-bold tracking-widest">Bấm vào màu để phóng to toàn màn hình • Nhấn ESC để thoát</p>
+            <p class="mt-8 text-gray-500 text-[10px] uppercase font-bold tracking-widest">Bấm chọn màu • Nhấn ESC hoặc CLICK để thoát</p>
         </section>
 
-        <section id="camera" class="test-section">
-            <video id="v" autoplay playsinline muted class="max-w-xl w-full rounded-3xl border-4 border-gray-800 bg-black aspect-video"></video>
-            <button onclick="startCam()" class="mt-6 bg-blue-600 px-10 py-2 rounded-full font-bold">START CAM</button>
-        </section>
+        <section id="camera" class="test-section"><video id="v" autoplay playsinline muted class="max-w-xl w-full rounded-3xl border-4 border-gray-800 bg-black aspect-video"></video><button onclick="startCam()" class="mt-6 bg-blue-600 px-10 py-2 rounded-full font-bold">START CAM</button></section>
 
-        <section id="mic" class="test-section">
-            <div id="m-status" class="text-8xl font-black text-green-500 mb-2">0%</div>
-            <div class="w-64 h-2 bg-gray-950 rounded-full overflow-hidden border border-white/5"><div id="m-bar" class="h-full bg-green-500 w-0 transition-all"></div></div>
-            <button onclick="startMic()" class="mt-10 bg-green-600 px-10 py-2 rounded-full font-bold uppercase text-[10px]">Kích hoạt Mic</button>
-        </section>
+        <section id="mic" class="test-section"><div id="m-status" class="text-8xl font-black text-green-500 mb-2">0%</div><div class="w-64 h-2 bg-gray-950 rounded-full overflow-hidden"><div id="m-bar" class="h-full bg-green-500 w-0 transition-all"></div></div><button onclick="startMic()" class="mt-10 bg-green-600 px-10 py-2 rounded-full font-bold uppercase text-[10px]">Kích hoạt Mic</button></section>
 
         <section id="battery_health" class="test-section p-8 overflow-y-auto">
             <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -153,13 +144,13 @@
                     <span class="text-blue-500 font-black text-xl">01.</span>
                     <h3 class="text-white font-bold text-[10px] uppercase mt-2 mb-4">Chạy lệnh CMD</h3>
                     <div class="bg-black/50 p-3 rounded-lg font-mono text-green-400 text-[9px] mb-4 select-all">powercfg /batteryreport</div>
-                    <button onclick="copyBtn('powercfg /batteryreport')" class="w-full py-2 bg-blue-600/20 hover:bg-blue-600 border border-blue-500 rounded-lg font-bold text-[10px] transition-all">COPY</button>
+                    <button onclick="copyBtn('powercfg /batteryreport')" class="w-full py-2 bg-blue-600/20 hover:bg-blue-600 border border-blue-500 rounded-lg font-bold text-[10px]">COPY</button>
                 </div>
                 <div class="glass p-6 rounded-3xl border border-white/5">
                     <span class="text-blue-500 font-black text-xl">02.</span>
                     <h3 class="text-white font-bold text-[10px] uppercase mt-2 mb-4">Mở file báo cáo</h3>
                     <div class="bg-black/50 p-3 rounded-lg font-mono text-yellow-500 text-[9px] mb-4">explorer .</div>
-                    <button onclick="copyBtn('explorer .')" class="w-full py-2 bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-500 rounded-lg font-bold text-[10px] transition-all uppercase">Mở Folder User</button>
+                    <button onclick="copyBtn('explorer .')" class="w-full py-2 bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-500 rounded-lg font-bold text-[10px] uppercase">Mở Folder User</button>
                 </div>
                 <div class="glass p-6 rounded-3xl border border-white/5">
                     <span class="text-blue-500 font-black text-xl">03.</span>
@@ -167,7 +158,7 @@
                     <div class="space-y-2">
                         <input id="in-design" type="number" placeholder="Design (mWh)" class="w-full bg-gray-900 p-2 rounded text-[10px] border border-white/5">
                         <input id="in-full" type="number" placeholder="Full (mWh)" class="w-full bg-gray-900 p-2 rounded text-[10px] border border-white/5">
-                        <button onclick="calcHealth()" class="w-full py-2 bg-green-600 hover:bg-green-500 rounded font-bold text-[10px] uppercase transition-all">Phân tích</button>
+                        <button onclick="calcHealth()" class="w-full py-2 bg-green-600 hover:bg-green-500 rounded font-bold text-[10px] uppercase">Phân tích</button>
                     </div>
                 </div>
             </div>
@@ -188,20 +179,39 @@
             document.getElementById('m-' + id).classList.add('active');
         }
 
-        // SCREEN TEST LOGIC
+        // SCREEN TEST LOGIC (FIXED ESC)
         function openScreen(color) {
             const ov = document.getElementById('screen-overlay');
             ov.style.backgroundColor = color;
             ov.style.display = 'block';
-            if (ov.requestFullscreen) ov.requestFullscreen();
+            if (ov.requestFullscreen) ov.requestFullscreen().catch(() => {});
+            else if (ov.webkitRequestFullscreen) ov.webkitRequestFullscreen();
         }
         function closeScreen() {
-            document.getElementById('screen-overlay').style.display = 'none';
-            if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+            const ov = document.getElementById('screen-overlay');
+            ov.style.display = 'none';
+            if (document.fullscreenElement || document.webkitFullscreenElement) {
+                if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            }
         }
-        document.addEventListener('keydown', (e) => { if(e.key === "Escape") closeScreen(); });
+        // Lắng nghe phím Esc trên toàn bộ văn bản
+        document.addEventListener('keydown', (e) => {
+            if(e.key === "Escape") {
+                // Nếu đang mở overlay màn hình thì đóng nó
+                if(document.getElementById('screen-overlay').style.display === 'block') {
+                    closeScreen();
+                }
+            }
+        });
+        // Lắng nghe sự kiện thoát Fullscreen bằng phím mặc định của trình duyệt
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                document.getElementById('screen-overlay').style.display = 'none';
+            }
+        });
 
-        // BATTERY SIDEBAR
+        // CÁC LOGIC KHÁC GIỮ NGUYÊN
         function initBattery() {
             if(navigator.getBattery) {
                 navigator.getBattery().then(bat => {
@@ -220,7 +230,6 @@
         }
         initBattery();
 
-        // KEYBOARD - CHUẨN CŨ
         window.onkeydown = (e) => {
             if(document.getElementById('keyboard').classList.contains('active')) {
                 e.preventDefault();
@@ -233,8 +242,6 @@
             if(k) { k.classList.remove('key-pressed'); k.classList.add('key-passed'); }
         };
         function resetKb() { document.querySelectorAll('.key').forEach(k => k.classList.remove('key-passed')); }
-
-        // CAMERA & MIC
         async function startCam() { try { const s = await navigator.mediaDevices.getUserMedia({video:true}); document.getElementById('v').srcObject = s; } catch(e) {} }
         async function startMic() {
             try {
@@ -253,8 +260,6 @@
                 loop();
             } catch(e) {}
         }
-
-        // CALC HEALTH
         function copyBtn(txt) { navigator.clipboard.writeText(txt); alert("Đã Copy: " + txt); }
         function calcHealth() {
             const d = document.getElementById('in-design').value;
