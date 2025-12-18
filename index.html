@@ -13,6 +13,12 @@
         .nav-item:hover { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
         .nav-item.active { background: #3b82f6 !important; color: white !important; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
 
+        /* BATTERY SIDEBAR ICON */
+        .mini-bat-wrapper { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 12px; }
+        .mini-bat-case { width: 35px; height: 18px; border: 2px solid #475569; border-radius: 4px; position: relative; padding: 1px; }
+        .mini-bat-case::after { content: ''; width: 3px; height: 8px; background: #475569; position: absolute; right: -5px; top: 3px; border-radius: 0 2px 2px 0; }
+        .mini-bat-fill { height: 100%; border-radius: 1px; transition: 0.5s; background: #10b981; }
+
         .test-section { display: none; height: 100%; width: 100%; animation: fadeIn 0.3s ease-out; flex-direction: column; align-items: center; justify-content: center; }
         .test-section.active { display: flex !important; }
 
@@ -40,6 +46,14 @@
         <div class="mb-6 text-center">
             <h1 class="text-xl font-black italic text-blue-400 uppercase tracking-tighter">Anh Duy Tech</h1>
             <p class="text-[9px] text-gray-500 tracking-[0.2em] mb-4 uppercase font-bold">Hardware Master</p>
+            
+            <div class="mini-bat-wrapper">
+                <div class="mini-bat-case"><div id="mini-fill" class="mini-bat-fill"></div></div>
+                <div class="flex flex-col items-start leading-none">
+                    <span id="mini-text" class="text-sm font-black tracking-tighter">--%</span>
+                    <span id="mini-status" class="text-[8px] text-gray-500 uppercase font-bold mt-1 tracking-tighter">Checking</span>
+                </div>
+            </div>
         </div>
         <nav class="flex-grow">
             <div onclick="showTab('keyboard')" id="m-keyboard" class="nav-item active"><i class="fas fa-keyboard w-8"></i> PHÍM & CHUỘT</div>
@@ -52,7 +66,6 @@
     </div>
 
     <div class="flex-1 glass rounded-3xl overflow-hidden relative">
-        
         <section id="keyboard" class="test-section active" onmousedown="handleMouse(event, true)" onmouseup="handleMouse(event, false)" onwheel="handleWheel(event)">
             <div class="kb-master-wrapper">
                 <div class="key-group">
@@ -76,7 +89,7 @@
             <div class="mouse-wrapper">
                 <div id="mouse-0" class="mouse-btn">LEFT CLICK</div><div id="mouse-1" class="mouse-btn">MIDDLE</div><div id="mouse-2" class="mouse-btn">RIGHT CLICK</div>
                 <div class="flex gap-4 items-center ml-8"><div id="sc-up" class="w-10 h-10 bg-slate-800 rounded flex justify-center items-center">↑</div><div id="sc-down" class="w-10 h-10 bg-slate-800 rounded flex justify-center items-center">↓</div></div>
-                <button onclick="resetKb()" class="ml-auto bg-red-600 px-8 py-2 rounded-xl text-xs font-black uppercase">Reset</button>
+                <button onclick="resetKb()" class="ml-auto bg-red-600 px-8 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-red-500">Reset</button>
             </div>
         </section>
 
@@ -91,43 +104,24 @@
             </div>
         </section>
 
-        <section id="speaker" class="test-section">
-            <h2 class="text-xl font-black text-blue-400 mb-10 uppercase">Kiểm tra âm thanh L/R</h2>
-            <div class="flex gap-20">
-                <div id="spk-L" class="spk-unit flex flex-col items-center">
-                    <div class="w-32 h-44 bg-slate-800 rounded-3xl border-4 border-slate-700 flex flex-col items-center justify-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-slate-900 border-2 border-slate-600"></div>
-                        <div class="w-16 h-16 rounded-full bg-slate-900 border-2 border-slate-600"></div>
-                    </div>
-                    <button onclick="playAudio(-1, 'L')" class="mt-6 bg-blue-600 px-6 py-2 rounded-lg font-bold">LOA TRÁI</button>
-                </div>
-                <div id="spk-R" class="spk-unit flex flex-col items-center">
-                    <div class="w-32 h-44 bg-slate-800 rounded-3xl border-4 border-slate-700 flex flex-col items-center justify-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-slate-900 border-2 border-slate-600"></div>
-                        <div class="w-16 h-16 rounded-full bg-slate-900 border-2 border-slate-600"></div>
-                    </div>
-                    <button onclick="playAudio(1, 'R')" class="mt-6 bg-blue-600 px-6 py-2 rounded-lg font-bold">LOA PHẢI</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="mic" class="test-section">
-            <div id="m-status" class="text-9xl font-black text-green-500">0%</div>
-            <button onclick="startMic()" class="mt-10 bg-green-600 px-10 py-3 rounded-full font-bold">KÍCH HOẠT MIC</button>
-        </section>
-
         <section id="battery_health" class="test-section p-10">
             <div class="grid grid-cols-3 gap-6 w-full max-w-5xl">
                 <div class="glass p-6 rounded-3xl flex flex-col gap-4">
                     <button onclick="copyCmd()" class="bg-blue-600 w-full py-4 rounded-2xl font-black italic">1. COPY LỆNH CMD</button>
-                    <div class="text-[11px] text-gray-400 bg-black/40 p-4 rounded-xl leading-relaxed text-left">
+                    <div class="text-[11px] text-gray-400 bg-black/40 p-4 rounded-xl leading-relaxed">
                         <p class="font-bold text-blue-400 mb-1">BẠN NHẤN:</p>
                         <p>1. <span class="text-white">WINDOW + R</span>. NHẬP <span class="text-white">CMD</span></p>
                         <p>2. <span class="text-white">CTRL + V</span>. <span class="text-white">ENTER</span></p>
                     </div>
                 </div>
-                <div class="glass p-6 rounded-3xl text-center flex items-center">
-                    <button onclick="openFolder()" class="bg-yellow-600 w-full py-6 rounded-2xl font-black italic text-black">2. MỞ THƯ MỤC</button>
+                <div class="glass p-6 rounded-3xl flex flex-col gap-4">
+                    <button onclick="copyPath()" class="bg-yellow-600 w-full py-4 rounded-2xl font-black italic text-black uppercase">2. COPY ĐƯỜNG DẪN FILE</button>
+                    <div class="text-[11px] text-gray-400 bg-black/40 p-4 rounded-xl leading-relaxed">
+                        <p class="font-bold text-yellow-500 mb-1">CÁCH MỞ FILE:</p>
+                        <p>1. <span class="text-white">WINDOW + R</span></p>
+                        <p>2. <span class="text-white">CTRL + V</span>. <span class="text-white">ENTER</span></p>
+                        <p class="mt-1 italic text-[9px] text-gray-500">(Folder chứa file battery-report.html sẽ hiện ra)</p>
+                    </div>
                 </div>
                 <div class="glass p-6 rounded-3xl flex flex-col justify-center">
                     <input id="in-design" type="number" placeholder="Design Capacity (mWh)" class="w-full bg-slate-900 p-2 mb-2 rounded-lg border border-white/10 text-sm">
@@ -138,7 +132,28 @@
             <div id="health-result" class="hidden mt-10 text-7xl font-black"></div>
         </section>
 
-        <section id="camera" class="test-section"><video id="v" autoplay class="max-w-xl w-full rounded-3xl bg-black border-4 border-slate-800 aspect-video"></video><button onclick="startCam()" class="mt-8 bg-blue-600 px-10 py-3 rounded-full font-bold">MỞ CAMERA</button></section>
+        <section id="speaker" class="test-section">
+            <h2 class="text-xl font-black text-blue-400 mb-10 uppercase italic">Âm thanh Stereo L/R</h2>
+            <div class="flex gap-20">
+                <div id="spk-L" class="spk-unit flex flex-col items-center">
+                    <div class="w-32 h-44 bg-slate-800 rounded-3xl border-4 border-slate-700 flex flex-col items-center justify-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-slate-900 border-2 border-slate-600"></div>
+                        <div class="w-16 h-16 rounded-full bg-slate-900 border-2 border-slate-600"></div>
+                    </div>
+                    <button onclick="playAudio(-1, 'L')" class="mt-6 bg-blue-600 px-6 py-2 rounded-lg font-bold">TRÁI</button>
+                </div>
+                <div id="spk-R" class="spk-unit flex flex-col items-center">
+                    <div class="w-32 h-44 bg-slate-800 rounded-3xl border-4 border-slate-700 flex flex-col items-center justify-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-slate-900 border-2 border-slate-600"></div>
+                        <div class="w-16 h-16 rounded-full bg-slate-900 border-2 border-slate-600"></div>
+                    </div>
+                    <button onclick="playAudio(1, 'R')" class="mt-6 bg-blue-600 px-6 py-2 rounded-lg font-bold">PHẢI</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="mic" class="test-section"><div id="m-status" class="text-9xl font-black text-green-500">0%</div><button onclick="startMic()" class="mt-10 bg-green-600 px-10 py-3 rounded-full font-bold">THỬ MIC</button></section>
+        <section id="camera" class="test-section"><video id="v" autoplay class="max-w-xl w-full rounded-3xl bg-black border-4 border-slate-800 aspect-video"></video><button onclick="startCam()" class="mt-8 bg-blue-600 px-10 py-3 rounded-full font-bold">BẬT CAMERA</button></section>
     </div>
 
     <div id="screen-overlay" onclick="closeScreen()"></div>
@@ -150,7 +165,7 @@
             document.getElementById('m-' + id).classList.add('active');
         }
 
-        // BÀN PHÍM
+        // BÀN PHÍM & CHUỘT
         window.onkeydown = (e) => {
             if(document.getElementById('keyboard').classList.contains('active')) {
                 e.preventDefault();
@@ -171,7 +186,7 @@
             setTimeout(() => document.getElementById(id).classList.remove('bg-blue-600'), 150);
         }
 
-        // MÀN HÌNH
+        // MÀN HÌNH (ESC 1 LẦN)
         function openScreen(c) {
             const o = document.getElementById('screen-overlay');
             o.style.backgroundColor = c; o.style.display = 'block';
@@ -183,7 +198,7 @@
         }
         document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) closeScreen(); });
 
-        // LOA
+        // LOA & MIC
         let aCtx;
         function playAudio(p, s) {
             if(!aCtx) aCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -191,18 +206,14 @@
             const osc = aCtx.createOscillator();
             const pan = aCtx.createStereoPanner();
             const gn = aCtx.createGain();
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(220, aCtx.currentTime);
-            pan.pan.value = p;
-            gn.gain.setValueAtTime(0.2, aCtx.currentTime);
+            osc.type = 'square'; osc.frequency.setValueAtTime(220, aCtx.currentTime);
+            pan.pan.value = p; gn.gain.setValueAtTime(0.2, aCtx.currentTime);
             gn.gain.exponentialRampToValueAtTime(0.01, aCtx.currentTime + 1);
             osc.connect(pan).connect(gn).connect(aCtx.destination);
             osc.start(); osc.stop(aCtx.currentTime + 1);
             const unit = document.getElementById('spk-' + s);
             unit.classList.add('spk-active'); setTimeout(() => unit.classList.remove('spk-active'), 1000);
         }
-
-        // MIC
         async function startMic() {
             const s = await navigator.mediaDevices.getUserMedia({audio:true});
             const ctx = new AudioContext(); const ana = ctx.createAnalyser();
@@ -217,9 +228,9 @@
             loop();
         }
 
-        // PIN
+        // PHÂN TÍCH PIN
         function copyCmd() { navigator.clipboard.writeText('powercfg /batteryreport'); alert("Đã copy lệnh CMD!"); }
-        function openFolder() { navigator.clipboard.writeText('explorer .'); alert("Đã copy lệnh mở thư mục!"); }
+        function copyPath() { navigator.clipboard.writeText('explorer .'); alert("Đã copy đường dẫn! Nhấn Win + R rồi Paste để mở thư mục."); }
         function calcHealth() {
             const d = document.getElementById('in-design').value;
             const f = document.getElementById('in-full').value;
@@ -229,6 +240,19 @@
             res.innerText = h + "%"; res.classList.remove('hidden');
             res.style.color = h > 80 ? '#10b981' : '#ef4444';
         }
+
+        // ICON PIN SIDEBAR
+        if(navigator.getBattery) navigator.getBattery().then(bat => {
+            const up = () => {
+                const lv = Math.round(bat.level * 100);
+                document.getElementById('mini-fill').style.width = lv + "%";
+                document.getElementById('mini-text').innerText = lv + "%";
+                document.getElementById('mini-status').innerText = bat.charging ? "Charging" : "Live";
+                document.getElementById('mini-fill').style.background = lv < 20 ? '#ef4444' : '#10b981';
+            };
+            up(); bat.onlevelchange = up; bat.onchargingchange = up;
+        });
+
         async function startCam() { const s = await navigator.mediaDevices.getUserMedia({video:true}); document.getElementById('v').srcObject = s; }
     </script>
 </body>
