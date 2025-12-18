@@ -7,32 +7,44 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; margin:0; }
+        body { background: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; margin:0; display: flex; }
         .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        /* Menu Sidebar */
+        /* SIDEBAR */
         .nav-item { transition: 0.3s; cursor: pointer; padding: 0.8rem 1.2rem; display: flex; align-items: center; border-radius: 12px; margin-bottom: 0.5rem; font-size: 14px; font-weight: 600; color: #94a3b8; }
         .nav-item:hover { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
         .nav-item.active { background: #3b82f6 !important; color: white !important; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
         
-        /* Hiệu ứng chuyển trang */
-        .test-section { display: none; height: 100%; animation: fadeIn 0.4s ease-out; }
-        .test-section.active { display: flex; flex-direction: column; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        /* TAB SYSTEM - CỰC QUAN TRỌNG */
+        .test-section { 
+            display: none; /* Mặc định ẩn tất cả */
+            height: 100%; 
+            width: 100%;
+            animation: fadeIn 0.3s ease-out; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Chỉ section nào có class .active mới được hiển thị */
+        .test-section.active { 
+            display: flex !important; 
+        }
 
-        /* Keyboard CSS */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* KEYBOARD STYLE */
         .kb-container { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #334155; display: inline-flex; gap: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); }
         .key-column { display: flex; flex-direction: column; gap: 4px; }
         .row { display: flex; gap: 4px; }
         .key { background: #1e293b; color: #94a3b8; font-size: 9px; font-weight: bold; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #334155; text-transform: uppercase; user-select: none; }
         .key-pressed { background: #3b82f6 !important; color: white !important; transform: scale(0.9); box-shadow: 0 0 15px #3b82f6; }
-        .key-passed { background: #10b981 !important; color: white !important; border-color: #34d399 !important; }
+        .key-passed { background: #10b981 !important; color: white !important; }
         .w-tab { width: 55px; } .w-caps { width: 68px; } .w-shift-l { width: 90px; }
         .w-backspace { width: 84px; } .w-enter { width: 89px; } .w-shift-r { width: 104px; }
         .w-space { width: 282px; } .w-numpad-0 { width: 80px; } .h-double { height: 80px; } 
     </style>
 </head>
-<body class="flex p-4 gap-4">
+<body class="p-4 gap-4">
 
     <div class="w-64 glass rounded-3xl p-6 flex flex-col shadow-2xl">
         <div class="mb-8 text-center">
@@ -41,29 +53,23 @@
         </div>
 
         <nav class="flex-grow">
-            <div onclick="showTab('keyboard')" id="m-keyboard" class="nav-item active">
-                <i class="fas fa-keyboard w-8 text-blue-400"></i> BÀN PHÍM
-            </div>
-            <div onclick="showTab('camera')" id="m-camera" class="nav-item">
-                <i class="fas fa-camera w-8 text-blue-400"></i> CAMERA
-            </div>
-            <div onclick="showTab('mic')" id="m-mic" class="nav-item">
-                <i class="fas fa-microphone w-8 text-blue-400"></i> MICROPHONE
-            </div>
+            <div onclick="showTab('keyboard')" id="m-keyboard" class="nav-item active"><i class="fas fa-keyboard w-8"></i> BÀN PHÍM</div>
+            <div onclick="showTab('camera')" id="m-camera" class="nav-item"><i class="fas fa-camera w-8"></i> CAMERA</div>
+            <div onclick="showTab('mic')" id="m-mic" class="nav-item"><i class="fas fa-microphone w-8"></i> MICROPHONE</div>
         </nav>
 
-        <div class="border-t border-white/10 pt-4">
+        <div class="border-t border-white/10 pt-4 mt-auto">
             <p class="text-[9px] text-gray-500 font-bold mb-1 uppercase">Hỗ trợ kỹ thuật:</p>
-            <p class="text-[11px] text-blue-300 font-mono italic">ANHDUY85VT@GMAIL.COM</p>
+            <p class="text-[11px] text-blue-300 font-mono italic underline">ANHDUY85VT@GMAIL.COM</p>
         </div>
     </div>
 
-    <div class="flex-1 overflow-hidden">
+    <div class="flex-1 relative glass rounded-3xl overflow-hidden">
         
-        <section id="keyboard" class="test-section active glass rounded-3xl p-6 items-center justify-center">
-            <div class="w-full flex justify-between items-center mb-6 px-4">
+        <section id="keyboard" class="test-section active p-6">
+            <div class="w-full flex justify-between items-center mb-6 px-10">
                 <span class="text-xs font-bold text-gray-500 uppercase tracking-widest"><i class="fas fa-circle text-red-500 animate-pulse mr-2"></i>Keyboard Live Test</span>
-                <button onclick="resetKb()" class="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-6 py-1.5 rounded-full border border-red-500/50 text-xs font-bold transition-all">XÓA LỊCH SỬ</button>
+                <button onclick="resetKb()" class="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-6 py-1.5 rounded-full border border-red-500/50 text-xs font-bold transition-all">RESET</button>
             </div>
             <div class="kb-container scale-90 lg:scale-100">
                 <div class="key-column">
@@ -100,54 +106,48 @@
             </div>
         </section>
 
-        <section id="camera" class="test-section glass rounded-3xl p-8 items-center justify-center">
-            <h2 class="text-xl font-bold text-blue-400 mb-6 uppercase tracking-widest">Camera System Check</h2>
+        <section id="camera" class="test-section p-8">
+            <h2 class="text-xl font-bold text-blue-400 mb-6 uppercase tracking-widest">Camera Live Check</h2>
             <div class="relative max-w-2xl w-full rounded-3xl overflow-hidden border-8 border-gray-900 shadow-2xl bg-black">
                 <video id="v" autoplay playsinline muted class="w-full aspect-video object-cover"></video>
             </div>
-            <button onclick="startCam()" class="mt-8 bg-blue-600 hover:bg-blue-500 px-12 py-3 rounded-full font-bold shadow-lg transition-all">KÍCH HOẠT CAMERA</button>
+            <button onclick="startCam()" class="mt-8 bg-blue-600 hover:bg-blue-500 px-12 py-3 rounded-full font-bold shadow-lg transition-all">BẬT CAMERA</button>
         </section>
 
-        <section id="mic" class="test-section glass rounded-3xl p-8 items-center justify-center">
-            <h2 class="text-xl font-bold text-green-400 mb-6 uppercase tracking-widest">Audio Input Check</h2>
-            <div class="max-w-md w-full bg-gray-950 p-10 rounded-3xl border border-gray-800 shadow-inner">
+        <section id="mic" class="test-section p-8">
+            <h2 class="text-xl font-bold text-green-400 mb-6 uppercase tracking-widest">Microphone Check</h2>
+            <div class="max-w-md w-full bg-gray-950 p-10 rounded-3xl border border-gray-800">
                 <div class="h-8 bg-gray-900 rounded-xl overflow-hidden p-1 border border-gray-800">
                     <div id="m-bar" class="h-full bg-gradient-to-r from-green-600 to-green-400 w-0 rounded-lg transition-all duration-75"></div>
                 </div>
                 <div id="m-status" class="text-center mt-6 text-6xl font-mono font-black text-green-500">0%</div>
             </div>
-            <button onclick="startMic()" class="mt-10 bg-green-600 hover:bg-green-500 px-12 py-3 rounded-full font-bold shadow-lg transition-all">KIỂM TRA ÂM THANH</button>
+            <button onclick="startMic()" class="mt-10 bg-green-600 hover:bg-green-500 px-12 py-3 rounded-full font-bold shadow-lg transition-all">BẬT MICROPHONE</button>
         </section>
 
     </div>
 
     <script>
-        // HÀM CHUYỂN TAB CỰC MẠNH
+        // Hàm chuyển tab fix lỗi không mất tab cũ
         function showTab(id) {
-            // 1. Ẩn tất cả các Section
-            document.querySelectorAll('.test-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // 2. Bỏ trạng thái Active của tất cả Menu
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
+            // Ẩn toàn bộ section trước
+            const sections = document.querySelectorAll('.test-section');
+            sections.forEach(s => {
+                s.classList.remove('active');
             });
 
-            // 3. Hiển thị Section được chọn
-            const targetSection = document.getElementById(id);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
+            // Bỏ active menu
+            const menus = document.querySelectorAll('.nav-item');
+            menus.forEach(m => {
+                m.classList.remove('active');
+            });
 
-            // 4. Kích hoạt màu Active cho Menu được chọn
-            const targetMenu = document.getElementById('m-' + id);
-            if (targetMenu) {
-                targetMenu.classList.add('active');
-            }
+            // Hiện đúng section được chọn
+            document.getElementById(id).classList.add('active');
+            document.getElementById('m-' + id).classList.add('active');
         }
 
-        // LOGIC BÀN PHÍM
+        // Bàn phím
         window.onkeydown = (e) => {
             if(document.getElementById('keyboard').classList.contains('active')) {
                 e.preventDefault();
@@ -159,19 +159,17 @@
             const k = document.getElementById('key-' + e.code);
             if(k) { k.classList.remove('key-pressed'); k.classList.add('key-passed'); }
         };
-        function resetKb() {
-            document.querySelectorAll('.key').forEach(k => k.classList.remove('key-passed'));
-        }
+        function resetKb() { document.querySelectorAll('.key').forEach(k => k.classList.remove('key-passed')); }
 
-        // LOGIC CAMERA
+        // Camera
         async function startCam() {
             try {
                 const s = await navigator.mediaDevices.getUserMedia({video:true});
                 document.getElementById('v').srcObject = s;
-            } catch(e) { alert("Lỗi Camera: Hãy kiểm tra HTTPS hoặc quyền truy cập!"); }
+            } catch(e) { alert("Lỗi Camera: Kiểm tra quyền truy cập hoặc HTTPS!"); }
         }
 
-        // LOGIC MICROPHONE
+        // Mic
         async function startMic() {
             try {
                 const s = await navigator.mediaDevices.getUserMedia({audio:true});
