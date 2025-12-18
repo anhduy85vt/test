@@ -12,7 +12,6 @@
         .nav-item { transition: 0.3s; cursor: pointer; padding: 0.8rem 1.2rem; display: flex; align-items: center; border-radius: 12px; margin-bottom: 0.5rem; font-size: 14px; font-weight: 600; }
         .nav-item:hover { background: rgba(59, 130, 246, 0.2); }
         .nav-item.active { background: #3b82f6 !important; color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
-        
         .test-section { display: none; height: 100%; animation: fadeIn 0.3s ease; }
         .test-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -21,22 +20,12 @@
         .kb-container { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #334155; display: inline-flex; gap: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); }
         .key-column { display: flex; flex-direction: column; gap: 4px; }
         .row { display: flex; gap: 4px; }
-        
-        .key { 
-            background: #1e293b; color: #94a3b8; font-size: 9px; font-weight: bold; 
-            width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; 
-            border-radius: 6px; border: 1px solid #334155; transition: 0.05s; text-transform: uppercase;
-        }
+        .key { background: #1e293b; color: #94a3b8; font-size: 9px; font-weight: bold; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #334155; transition: 0.05s; text-transform: uppercase; user-select: none; }
         .key-pressed { background: #3b82f6 !important; color: white !important; transform: scale(0.9); box-shadow: 0 0 15px #3b82f6; z-index: 10; }
         .key-passed { background: #10b981 !important; color: white !important; border-color: #34d399 !important; }
-        
-        /* Specialized Key Widths */
         .w-tab { width: 55px; } .w-caps { width: 68px; } .w-shift-l { width: 90px; }
         .w-backspace { width: 84px; } .w-enter { width: 89px; } .w-shift-r { width: 104px; }
-        .w-space { width: 282px; } .w-numpad-0 { width: 80px; }
-        .h-double { height: 80px; } 
-
-        .contact-box { margin-top: auto; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .w-space { width: 282px; } .w-numpad-0 { width: 80px; } .h-double { height: 80px; } 
     </style>
 </head>
 <body class="flex p-4 gap-4">
@@ -46,27 +35,23 @@
             <h1 class="text-xl font-black italic text-blue-400 tracking-tighter uppercase">Anh Duy Master</h1>
             <p class="text-[9px] text-gray-500 tracking-[0.2em]">HARDWARE TEST TOOL</p>
         </div>
-
         <nav class="flex-grow">
             <div onclick="showTab('keyboard')" id="m-keyboard" class="nav-item active"><i class="fas fa-keyboard w-8 text-blue-400"></i> BÀN PHÍM</div>
             <div onclick="showTab('camera')" id="m-camera" class="nav-item"><i class="fas fa-camera w-8 text-blue-400"></i> CAMERA</div>
             <div onclick="showTab('mic')" id="m-mic" class="nav-item"><i class="fas fa-microphone w-8 text-blue-400"></i> MICROPHONE</div>
         </nav>
-
-        <div class="contact-box">
-            <p class="text-[9px] text-gray-500 font-bold mb-1">HỖ TRỢ KỸ THUẬT:</p>
-            <p class="text-[11px] text-blue-300 font-mono italic">ANHDUY85VT@GMAIL.COM</p>
+        <div class="contact-box border-t border-white/10 pt-4 mt-auto">
+            <p class="text-[9px] text-gray-500 font-bold mb-1 uppercase">Hỗ trợ kỹ thuật:</p>
+            <p class="text-[11px] text-blue-300 font-mono italic underline">ANHDUY85VT@GMAIL.COM</p>
         </div>
     </div>
 
     <div class="flex-1 flex flex-col gap-4 overflow-hidden">
-        
         <section id="keyboard" class="test-section active glass rounded-3xl p-6 flex flex-col items-center justify-center">
             <div class="w-full flex justify-between items-center mb-6 px-4">
                 <span class="text-xs font-bold text-gray-500 uppercase tracking-widest"><i class="fas fa-circle text-red-500 animate-pulse mr-2"></i>Keyboard Live Test</span>
-                <button onclick="resetKb()" class="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-6 py-1.5 rounded-full border border-red-500/50 text-xs font-bold transition-all">XÓA LỊCH SỬ PHÍM</button>
+                <button onclick="resetKb()" class="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-6 py-1.5 rounded-full border border-red-500/50 text-xs font-bold transition-all">XÓA LỊCH SỬ</button>
             </div>
-
             <div class="kb-container scale-90 lg:scale-100">
                 <div class="key-column">
                     <div class="row">
@@ -91,7 +76,6 @@
                         <div class="key" id="key-ControlLeft">Ctrl</div><div class="key" id="key-MetaLeft">Win</div><div class="key" id="key-AltLeft">Alt</div><div class="key w-space" id="key-Space">Space</div><div class="key" id="key-AltRight">Alt</div><div class="key" id="key-MetaRight">Win</div><div class="key" id="key-ContextMenu">Fn</div><div class="key" id="key-ControlRight">Ctrl</div>
                     </div>
                 </div>
-
                 <div class="key-column">
                     <div class="row"><div class="key" id="key-PrintScreen">Prt</div><div class="key" id="key-ScrollLock">Scr</div><div class="key" id="key-Pause">Pau</div></div>
                     <div class="row"><div class="key" id="key-Insert">Ins</div><div class="key" id="key-Home">Hm</div><div class="key" id="key-PageUp">Pu</div></div>
@@ -100,7 +84,6 @@
                     <div class="row flex justify-center"><div class="key" id="key-ArrowUp">↑</div></div>
                     <div class="row"><div class="key" id="key-ArrowLeft">←</div><div class="key" id="key-ArrowDown">↓</div><div class="key" id="key-ArrowRight">→</div></div>
                 </div>
-
                 <div class="key-column">
                     <div style="height:42px"></div>
                     <div class="row"><div class="key" id="key-NumLock">Num</div><div class="key" id="key-NumpadDivide">/</div><div class="key" id="key-NumpadMultiply">*</div><div class="key" id="key-NumpadSubtract">-</div></div>
@@ -125,8 +108,7 @@
         <section id="camera" class="test-section glass rounded-3xl p-8">
             <h2 class="text-xl font-bold text-blue-400 mb-6 uppercase tracking-widest text-center">Camera System Check</h2>
             <div class="relative max-w-2xl mx-auto rounded-3xl overflow-hidden border-8 border-gray-900 shadow-2xl bg-black">
-                <video id="v" autoplay class="w-full aspect-video object-cover"></video>
-                <div class="absolute inset-0 pointer-events-none border border-white/10"></div>
+                <video id="v" autoplay playsinline muted class="w-full aspect-video object-cover"></video>
             </div>
             <center><button onclick="startCam()" class="mt-8 bg-blue-600 hover:bg-blue-500 px-12 py-3 rounded-full font-bold shadow-lg shadow-blue-600/20 transition-all">KÍCH HOẠT CAMERA</button></center>
         </section>
@@ -139,9 +121,8 @@
                 </div>
                 <div id="m-status" class="text-center mt-6 text-6xl font-mono font-black text-green-500">0%</div>
             </div>
-            <center><button onclick="startMic()" class="mt-10 bg-green-600 hover:bg-green-500 px-12 py-3 rounded-full font-bold shadow-lg shadow-green-600/20 transition-all">KIỂM TRA ÂM THANH</button></center>
+            <center><button id="btn-mic" onclick="startMic()" class="mt-10 bg-green-600 hover:bg-green-500 px-12 py-3 rounded-full font-bold shadow-lg shadow-green-600/20 transition-all">BẬT MIC & TEST</button></center>
         </section>
-
     </div>
 
     <script>
@@ -169,29 +150,56 @@
             document.querySelectorAll('.key').forEach(k => k.classList.remove('key-passed'));
         }
 
+        // --- CAMERA FIX ---
         async function startCam() {
             try {
-                const s = await navigator.mediaDevices.getUserMedia({video:true});
-                document.getElementById('v').srcObject = s;
-            } catch(e) { alert("Lỗi: Không tìm thấy hoặc không có quyền truy cập Camera"); }
+                const constraints = { video: { width: 1280, height: 720 } };
+                const s = await navigator.mediaDevices.getUserMedia(constraints);
+                const video = document.getElementById('v');
+                video.srcObject = s;
+                video.onloadedmetadata = () => video.play();
+            } catch(e) { 
+                console.error(e);
+                alert("Lỗi: Không truy cập được Camera. Hãy kiểm tra quyền HTTPS hoặc thiết bị!"); 
+            }
         }
 
+        // --- MIC FIX ---
+        let micStarted = false;
         async function startMic() {
+            if(micStarted) return;
             try {
                 const s = await navigator.mediaDevices.getUserMedia({audio:true});
+                // Trình duyệt cần AudioContext khởi tạo sau khi bấm nút
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
                 const ctx = new AudioContext();
                 const ana = ctx.createAnalyser();
-                ctx.createMediaStreamSource(s).connect(ana);
+                const src = ctx.createMediaStreamSource(s);
+                src.connect(ana);
+                
+                ana.fftSize = 256;
                 const data = new Uint8Array(ana.frequencyBinCount);
+                micStarted = true;
+                document.getElementById('btn-mic').innerText = "MIC ĐANG BẬT...";
+                document.getElementById('btn-mic').classList.replace('bg-green-600', 'bg-gray-600');
+
                 function loop() {
                     ana.getByteFrequencyData(data);
-                    let v = Math.round(data.reduce((a,b)=>a+b)/data.length * 3.5);
-                    document.getElementById('m-bar').style.width = Math.min(v, 100) + "%";
-                    document.getElementById('m-status').innerText = Math.min(v, 100) + "%";
+                    let sum = 0;
+                    for(let i=0; i<data.length; i++) sum += data[i];
+                    let average = sum / data.length;
+                    let v = Math.round(average * 1.5); // Tăng độ nhạy hiển thị
+                    
+                    let finalVal = Math.min(v, 100);
+                    document.getElementById('m-bar').style.width = finalVal + "%";
+                    document.getElementById('m-status').innerText = finalVal + "%";
                     requestAnimationFrame(loop);
                 }
                 loop();
-            } catch(e) { alert("Lỗi: Không tìm thấy hoặc không có quyền truy cập Microphone"); }
+            } catch(e) { 
+                console.error(e);
+                alert("Lỗi: Không truy cập được Microphone!"); 
+            }
         }
     </script>
 </body>
