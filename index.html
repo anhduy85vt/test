@@ -6,6 +6,7 @@
     <title>Hardware Master Test - ANH DUY TECH</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         body { background: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; margin:0; display: flex; }
         .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
@@ -13,7 +14,7 @@
         .nav-item:hover { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
         .nav-item.active { background: #3b82f6 !important; color: white !important; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
 
-        /* BATTERY SIDEBAR ICON */
+        /* ĐỒ HỌA VIÊN PIN Ở THANH SIDEBAR */
         .mini-bat-wrapper { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 12px; }
         .mini-bat-case { width: 35px; height: 18px; border: 2px solid #475569; border-radius: 4px; position: relative; padding: 1px; }
         .mini-bat-case::after { content: ''; width: 3px; height: 8px; background: #475569; position: absolute; right: -5px; top: 3px; border-radius: 0 2px 2px 0; }
@@ -22,7 +23,7 @@
         .test-section { display: none; height: 100%; width: 100%; animation: fadeIn 0.3s ease-out; flex-direction: column; align-items: center; justify-content: center; }
         .test-section.active { display: flex !important; }
 
-        /* KEYBOARD FULL LAYOUT */
+        /* ĐỒ HỌA LAYOUT BÀN PHÍM */
         .kb-master-wrapper { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #334155; display: flex; gap: 15px; zoom: 0.72; margin-bottom: 20px; }
         .key-group { display: flex; flex-direction: column; gap: 5px; }
         .row { display: flex; gap: 5px; }
@@ -30,11 +31,12 @@
         .key-pressed { background: #3b82f6 !important; color: white !important; box-shadow: 0 0 15px #3b82f6; transform: scale(0.9); }
         .key-passed { background: #10b981 !important; color: white !important; border-color: #34d399 !important; }
         
-        /* MOUSE */
+        /* ĐỒ HỌA NÚT CHUỘT */
         .mouse-wrapper { background: #111827; padding: 15px 30px; border-radius: 1.5rem; border: 2px solid #1e293b; display: flex; gap: 40px; align-items: center; zoom: 0.85; }
         .mouse-btn { width: 80px; height: 45px; display: flex; align-items: center; justify-content: center; background: #1e293b; border: 1px solid #334155; border-radius: 10px; color: #64748b; font-weight: bold; font-size: 10px; }
         .mouse-btn.active { background: #3b82f6 !important; color: white; }
 
+        /* HIỆU ỨNG RUNG LOA KHI TEST */
         .spk-unit { transition: 0.3s; }
         .spk-active { transform: scale(1.1); filter: drop-shadow(0 0 20px #3b82f6); }
         #screen-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; cursor: pointer; }
@@ -45,7 +47,18 @@
     <div class="w-64 glass rounded-3xl p-6 flex flex-col shadow-2xl">
         <div class="mb-6 text-center">
             <h1 class="text-xl font-black italic text-blue-400 uppercase tracking-tighter">Anh Duy Tech</h1>
-            <p class="text-[9px] text-gray-500 tracking-[0.2em] mb-4 uppercase font-bold">Hardware Master</p>
+            <p class="text-[9px] text-gray-500 tracking-[0.2em] mb-3 uppercase font-bold">Hardware Master</p>
+            
+            <div class="mb-4 space-y-1 text-left bg-white/5 p-3 rounded-2xl border border-white/5">
+                <p class="text-[10px] text-gray-400 flex items-center gap-2">
+                    <i class="fas fa-envelope text-blue-500 w-3"></i> 
+                    <span class="truncate">anhduy85vt@gmail.com</span>
+                </p>
+                <p class="text-[10px] text-gray-400 flex items-center gap-2">
+                    <i class="fas fa-mobile-alt text-pink-500 w-3"></i> 
+                    <span>Momo: 0937041885</span>
+                </p>
+            </div>
             
             <div class="mini-bat-wrapper">
                 <div class="mini-bat-case"><div id="mini-fill" class="mini-bat-fill"></div></div>
@@ -55,6 +68,7 @@
                 </div>
             </div>
         </div>
+
         <nav class="flex-grow">
             <div onclick="showTab('keyboard')" id="m-keyboard" class="nav-item active"><i class="fas fa-keyboard w-8"></i> PHÍM & CHUỘT</div>
             <div onclick="showTab('screen')" id="m-screen" class="nav-item"><i class="fas fa-desktop w-8"></i> MÀN HÌNH</div>
@@ -66,6 +80,7 @@
     </div>
 
     <div class="flex-1 glass rounded-3xl overflow-hidden relative">
+        
         <section id="keyboard" class="test-section active" onmousedown="handleMouse(event, true)" onmouseup="handleMouse(event, false)" onwheel="handleWheel(event)">
             <div class="kb-master-wrapper">
                 <div class="key-group">
@@ -120,7 +135,6 @@
                         <p class="font-bold text-yellow-500 mb-1">CÁCH MỞ FILE:</p>
                         <p>1. <span class="text-white">WINDOW + R</span></p>
                         <p>2. <span class="text-white">CTRL + V</span>. <span class="text-white">ENTER</span></p>
-                        <p class="mt-1 italic text-[9px] text-gray-500">(Folder chứa file battery-report.html sẽ hiện ra)</p>
                     </div>
                 </div>
                 <div class="glass p-6 rounded-3xl flex flex-col justify-center">
@@ -153,19 +167,21 @@
         </section>
 
         <section id="mic" class="test-section"><div id="m-status" class="text-9xl font-black text-green-500">0%</div><button onclick="startMic()" class="mt-10 bg-green-600 px-10 py-3 rounded-full font-bold">THỬ MIC</button></section>
+        
         <section id="camera" class="test-section"><video id="v" autoplay class="max-w-xl w-full rounded-3xl bg-black border-4 border-slate-800 aspect-video"></video><button onclick="startCam()" class="mt-8 bg-blue-600 px-10 py-3 rounded-full font-bold">BẬT CAMERA</button></section>
     </div>
 
     <div id="screen-overlay" onclick="closeScreen()"></div>
 
     <script>
+        // LOGIC CHUYỂN ĐỔI GIỮA CÁC TAB TEST
         function showTab(id) {
             document.querySelectorAll('.test-section, .nav-item').forEach(el => el.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.getElementById('m-' + id).classList.add('active');
         }
 
-        // BÀN PHÍM & CHUỘT
+        // LOGIC TEST BÀN PHÍM VÀ CHUỘT (GỒM CUỘN CHUỘT)
         window.onkeydown = (e) => {
             if(document.getElementById('keyboard').classList.contains('active')) {
                 e.preventDefault();
@@ -186,7 +202,7 @@
             setTimeout(() => document.getElementById(id).classList.remove('bg-blue-600'), 150);
         }
 
-        // MÀN HÌNH (ESC 1 LẦN)
+        // LOGIC TEST MÀN HÌNH (FULLSCREEN MÀU SẮC)
         function openScreen(c) {
             const o = document.getElementById('screen-overlay');
             o.style.backgroundColor = c; o.style.display = 'block';
@@ -198,7 +214,7 @@
         }
         document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) closeScreen(); });
 
-        // LOA & MIC
+        // LOGIC PHÁT ÂM THANH STEREO VÀ HIỆU ỨNG RUNG LOA
         let aCtx;
         function playAudio(p, s) {
             if(!aCtx) aCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -214,6 +230,8 @@
             const unit = document.getElementById('spk-' + s);
             unit.classList.add('spk-active'); setTimeout(() => unit.classList.remove('spk-active'), 1000);
         }
+
+        // LOGIC NHẬN DIỆN VÀ ĐO CƯỜNG ĐỘ MICROPHONE
         async function startMic() {
             const s = await navigator.mediaDevices.getUserMedia({audio:true});
             const ctx = new AudioContext(); const ana = ctx.createAnalyser();
@@ -228,7 +246,7 @@
             loop();
         }
 
-        // PHÂN TÍCH PIN
+        // LOGIC TÍNH TOÁN ĐỘ CHAI PIN TỪ THÔNG SỐ CỦA HỆ ĐIỀU HÀNH
         function copyCmd() { navigator.clipboard.writeText('powercfg /batteryreport'); alert("Đã copy lệnh CMD!"); }
         function copyPath() { navigator.clipboard.writeText('explorer .'); alert("Đã copy đường dẫn! Nhấn Win + R rồi Paste để mở thư mục."); }
         function calcHealth() {
@@ -241,7 +259,7 @@
             res.style.color = h > 80 ? '#10b981' : '#ef4444';
         }
 
-        // ICON PIN SIDEBAR
+        // LOGIC THEO DÕI PIN HỆ THỐNG HIỂN THỊ TRÊN THANH SIDEBAR
         if(navigator.getBattery) navigator.getBattery().then(bat => {
             const up = () => {
                 const lv = Math.round(bat.level * 100);
@@ -253,6 +271,7 @@
             up(); bat.onlevelchange = up; bat.onchargingchange = up;
         });
 
+        // LOGIC KÍCH HOẠT CAMERA VÀ HIỂN THỊ LÊN MÀN HÌNH
         async function startCam() { const s = await navigator.mediaDevices.getUserMedia({video:true}); document.getElementById('v').srcObject = s; }
     </script>
 </body>
