@@ -131,20 +131,56 @@
             </div>
         </section>
 
-        <section id="battery_health" class="test-section p-10">
-            <div class="grid grid-cols-3 gap-6 w-full max-w-5xl">
-                <div class="glass p-6 rounded-3xl flex flex-col gap-4">
-                    <button onclick="copyCmd()" class="bg-blue-600 w-full py-4 rounded-2xl font-black italic">1. COPY LỆNH CMD</button>
+       <section id="battery_health" class="test-section p-8">
+            <div class="flex flex-col lg:flex-row gap-8 w-full max-w-6xl">
+                <div class="glass p-6 rounded-3xl flex-1 border border-blue-500/20">
+                    <h3 class="text-blue-400 font-black italic mb-4 uppercase flex items-center gap-2">
+                        <i class="fas fa-info-circle"></i> Hướng dẫn lấy dữ liệu pin
+                    </h3>
+                    <div class="space-y-4 text-[13px] leading-relaxed text-gray-300">
+                        <div class="flex gap-3">
+                            <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center shrink-0 font-bold">1</span>
+                            <p>Bấm nút <span class="text-blue-400 font-bold">"COPY LỆNH CMD"</span>. Sau đó nhấn phím <span class="text-white font-bold">Win + R</span>, gõ <span class="text-white font-bold">cmd</span> và Enter. Dán lệnh vừa copy vào rồi nhấn Enter.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center shrink-0 font-bold">2</span>
+                            <p>Bấm nút <span class="text-yellow-500 font-bold">"COPY ĐƯỜNG DẪN"</span>. Dán vào thanh địa chỉ của File Explorer (Thư mục) để tìm file <span class="text-white font-bold">battery-report.html</span>.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center shrink-0 font-bold">3</span>
+                            <p>Mở file đó lên, tìm mục <span class="text-white font-bold">Installed Batteries</span>. Copy 2 thông số <span class="text-green-400">Design Capacity</span> và <span class="text-green-400">Full Charge Capacity</span> dán vào ô bên cạnh.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="glass p-6 rounded-3xl flex flex-col gap-4">
-                    <button onclick="copyPath()" class="bg-yellow-600 w-full py-4 rounded-2xl font-black italic text-black uppercase">2. COPY ĐƯỜNG DẪN</button>
-                </div>
-                <div class="glass p-6 rounded-3xl flex flex-col justify-center">
-                    <input id="in-design" type="number" placeholder="Design (mWh)" class="w-full bg-slate-900 p-2 mb-2 rounded-lg border border-white/10 text-sm text-white">
-                    <input id="in-full" type="number" placeholder="Full (mWh)" class="w-full bg-slate-900 p-2 mb-4 rounded-lg border border-white/10 text-sm text-white">
-                    <button onclick="calcHealth()" class="w-full bg-green-600 py-3 rounded-xl font-bold uppercase text-xs">Tính % Chai</button>
+
+                <div class="flex-1 flex flex-col gap-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="copyCmd()" class="bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-black italic transition-all active:scale-95">
+                            <i class="fas fa-terminal mr-2"></i>1. COPY LỆNH CMD
+                        </button>
+                        <button onclick="copyPath()" class="bg-yellow-600 hover:bg-yellow-500 py-4 rounded-2xl font-black italic text-black uppercase transition-all active:scale-95">
+                            <i class="fas fa-folder-open mr-2"></i>2. COPY ĐƯỜNG DẪN
+                        </button>
+                    </div>
+
+                    <div class="glass p-6 rounded-3xl border border-white/5">
+                        <label class="text-[10px] uppercase font-bold text-gray-500 mb-2 block">Nhập thông số từ báo cáo:</label>
+                        <div class="space-y-3">
+                            <input id="in-design" type="number" placeholder="Design Capacity (mWh)" class="w-full bg-slate-900/50 p-3 rounded-xl border border-white/10 text-sm text-white focus:border-blue-500 outline-none">
+                            <input id="in-full" type="number" placeholder="Full Charge Capacity (mWh)" class="w-full bg-slate-900/50 p-3 rounded-xl border border-white/10 text-sm text-white focus:border-blue-500 outline-none">
+                            <button onclick="calcHealth()" class="w-full bg-green-600 hover:bg-green-500 py-4 rounded-xl font-black uppercase text-sm transition-all shadow-lg shadow-green-900/20">
+                                Tính độ chai pin ngay
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="health-result-container" class="hidden glass p-4 rounded-2xl text-center border-2 border-green-500/30">
+                        <p class="text-xs text-gray-400 uppercase font-bold mb-1">Tình trạng sức khỏe pin</p>
+                        <div id="health-result" class="text-6xl font-black tracking-tighter"></div>
+                    </div>
                 </div>
             </div>
+        </section>
             <div id="health-result" class="hidden mt-10 text-7xl font-black"></div>
         </section>
 
@@ -298,6 +334,7 @@ function closeScreen() {
     </script>
 </body>
 </html>
+
 
 
 
