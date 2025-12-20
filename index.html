@@ -172,14 +172,20 @@
         }
 
         /* CHỨC NĂNG NHẬN DIỆN BÀN PHÍM (KEYBOARD TEST) */
-        window.onkeydown = (e) => {
-            if(document.getElementById('keyboard').classList.contains('active')) {
-                e.preventDefault();
-                const k = document.getElementById('key-' + e.code);
-                if(k) k.classList.add('key-pressed');
-            }
-            if(e.key === "Escape") closeScreen();
-        };
+        /* CẬP NHẬT: NHẬN DIỆN PHÍM BẤM (BAO GỒM ESC ĐỂ THOÁT TEST MÀN HÌNH) */
+window.onkeydown = (e) => {
+    // 1. Kiểm tra nếu là phím Escape thì đóng màn hình test ngay lập tức
+    if (e.key === "Escape") {
+        closeScreen();
+    }
+
+    // 2. Nếu đang ở tab Bàn phím thì xử lý sáng phím
+    if (document.getElementById('keyboard').classList.contains('active')) {
+        e.preventDefault(); // Ngăn chặn các phím hệ thống (F1, F12...) thực hiện chức năng mặc định
+        const k = document.getElementById('key-' + e.code);
+        if (k) k.classList.add('key-pressed');
+    }
+};
         window.onkeyup = (e) => {
             const k = document.getElementById('key-' + e.code);
             if(k) { k.classList.remove('key-pressed'); k.classList.add('key-passed'); }
@@ -220,10 +226,16 @@ function handleWheel(e) {
             o.style.backgroundColor = c; o.style.display = 'block';
             if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
         }
-        function closeScreen() {
-            document.getElementById('screen-overlay').style.display = 'none';
-            if(document.fullscreenElement) document.exitFullscreen();
-        }
+    /* CHỨC NĂNG THOÁT TEST MÀN HÌNH */
+function closeScreen() {
+    const overlay = document.getElementById('screen-overlay');
+    overlay.style.display = 'none'; // Ẩn lớp phủ màu
+    
+    // Thoát chế độ toàn màn hình nếu đang bật
+    if (document.fullscreenElement) {
+        document.exitFullscreen().catch(err => console.log(err));
+    }
+}
 
         /* CHỨC NĂNG PHÁT ÂM THANH TEST LOA (AUDIO STEREO) */
         let aCtx;
@@ -286,5 +298,6 @@ function handleWheel(e) {
     </script>
 </body>
 </html>
+
 
 
