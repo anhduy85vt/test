@@ -105,9 +105,19 @@
                 </div>
             </div>
             
-            <div class="mouse-wrapper">
-                <div id="mouse-0" class="mouse-btn">LEFT CLICK</div><div id="mouse-1" class="mouse-btn">MIDDLE</div><div id="mouse-2" class="mouse-btn">RIGHT CLICK</div>
-                
+           <div class="mouse-wrapper">
+    <div id="mouse-0" class="mouse-btn">LEFT CLICK</div>
+
+    <div class="flex flex-col gap-1 items-center">
+        <div id="sc-up" class="w-20 h-6 bg-slate-800 rounded-t-lg flex justify-center items-center text-[9px] font-bold transition-all">SCROLL ↑</div>
+        <div id="mouse-1" class="mouse-btn !rounded-none !h-10 !w-20">MIDDLE</div>
+        <div id="sc-down" class="w-20 h-6 bg-slate-800 rounded-b-lg flex justify-center items-center text-[9px] font-bold transition-all">SCROLL ↓</div>
+    </div>
+
+    <div id="mouse-2" class="mouse-btn">RIGHT CLICK</div>
+    
+    <button onclick="resetKb()" class="ml-auto bg-red-600 px-8 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-red-500">Reset</button>
+</div>
                 <div class="flex gap-4 items-center ml-8">
     <div id="sc-up" class="w-12 h-12 bg-slate-800 rounded flex justify-center items-center font-bold text-[10px] transition-all duration-200">SCROLL ↑</div>
     <div id="sc-down" class="w-12 h-12 bg-slate-800 rounded flex justify-center items-center font-bold text-[10px] transition-all duration-200">SCROLL ↓</div>
@@ -283,3 +293,4 @@ function handleWheel(e) {
     </script>
 </body>
 </html>
+
