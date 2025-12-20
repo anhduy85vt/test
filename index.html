@@ -181,7 +181,7 @@
             document.getElementById('m-' + id).classList.add('active');
         }
 
-        // LOGIC TEST BÀN PHÍM VÀ CHUỘT (GỒM CUỘN CHUỘT)
+        /* CHỨC NĂNG NHẬN DIỆN BÀN PHÍM (KEYBOARD TEST) */
         window.onkeydown = (e) => {
             if(document.getElementById('keyboard').classList.contains('active')) {
                 e.preventDefault();
@@ -195,11 +195,22 @@
             if(k) { k.classList.remove('key-pressed'); k.classList.add('key-passed'); }
         };
         function resetKb() { document.querySelectorAll('.key').forEach(k => k.classList.remove('key-passed')); }
-        function handleMouse(e, d) { const b = document.getElementById('mouse-' + e.button); if(b) d ? b.classList.add('active') : b.classList.remove('active'); }
+
+        /* CHỨC NĂNG NHẬN DIỆN CLICK CHUỘT (MOUSE CLICK) */
+        function handleMouse(e, isDown) { 
+            const b = document.getElementById('mouse-' + e.button); 
+            if(b) isDown ? b.classList.add('active') : b.classList.remove('active'); 
+        }
+
+        /* CHỨC NĂNG KIỂM TRA CUỘN CHUỘT (MOUSE WHEEL - FIX LỖI KHÔNG CHẠY) */
         function handleWheel(e) { 
+            e.preventDefault(); // Ngăn trình duyệt cuộn trang
             const id = e.deltaY < 0 ? 'sc-up' : 'sc-down';
-            document.getElementById(id).classList.add('bg-blue-600');
-            setTimeout(() => document.getElementById(id).classList.remove('bg-blue-600'), 150);
+            const el = document.getElementById(id);
+            if(el) {
+                el.classList.add('bg-blue-600', 'scale-110');
+                setTimeout(() => el.classList.remove('bg-blue-600', 'scale-110'), 200);
+            }
         }
 
         // LOGIC TEST MÀN HÌNH (FULLSCREEN MÀU SẮC)
@@ -276,5 +287,6 @@
     </script>
 </body>
 </html>
+
 
 
