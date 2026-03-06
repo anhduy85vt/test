@@ -19,10 +19,10 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* FULL KEYBOARD UI */
-        .kb-outer-wrapper { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #1e293b; display: flex; gap: 15px; zoom: 0.65; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        .kb-outer-wrapper { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #1e293b; display: flex; gap: 12px; zoom: 0.62; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
         .key-group { display: flex; flex-direction: column; gap: 4px; }
         .row { display: flex; gap: 4px; }
-        .key { background: #1e293b; color: #64748b; font-size: 10px; font-weight: 800; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #334155; transition: 0.05s; pointer-events: none; text-align: center; }
+        .key { background: #1e293b; color: #64748b; font-size: 10px; font-weight: 800; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #334155; transition: 0.05s; pointer-events: none; }
         .key-pressed { background: #3b82f6 !important; color: white !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.8); transform: scale(0.9); }
         .key-passed { background: #10b981 !important; color: white !important; border-color: #34d399 !important; }
 
@@ -46,6 +46,11 @@
             <h1 class="text-2xl font-black italic text-blue-400 uppercase leading-none">Anh Duy Tech</h1>
             <p class="text-[9px] text-gray-500 tracking-[0.3em] mt-2 font-bold uppercase">Hardware Master</p>
             
+            <div class="mt-4 space-y-1 text-left bg-white/5 p-3 rounded-2xl border border-white/5">
+                <p class="text-[10px] text-gray-400 flex items-center gap-2 truncate"><i class="fas fa-envelope text-blue-500 w-3"></i><span>anhduy85vt@gmail.com</span></p>
+                <p class="text-[10px] text-gray-400 flex items-center gap-2"><i class="fas fa-mobile-alt text-pink-500 w-3"></i><span>Momo: 0937041885</span></p>
+            </div>
+
             <div class="mini-bat-wrapper mt-4">
                 <div class="mini-bat-case"><div id="mini-fill" class="mini-bat-fill"></div></div>
                 <div class="flex flex-col items-start leading-none">
@@ -64,10 +69,6 @@
             <div onclick="showTab('camera')" id="m-camera" class="nav-item"><i class="fas fa-camera w-8"></i> Camera</div>
             <div onclick="showTab('mic')" id="m-mic" class="nav-item"><i class="fas fa-microphone w-8"></i> Micro</div>
         </nav>
-        
-        <div class="mt-auto bg-black/20 p-3 rounded-2xl text-[9px] text-gray-500 italic">
-            Anh Duy Tech © 2024
-        </div>
     </div>
 
     <div class="flex-1 overflow-hidden relative">
@@ -145,49 +146,77 @@
 @echo off
 title Kiem tra Serial Number - HAD Tool
 color 0b
+echo ==========================================
+echo    DANG KIEM TRA THONG TIN HE THONG
+echo ==========================================
+echo.
 echo [+] Serial Number:
 powershell -command "Get-CimInstance Win32_Bios | Select-Object -ExpandProperty SerialNumber"
 echo [+] Model:
 wmic csproduct get name
+echo [+] User:
+echo %username%
+echo.
 pause</textarea>
                 <div class="flex gap-4">
-                    <button onclick="copySystemCmd()" class="flex-1 bg-blue-600 py-4 rounded-xl font-bold uppercase text-xs">Copy Mã</button>
-                    <button onclick="downloadBatFile()" class="flex-1 bg-green-600 py-4 rounded-xl font-bold uppercase text-xs">Tải .BAT</button>
+                    <button onclick="copySystemCmd()" class="flex-1 bg-blue-600 py-4 rounded-xl font-bold uppercase text-xs transition-all active:scale-95">Copy Mã</button>
+                    <button onclick="downloadBatFile()" class="flex-1 bg-green-600 py-4 rounded-xl font-bold uppercase text-xs transition-all active:scale-95">Tải .BAT</button>
                 </div>
             </div>
         </section>
 
         <section id="battery_health" class="test-section">
-            <div class="w-full max-w-xl glass p-8 rounded-[2rem]">
-                <h2 class="text-xl font-black italic text-green-400 mb-6 uppercase">Phân tích độ chai Pin</h2>
-                <div class="space-y-4">
-                    <input id="in-design" type="number" placeholder="Design Capacity (mWh)" class="w-full bg-slate-900 p-4 rounded-xl border border-white/5 outline-none">
-                    <input id="in-full" type="number" placeholder="Full Charge Capacity (mWh)" class="w-full bg-slate-900 p-4 rounded-xl border border-white/5 outline-none">
-                    <button onclick="calcHealth()" class="w-full bg-green-600 py-4 rounded-xl font-black uppercase transition-all active:scale-95">Tính toán</button>
+            <div class="flex flex-col lg:flex-row gap-8 w-full max-w-6xl px-10">
+                <div class="glass p-6 rounded-[2rem] flex-1 border border-blue-500/20">
+                    <h3 class="text-blue-400 font-black italic mb-4 uppercase flex items-center gap-2 text-sm">
+                        <i class="fas fa-info-circle"></i> Hướng dẫn lấy dữ liệu pin
+                    </h3>
+                    <div class="space-y-4 text-[12px] leading-relaxed text-gray-300">
+                        <div class="flex gap-3">
+                            <span class="bg-blue-600 text-white w-5 h-5 rounded-full flex items-center justify-center shrink-0 font-bold">1</span>
+                            <p>Nhấn phím <span class="text-white font-bold">Win + R</span>, gõ <span class="text-white font-bold">cmd</span> và Enter. Copy lệnh bên dưới dán vào:</p>
+                        </div>
+                        <div class="bg-black/40 p-2 rounded-lg font-mono text-blue-300 text-[10px] border border-white/5 ml-8">powercfg /batteryreport</div>
+                        <div class="flex gap-3">
+                            <span class="bg-blue-600 text-white w-5 h-5 rounded-full flex items-center justify-center shrink-0 font-bold">2</span>
+                            <p>Vào thư mục cá nhân, mở file <span class="text-yellow-400 font-bold">battery-report.html</span> vừa tạo.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="bg-blue-600 text-white w-5 h-5 rounded-full flex items-center justify-center shrink-0 font-bold">3</span>
+                            <p>Copy 2 thông số: <span class="text-green-400">Design Capacity</span> và <span class="text-green-400">Full Charge Capacity</span> dán vào ô bên dưới.</p>
+                        </div>
+                    </div>
                 </div>
-                <div id="health-result-container" class="hidden mt-6 text-center">
-                    <div id="health-result" class="text-7xl font-black italic">--%</div>
+
+                <div class="flex-1 space-y-4">
+                    <div class="glass p-8 rounded-[2rem] border border-green-500/10">
+                        <input id="in-design" type="number" placeholder="Design Capacity (mWh)" class="w-full bg-slate-900 p-4 rounded-xl border border-white/5 outline-none mb-4 focus:border-green-500 transition-all">
+                        <input id="in-full" type="number" placeholder="Full Charge Capacity (mWh)" class="w-full bg-slate-900 p-4 rounded-xl border border-white/5 outline-none mb-4 focus:border-green-500 transition-all">
+                        <button onclick="calcHealth()" class="w-full bg-green-600 py-4 rounded-xl font-black uppercase transition-all active:scale-95 shadow-lg shadow-green-900/20">Tính độ chai ngay</button>
+                    </div>
+                    <div id="health-result-container" class="hidden glass p-6 rounded-[2rem] text-center border border-green-500/30">
+                        <p class="text-[10px] text-gray-400 uppercase font-bold mb-1">Tình trạng pin</p>
+                        <div id="health-result" class="text-7xl font-black italic tracking-tighter">--%</div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="screen" class="test-section">
             <div class="grid grid-cols-3 gap-6">
-                <div onclick="openScreen('#fff')" class="w-20 h-20 bg-white rounded-xl cursor-pointer shadow-lg"></div>
+                <div onclick="openScreen('#fff')" class="w-20 h-20 bg-white rounded-xl cursor-pointer"></div>
                 <div onclick="openScreen('#000')" class="w-20 h-20 bg-black rounded-xl border border-white/10 cursor-pointer"></div>
                 <div onclick="openScreen('#f00')" class="w-20 h-20 bg-red-600 rounded-xl cursor-pointer"></div>
             </div>
         </section>
-
         <section id="speaker" class="test-section">
             <div class="flex gap-20">
-                <div id="spk-L" class="flex flex-col items-center gap-4"><i class="fas fa-volume-up text-5xl"></i><button onclick="playAudio(-1, 'L')" class="bg-blue-600 px-6 py-2 rounded-lg font-bold">LOA TRÁI</button></div>
-                <div id="spk-R" class="flex flex-col items-center gap-4"><i class="fas fa-volume-up text-5xl"></i><button onclick="playAudio(1, 'R')" class="bg-blue-600 px-6 py-2 rounded-lg font-bold">LOA PHẢI</button></div>
+                <div id="spk-L" class="flex flex-col items-center gap-4"><i class="fas fa-volume-up text-5xl"></i><button onclick="playAudio(-1, 'L')" class="bg-blue-600 px-6 py-2 rounded-lg font-bold uppercase text-[10px]">Loa Trái</button></div>
+                <div id="spk-R" class="flex flex-col items-center gap-4"><i class="fas fa-volume-up text-5xl"></i><button onclick="playAudio(1, 'R')" class="bg-blue-600 px-6 py-2 rounded-lg font-bold uppercase text-[10px]">Loa Phải</button></div>
             </div>
         </section>
-
-        <section id="mic" class="test-section"><div id="m-status" class="text-9xl font-black text-green-500">0%</div><button onclick="startMic()" class="mt-10 bg-green-600 px-10 py-3 rounded-full font-bold">THỬ MIC</button></section>
-        <section id="camera" class="test-section"><video id="v" autoplay class="max-w-xl w-full rounded-2xl bg-black aspect-video shadow-2xl"></video><button onclick="startCam()" class="mt-8 bg-blue-600 px-10 py-3 rounded-full font-bold">BẬT CAMERA</button></section>
+        <section id="mic" class="test-section"><div id="m-status" class="text-9xl font-black text-green-500">0%</div><button onclick="startMic()" class="mt-10 bg-green-600 px-10 py-3 rounded-full font-bold uppercase text-[10px]">Thử Mic</button></section>
+        <section id="camera" class="test-section"><video id="v" autoplay class="max-w-xl w-full rounded-2xl bg-black aspect-video shadow-2xl"></video><button onclick="startCam()" class="mt-8 bg-blue-600 px-10 py-3 rounded-full font-bold uppercase text-[10px]">Bật Camera</button></section>
     </div>
 
     <div id="screen-overlay" onclick="closeScreen()"></div>
@@ -228,14 +257,14 @@ pause</textarea>
 
         function copySystemCmd() {
             navigator.clipboard.writeText(document.getElementById('cmd-script').value);
-            alert("Đã copy!");
+            alert("Đã copy lệnh CMD!");
         }
 
         function downloadBatFile() {
             const blob = new Blob([document.getElementById('cmd-script').value], { type: 'text/plain' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = url; a.download = 'Check_HAD.bat'; a.click();
+            a.href = url; a.download = 'CheckSystem_HAD.bat'; a.click();
         }
 
         function openScreen(c) {
