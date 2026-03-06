@@ -8,225 +8,197 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* UI/UX CORE */
         body { background: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; margin:0; display: flex; }
         .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-item { transition: 0.3s; cursor: pointer; padding: 0.8rem 1.2rem; display: flex; align-items: center; border-radius: 12px; margin-bottom: 0.4rem; font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
         .nav-item:hover { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
         .nav-item.active { background: #3b82f6 !important; color: white !important; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
 
-        /* BATTERY MINI WIDGET */
-        .mini-bat-wrapper { background: rgba(0,0,0,0.3); padding: 12px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 12px; }
-        .mini-bat-case { width: 35px; height: 18px; border: 2px solid #475569; border-radius: 4px; position: relative; padding: 1px; }
-        .mini-bat-case::after { content: ''; width: 3px; height: 8px; background: #475569; position: absolute; right: -5px; top: 3px; border-radius: 0 2px 2px 0; }
-        .mini-bat-fill { height: 100%; border-radius: 1px; transition: 0.5s; background: #10b981; }
-
-        /* SECTIONS */
         .test-section { display: none; height: 100%; width: 100%; animation: fadeIn 0.4s ease-out; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; }
         .test-section.active { display: flex !important; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* KEYBOARD & MOUSE UI */
-        .kb-master-wrapper { background: #111827; padding: 25px; border-radius: 2rem; border: 3px solid #1e293b; display: flex; gap: 15px; zoom: 0.7; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
-        .key-group { display: flex; flex-direction: column; gap: 6px; }
-        .row { display: flex; gap: 6px; }
-        .key { background: #1e293b; color: #64748b; font-size: 11px; font-weight: 800; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: 1px solid #334155; transition: 0.1s; pointer-events: none; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); }
-        .key-pressed { background: #3b82f6 !important; color: white !important; box-shadow: 0 0 20px rgba(59, 130, 246, 0.6); transform: scale(0.9); }
+        /* FULL KEYBOARD UI */
+        .kb-outer-wrapper { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #1e293b; display: flex; gap: 15px; zoom: 0.65; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        .key-group { display: flex; flex-direction: column; gap: 4px; }
+        .row { display: flex; gap: 4px; }
+        .key { background: #1e293b; color: #64748b; font-size: 10px; font-weight: 800; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #334155; transition: 0.05s; pointer-events: none; text-align: center; }
+        .key-pressed { background: #3b82f6 !important; color: white !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.8); transform: scale(0.9); }
         .key-passed { background: #10b981 !important; color: white !important; border-color: #34d399 !important; }
-        
-        /* MOUSE BUTTONS */
-        .mouse-wrapper { background: #111827; padding: 20px 40px; border-radius: 2rem; border: 2px solid #1e293b; display: flex; gap: 40px; align-items: center; zoom: 0.85; margin-top: 20px; }
-        .mouse-btn { width: 90px; height: 50px; display: flex; align-items: center; justify-content: center; background: #1e293b; border: 1px solid #334155; border-radius: 12px; color: #64748b; font-weight: 900; font-size: 10px; }
-        .mouse-btn.active { background: #3b82f6 !important; color: white; box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
-        .scroll-passed { background: #10b981 !important; color: white !important; box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
 
-        #screen-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; cursor: pointer; }
+        .mouse-wrapper { background: #111827; padding: 15px 30px; border-radius: 1.5rem; border: 2px solid #1e293b; display: flex; gap: 30px; align-items: center; zoom: 0.8; margin-top: 15px; }
+        .mouse-btn { width: 80px; height: 45px; display: flex; align-items: center; justify-content: center; background: #1e293b; border: 1px solid #334155; border-radius: 10px; color: #64748b; font-weight: 900; font-size: 10px; }
+        .mouse-btn.active { background: #3b82f6 !important; color: white; }
         
-        /* SCROLLBAR CUSTOM */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        #screen-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; }
+        
+        /* BATTERY MINI */
+        .mini-bat-wrapper { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 12px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 10px; }
+        .mini-bat-case { width: 30px; height: 15px; border: 2px solid #475569; border-radius: 3px; position: relative; }
+        .mini-bat-case::after { content: ''; width: 3px; height: 6px; background: #475569; position: absolute; right: -5px; top: 2px; }
+        .mini-bat-fill { height: 100%; background: #10b981; transition: 0.5s; }
     </style>
 </head>
-<body class="p-4 gap-4" oncontextmenu="return false;">
+<body oncontextmenu="return false;">
 
-    <div class="w-72 glass rounded-[2.5rem] p-6 flex flex-col shadow-2xl">
+    <div class="w-72 glass rounded-r-[2.5rem] p-6 flex flex-col shadow-2xl h-screen">
         <div class="mb-6 text-center">
-            <h1 class="text-2xl font-black italic text-blue-400 uppercase tracking-tighter leading-none">Anh Duy Tech</h1>
-            <p class="text-[9px] text-gray-500 tracking-[0.3em] mb-4 uppercase font-bold mt-2">Hardware Master v2.0</p>
+            <h1 class="text-2xl font-black italic text-blue-400 uppercase leading-none">Anh Duy Tech</h1>
+            <p class="text-[9px] text-gray-500 tracking-[0.3em] mt-2 font-bold uppercase">Hardware Master</p>
             
-            <div class="mini-bat-wrapper">
+            <div class="mini-bat-wrapper mt-4">
                 <div class="mini-bat-case"><div id="mini-fill" class="mini-bat-fill"></div></div>
                 <div class="flex flex-col items-start leading-none">
-                    <span id="mini-text" class="text-sm font-black tracking-tighter text-white">--%</span>
-                    <span id="mini-status" class="text-[8px] text-blue-400 uppercase font-bold mt-1 tracking-tighter">Checking...</span>
+                    <span id="mini-text" class="text-xs font-black text-white">--%</span>
+                    <span id="mini-status" class="text-[7px] text-blue-400 uppercase font-bold">Checking</span>
                 </div>
-            </div>
-
-            <div class="space-y-1.5 text-left bg-black/20 p-4 rounded-2xl border border-white/5">
-                <p class="text-[10px] text-gray-400 flex items-center gap-2"><i class="fas fa-envelope text-blue-500 w-3"></i><span class="truncate">anhduy85vt@gmail.com</span></p>
-                <p class="text-[10px] text-gray-400 flex items-center gap-2"><i class="fas fa-mobile-alt text-pink-500 w-3"></i><span>Donate: 0937.041.885</span></p>
             </div>
         </div>
 
-        <nav class="flex-grow space-y-1">
-            <div onclick="showTab('keyboard')" id="m-keyboard" class="nav-item active"><i class="fas fa-keyboard w-8"></i> Phím & Chuột</div>
-            <div onclick="showTab('sys_info')" id="m-sys_info" class="nav-item"><i class="fas fa-info-circle w-8 text-yellow-500"></i> Thông số Máy</div>
+        <nav class="flex-grow space-y-1 overflow-y-auto">
+            <div onclick="showTab('keyboard')" id="m-keyboard" class="nav-item active"><i class="fas fa-keyboard w-8"></i> Bàn phím Full</div>
+            <div onclick="showTab('sys_info')" id="m-sys_info" class="nav-item"><i class="fas fa-info-circle w-8"></i> Thông số Máy</div>
+            <div onclick="showTab('battery_health')" id="m-battery_health" class="nav-item"><i class="fas fa-heartbeat w-8"></i> Độ chai Pin</div>
             <div onclick="showTab('screen')" id="m-screen" class="nav-item"><i class="fas fa-desktop w-8"></i> Màn hình</div>
             <div onclick="showTab('speaker')" id="m-speaker" class="nav-item"><i class="fas fa-volume-up w-8"></i> Loa Stereo</div>
             <div onclick="showTab('camera')" id="m-camera" class="nav-item"><i class="fas fa-camera w-8"></i> Camera</div>
             <div onclick="showTab('mic')" id="m-mic" class="nav-item"><i class="fas fa-microphone w-8"></i> Micro</div>
-            <div onclick="showTab('battery_health')" id="m-battery_health" class="nav-item"><i class="fas fa-heartbeat w-8"></i> Độ chai Pin</div>
         </nav>
+        
+        <div class="mt-auto bg-black/20 p-3 rounded-2xl text-[9px] text-gray-500 italic">
+            Anh Duy Tech © 2024
+        </div>
     </div>
 
-    <div class="flex-1 glass rounded-[2.5rem] overflow-hidden relative border border-white/5">
+    <div class="flex-1 overflow-hidden relative">
         
         <section id="keyboard" class="test-section active" onmousedown="handleMouse(event, true)" onmouseup="handleMouse(event, false)" onwheel="handleWheel(event)">
-            <div class="kb-master-wrapper">
+            <div class="kb-outer-wrapper">
                 <div class="key-group">
-                    <div class="row"><div class="key" id="key-Escape">Esc</div><div style="width:30px"></div><div class="key" id="key-F1">F1</div><div class="key" id="key-F2">F2</div><div class="key" id="key-F3">F3</div><div class="key" id="key-F4">F4</div><div style="width:20px"></div><div class="key" id="key-F5">F5</div><div class="key" id="key-F6">F6</div><div class="key" id="key-F7">F7</div><div class="key" id="key-F8">F8</div><div style="width:20px"></div><div class="key" id="key-F9">F9</div><div class="key" id="key-F10">F10</div><div class="key" id="key-F11">F11</div><div class="key" id="key-F12">F12</div></div>
-                    <div class="row"><div class="key" id="key-Backquote">`</div><div class="key" id="key-Digit1">1</div><div class="key" id="key-Digit2">2</div><div class="key" id="key-Digit3">3</div><div class="key" id="key-Digit4">4</div><div class="key" id="key-Digit5">5</div><div class="key" id="key-Digit6">6</div><div class="key" id="key-Digit7">7</div><div class="key" id="key-Digit8">8</div><div class="key" id="key-Digit9">9</div><div class="key" id="key-Digit0">0</div><div class="key" id="key-Minus">-</div><div class="key" id="key-Equal">=</div><div class="key" style="width:94px" id="key-Backspace">Back</div></div>
-                    <div class="row"><div class="key" style="width:55px" id="key-Tab">Tab</div><div class="key" id="key-KeyQ">Q</div><div class="key" id="key-KeyW">W</div><div class="key" id="key-KeyE">E</div><div class="key" id="key-KeyR">R</div><div class="key" id="key-KeyT">T</div><div class="key" id="key-KeyY">Y</div><div class="key" id="key-KeyU">U</div><div class="key" id="key-KeyI">I</div><div class="key" id="key-KeyO">O</div><div class="key" id="key-KeyP">P</div><div class="key" id="key-BracketLeft">[</div><div class="key" id="key-BracketRight">]</div><div class="key" style="width:55px" id="key-Backslash">\</div></div>
-                    <div class="row"><div class="key" style="width:65px" id="key-CapsLock">Caps</div><div class="key" id="key-KeyA">A</div><div class="key" id="key-KeyS">S</div><div class="key" id="key-KeyD">D</div><div class="key" id="key-KeyF">F</div><div class="key" id="key-KeyG">G</div><div class="key" id="key-KeyH">H</div><div class="key" id="key-KeyJ">J</div><div class="key" id="key-KeyK">K</div><div class="key" id="key-KeyL">L</div><div class="key" id="key-Semicolon">;</div><div class="key" id="key-Quote">'</div><div class="key" style="width:85px" id="key-Enter">Enter</div></div>
-                    <div class="row"><div class="key" style="width:95px" id="key-ShiftLeft">Shift</div><div class="key" id="key-KeyZ">Z</div><div class="key" id="key-KeyX">X</div><div class="key" id="key-KeyC">C</div><div class="key" id="key-KeyV">V</div><div class="key" id="key-KeyB">B</div><div class="key" id="key-KeyN">N</div><div class="key" id="key-KeyM">M</div><div class="key" id="key-Comma">,</div><div class="key" id="key-Period">.</div><div class="key" id="key-Slash">/</div><div class="key" style="width:116px" id="key-ShiftRight">Shift</div></div>
-                    <div class="row"><div class="key" style="width:55px" id="key-ControlLeft">Ctrl</div><div class="key" id="key-MetaLeft">Win</div><div class="key" id="key-AltLeft">Alt</div><div class="key" style="width:288px" id="key-Space">Space</div><div class="key" id="key-AltRight">Alt</div><div class="key" id="key-MetaRight">Win</div><div class="key" id="key-ContextMenu">Fn</div><div class="key" style="width:55px" id="key-ControlRight">Ctrl</div></div>
+                    <div class="row">
+                        <div class="key" id="key-Escape">Esc</div><div style="width:20px"></div>
+                        <div class="key" id="key-F1">F1</div><div class="key" id="key-F2">F2</div><div class="key" id="key-F3">F3</div><div class="key" id="key-F4">F4</div><div style="width:15px"></div>
+                        <div class="key" id="key-F5">F5</div><div class="key" id="key-F6">F6</div><div class="key" id="key-F7">F7</div><div class="key" id="key-F8">F8</div><div style="width:15px"></div>
+                        <div class="key" id="key-F9">F9</div><div class="key" id="key-F10">F10</div><div class="key" id="key-F11">F11</div><div class="key" id="key-F12">F12</div>
+                    </div>
+                    <div class="row">
+                        <div class="key" id="key-Backquote">~</div><div class="key" id="key-Digit1">1</div><div class="key" id="key-Digit2">2</div><div class="key" id="key-Digit3">3</div><div class="key" id="key-Digit4">4</div><div class="key" id="key-Digit5">5</div><div class="key" id="key-Digit6">6</div><div class="key" id="key-Digit7">7</div><div class="key" id="key-Digit8">8</div><div class="key" id="key-Digit9">9</div><div class="key" id="key-Digit0">0</div><div class="key" id="key-Minus">-</div><div class="key" id="key-Equal">=</div><div class="key" style="width:84px" id="key-Backspace">Back</div>
+                    </div>
+                    <div class="row">
+                        <div class="key" style="width:60px" id="key-Tab">Tab</div><div class="key" id="key-KeyQ">Q</div><div class="key" id="key-KeyW">W</div><div class="key" id="key-KeyE">E</div><div class="key" id="key-KeyR">R</div><div class="key" id="key-KeyT">T</div><div class="key" id="key-KeyY">Y</div><div class="key" id="key-KeyU">U</div><div class="key" id="key-KeyI">I</div><div class="key" id="key-KeyO">O</div><div class="key" id="key-KeyP">P</div><div class="key" id="key-BracketLeft">[</div><div class="key" id="key-BracketRight">]</div><div class="key" style="width:64px" id="key-Backslash">\</div>
+                    </div>
+                    <div class="row">
+                        <div class="key" style="width:75px" id="key-CapsLock">Caps</div><div class="key" id="key-KeyA">A</div><div class="key" id="key-KeyS">S</div><div class="key" id="key-KeyD">D</div><div class="key" id="key-KeyF">F</div><div class="key" id="key-KeyG">G</div><div class="key" id="key-KeyH">H</div><div class="key" id="key-KeyJ">J</div><div class="key" id="key-KeyK">K</div><div class="key" id="key-KeyL">L</div><div class="key" id="key-Semicolon">;</div><div class="key" id="key-Quote">'</div><div class="key" style="width:93px" id="key-Enter">Enter</div>
+                    </div>
+                    <div class="row">
+                        <div class="key" style="width:100px" id="key-ShiftLeft">Shift</div><div class="key" id="key-KeyZ">Z</div><div class="key" id="key-KeyX">X</div><div class="key" id="key-KeyC">C</div><div class="key" id="key-KeyV">V</div><div class="key" id="key-KeyB">B</div><div class="key" id="key-KeyN">N</div><div class="key" id="key-KeyM">M</div><div class="key" id="key-Comma">,</div><div class="key" id="key-Period">.</div><div class="key" id="key-Slash">/</div><div class="key" style="width:112px" id="key-ShiftRight">Shift</div>
+                    </div>
+                    <div class="row">
+                        <div class="key" style="width:50px" id="key-ControlLeft">Ctrl</div><div class="key" id="key-MetaLeft">Win</div><div class="key" id="key-AltLeft">Alt</div><div class="key" style="width:260px" id="key-Space">Space</div><div class="key" id="key-AltRight">Alt</div><div class="key" id="key-MetaRight">Win</div><div class="key" id="key-ContextMenu">Fn</div><div class="key" style="width:50px" id="key-ControlRight">Ctrl</div>
+                    </div>
                 </div>
                 <div class="key-group">
-                    <div style="height:50px"></div><div class="row"><div class="key" id="key-Insert">Ins</div><div class="key" id="key-Home">Hm</div><div class="key" id="key-PageUp">Pu</div></div><div class="row"><div class="key" id="key-Delete">Del</div><div class="key" id="key-End">End</div><div class="key" id="key-PageDown">Pd</div></div>
-                    <div style="height:46px"></div><div class="row flex justify-center"><div class="key" id="key-ArrowUp">↑</div></div><div class="row"><div class="key" id="key-ArrowLeft">←</div><div class="key" id="key-ArrowDown">↓</div><div class="key" id="key-ArrowRight">→</div></div>
+                    <div class="row"><div class="key" id="key-PrintScreen">Prt</div><div class="key" id="key-ScrollLock">Scr</div><div class="key" id="key-Pause">Pau</div></div>
+                    <div style="height:4px"></div>
+                    <div class="row"><div class="key" id="key-Insert">Ins</div><div class="key" id="key-Home">Hm</div><div class="key" id="key-PageUp">Pu</div></div>
+                    <div class="row"><div class="key" id="key-Delete">Del</div><div class="key" id="key-End">End</div><div class="key" id="key-PageDown">Pd</div></div>
+                    <div style="height:48px"></div>
+                    <div class="row flex justify-center"><div class="key" id="key-ArrowUp">↑</div></div>
+                    <div class="row"><div class="key" id="key-ArrowLeft">←</div><div class="key" id="key-ArrowDown">↓</div><div class="key" id="key-ArrowRight">→</div></div>
+                </div>
+                <div class="key-group">
+                    <div style="height:44px"></div>
+                    <div class="row"><div class="key" id="key-NumLock">Num</div><div class="key" id="key-NumpadDivide">/</div><div class="key" id="key-NumpadMultiply">*</div><div class="key" id="key-NumpadSubtract">-</div></div>
+                    <div class="row">
+                        <div class="key-group" style="gap:4px">
+                            <div class="row"><div class="key" id="key-Numpad7">7</div><div class="key" id="key-Numpad8">8</div><div class="key" id="key-Numpad9">9</div></div>
+                            <div class="row"><div class="key" id="key-Numpad4">4</div><div class="key" id="key-Numpad5">5</div><div class="key" id="key-Numpad6">6</div></div>
+                        </div>
+                        <div class="key" style="height:84px" id="key-NumpadAdd">+</div>
+                    </div>
+                    <div class="row">
+                        <div class="key-group" style="gap:4px">
+                            <div class="row"><div class="key" id="key-Numpad1">1</div><div class="key" id="key-Numpad2">2</div><div class="key" id="key-Numpad3">3</div></div>
+                            <div class="row"><div class="key" style="width:84px" id="key-Numpad0">0</div><div class="key" id="key-NumpadDecimal">.</div></div>
+                        </div>
+                        <div class="key" style="height:84px" id="key-NumpadEnter">Ent</div>
+                    </div>
                 </div>
             </div>
             
             <div class="mouse-wrapper">
-                <div id="mouse-0" class="mouse-btn">LEFT CLICK</div>
-                <div class="flex flex-col gap-1 items-center">
-                    <div id="sc-up" class="w-20 h-6 bg-slate-800 rounded-t-lg flex justify-center items-center text-[9px] font-bold">SCROLL ↑</div>
-                    <div id="mouse-1" class="mouse-btn !rounded-none !h-10 !w-24">MIDDLE</div>
-                    <div id="sc-down" class="w-20 h-6 bg-slate-800 rounded-b-lg flex justify-center items-center text-[9px] font-bold">SCROLL ↓</div>
+                <div id="mouse-0" class="mouse-btn">LEFT</div>
+                <div class="flex flex-col items-center">
+                    <div id="sc-up" class="w-16 h-4 bg-slate-800 rounded-t text-[8px] flex justify-center">UP</div>
+                    <div id="mouse-1" class="mouse-btn !h-8 !w-20 !rounded-none">MID</div>
+                    <div id="sc-down" class="w-16 h-4 bg-slate-800 rounded-b text-[8px] flex justify-center">DWN</div>
                 </div>
-                <div id="mouse-2" class="mouse-btn">RIGHT CLICK</div>
-                <button onclick="resetKb()" class="ml-10 bg-red-600/80 hover:bg-red-600 px-8 py-3 rounded-2xl text-[10px] font-black uppercase transition-all active:scale-95">Reset Board</button>
+                <div id="mouse-2" class="mouse-btn">RIGHT</div>
+                <button onclick="resetKb()" class="ml-10 bg-red-600 px-6 py-2 rounded-xl text-[10px] font-black uppercase">Reset</button>
             </div>
         </section>
 
         <section id="sys_info" class="test-section">
-            <div class="w-full max-w-4xl glass p-10 rounded-[2.5rem] border border-blue-500/20 shadow-2xl">
-                <div class="flex items-center gap-5 mb-8">
-                    <div class="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 text-3xl">
-                        <i class="fas fa-microchip"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-3xl font-black italic text-blue-400 uppercase leading-none">Thông số Hệ thống</h2>
-                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-[0.3em] mt-2">Serial Number & Hardware Info</p>
-                    </div>
-                </div>
-
-                <div class="relative group">
-                    <div class="absolute -top-3 left-6 bg-[#0f172a] px-3 text-[10px] font-bold text-blue-500 uppercase tracking-tighter border border-blue-500/30 rounded-full z-10">CMD SCRIPT</div>
-                    <textarea id="cmd-script" readonly class="w-full h-56 bg-black/40 p-6 rounded-[2rem] border border-white/5 text-green-400 font-mono text-xs leading-relaxed outline-none resize-none shadow-inner">
+            <div class="w-full max-w-3xl glass p-8 rounded-[2rem]">
+                <h2 class="text-2xl font-black italic text-blue-400 mb-6 uppercase">Thông số Hệ thống</h2>
+                <textarea id="cmd-script" readonly class="w-full h-48 bg-black/40 p-5 rounded-2xl border border-white/5 text-green-400 font-mono text-xs mb-6 outline-none resize-none">
 @echo off
 title Kiem tra Serial Number - HAD Tool
 color 0b
-echo ==========================================
-echo    DANG KIEM TRA THONG TIN HE THONG
-echo ==========================================
-echo.
-echo [+] Serial Number cua may:
+echo [+] Serial Number:
 powershell -command "Get-CimInstance Win32_Bios | Select-Object -ExpandProperty SerialNumber"
-echo.
-echo [+] Model (Ten may):
+echo [+] Model:
 wmic csproduct get name
-echo.
-echo [+] Ten User dang dang nhap:
-echo %username%
-echo.
-echo ==========================================
-echo    NHAN PHIM BAT KY DE THOAT...
-echo ==========================================
-pause >nul
-exit</textarea>
+pause</textarea>
+                <div class="flex gap-4">
+                    <button onclick="copySystemCmd()" class="flex-1 bg-blue-600 py-4 rounded-xl font-bold uppercase text-xs">Copy Mã</button>
+                    <button onclick="downloadBatFile()" class="flex-1 bg-green-600 py-4 rounded-xl font-bold uppercase text-xs">Tải .BAT</button>
                 </div>
+            </div>
+        </section>
 
-                <div class="grid grid-cols-2 gap-6 mt-8">
-                    <button onclick="copySystemCmd()" class="bg-blue-600 hover:bg-blue-500 py-5 rounded-[1.5rem] font-black italic uppercase text-xs transition-all active:scale-95 flex items-center justify-center gap-3">
-                        <i class="fas fa-copy text-lg"></i> 1. Copy Mã Lệnh
-                    </button>
-                    <button onclick="downloadBatFile()" class="bg-green-600 hover:bg-green-500 py-5 rounded-[1.5rem] font-black italic uppercase text-xs transition-all active:scale-95 flex items-center justify-center gap-3">
-                        <i class="fas fa-download text-lg"></i> 2. Tải File .BAT
-                    </button>
+        <section id="battery_health" class="test-section">
+            <div class="w-full max-w-xl glass p-8 rounded-[2rem]">
+                <h2 class="text-xl font-black italic text-green-400 mb-6 uppercase">Phân tích độ chai Pin</h2>
+                <div class="space-y-4">
+                    <input id="in-design" type="number" placeholder="Design Capacity (mWh)" class="w-full bg-slate-900 p-4 rounded-xl border border-white/5 outline-none">
+                    <input id="in-full" type="number" placeholder="Full Charge Capacity (mWh)" class="w-full bg-slate-900 p-4 rounded-xl border border-white/5 outline-none">
+                    <button onclick="calcHealth()" class="w-full bg-green-600 py-4 rounded-xl font-black uppercase transition-all active:scale-95">Tính toán</button>
                 </div>
-                
-                <div class="mt-8 p-5 bg-white/5 rounded-2xl border border-white/5 flex gap-4 items-center">
-                    <i class="fas fa-lightbulb text-yellow-500"></i>
-                    <p class="text-[11px] text-gray-400 leading-relaxed italic"><b>Hướng dẫn:</b> Bạn có thể copy mã dán trực tiếp vào cửa sổ CMD hoặc tải file .bat về máy để chạy ngay.</p>
+                <div id="health-result-container" class="hidden mt-6 text-center">
+                    <div id="health-result" class="text-7xl font-black italic">--%</div>
                 </div>
             </div>
         </section>
 
         <section id="screen" class="test-section">
             <div class="grid grid-cols-3 gap-6">
-                <div onclick="openScreen('#fff')" class="w-24 h-24 bg-white rounded-2xl cursor-pointer shadow-lg hover:scale-110 transition-transform"></div>
-                <div onclick="openScreen('#000')" class="w-24 h-24 bg-black rounded-2xl border border-white/20 cursor-pointer shadow-lg hover:scale-110 transition-transform"></div>
-                <div onclick="openScreen('#f00')" class="w-24 h-24 bg-red-600 rounded-2xl cursor-pointer shadow-lg hover:scale-110 transition-transform"></div>
-                <div onclick="openScreen('#0f0')" class="w-24 h-24 bg-green-600 rounded-2xl cursor-pointer shadow-lg hover:scale-110 transition-transform"></div>
-                <div onclick="openScreen('#00f')" class="w-24 h-24 bg-blue-600 rounded-2xl cursor-pointer shadow-lg hover:scale-110 transition-transform"></div>
-                <div onclick="openScreen('#ff0')" class="w-24 h-24 bg-yellow-400 rounded-2xl cursor-pointer shadow-lg hover:scale-110 transition-transform"></div>
+                <div onclick="openScreen('#fff')" class="w-20 h-20 bg-white rounded-xl cursor-pointer shadow-lg"></div>
+                <div onclick="openScreen('#000')" class="w-20 h-20 bg-black rounded-xl border border-white/10 cursor-pointer"></div>
+                <div onclick="openScreen('#f00')" class="w-20 h-20 bg-red-600 rounded-xl cursor-pointer"></div>
             </div>
         </section>
 
         <section id="speaker" class="test-section">
-            <h2 class="text-2xl font-black text-blue-400 mb-12 uppercase italic">Âm thanh Stereo L/R</h2>
-            <div class="flex gap-24">
-                <div id="spk-L" class="spk-unit flex flex-col items-center gap-4">
-                    <i class="fas fa-volume-up text-6xl text-slate-700"></i>
-                    <button onclick="playAudio(-1, 'L')" class="bg-blue-600 px-8 py-3 rounded-xl font-bold uppercase text-xs">Loa Trái</button>
-                </div>
-                <div id="spk-R" class="spk-unit flex flex-col items-center gap-4">
-                    <i class="fas fa-volume-up text-6xl text-slate-700"></i>
-                    <button onclick="playAudio(1, 'R')" class="bg-blue-600 px-8 py-3 rounded-xl font-bold uppercase text-xs">Loa Phải</button>
-                </div>
+            <div class="flex gap-20">
+                <div id="spk-L" class="flex flex-col items-center gap-4"><i class="fas fa-volume-up text-5xl"></i><button onclick="playAudio(-1, 'L')" class="bg-blue-600 px-6 py-2 rounded-lg font-bold">LOA TRÁI</button></div>
+                <div id="spk-R" class="flex flex-col items-center gap-4"><i class="fas fa-volume-up text-5xl"></i><button onclick="playAudio(1, 'R')" class="bg-blue-600 px-6 py-2 rounded-lg font-bold">LOA PHẢI</button></div>
             </div>
         </section>
 
-        <section id="mic" class="test-section">
-            <div id="m-status" class="text-9xl font-black text-green-500 drop-shadow-2xl">0%</div>
-            <p class="text-gray-500 uppercase font-black tracking-widest mt-4">Mic Sensitivity</p>
-            <button onclick="startMic()" class="mt-12 bg-green-600 px-12 py-4 rounded-full font-black uppercase text-sm shadow-lg active:scale-95 transition-all">Bắt đầu thử Mic</button>
-        </section>
-
-        <section id="camera" class="test-section">
-            <video id="v" autoplay class="max-w-2xl w-full rounded-[2rem] bg-black border-4 border-slate-800 aspect-video shadow-2xl"></video>
-            <button onclick="startCam()" class="mt-10 bg-blue-600 px-12 py-4 rounded-full font-black uppercase text-sm shadow-lg active:scale-95 transition-all">Kích hoạt Camera</button>
-        </section>
-
-        <section id="battery_health" class="test-section">
-            <div class="w-full max-w-2xl glass p-10 rounded-[2.5rem] border border-white/5">
-                <h3 class="text-xl font-black italic text-green-400 mb-6 uppercase">Tính độ chai Pin</h3>
-                <div class="space-y-4">
-                    <input id="in-design" type="number" placeholder="Design Capacity (mWh)" class="w-full bg-slate-900/80 p-4 rounded-xl border border-white/5 text-sm outline-none focus:border-green-500 transition-all">
-                    <input id="in-full" type="number" placeholder="Full Charge Capacity (mWh)" class="w-full bg-slate-900/80 p-4 rounded-xl border border-white/5 text-sm outline-none focus:border-green-500 transition-all">
-                    <button onclick="calcHealth()" class="w-full bg-green-600 py-5 rounded-xl font-black uppercase shadow-lg hover:bg-green-500 active:scale-95 transition-all">Phân tích ngay</button>
-                </div>
-                <div id="health-result-container" class="hidden mt-8 p-6 rounded-2xl bg-white/5 text-center border-2 border-dashed border-green-500/20">
-                    <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Sức khỏe pin hiện tại</p>
-                    <div id="health-result" class="text-7xl font-black tracking-tighter">--%</div>
-                </div>
-            </div>
-        </section>
+        <section id="mic" class="test-section"><div id="m-status" class="text-9xl font-black text-green-500">0%</div><button onclick="startMic()" class="mt-10 bg-green-600 px-10 py-3 rounded-full font-bold">THỬ MIC</button></section>
+        <section id="camera" class="test-section"><video id="v" autoplay class="max-w-xl w-full rounded-2xl bg-black aspect-video shadow-2xl"></video><button onclick="startCam()" class="mt-8 bg-blue-600 px-10 py-3 rounded-full font-bold">BẬT CAMERA</button></section>
     </div>
 
     <div id="screen-overlay" onclick="closeScreen()"></div>
 
     <script>
-        // 1. CHUYỂN TAB
         function showTab(id) {
             document.querySelectorAll('.test-section, .nav-item').forEach(el => el.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.getElementById('m-' + id).classList.add('active');
         }
 
-        // 2. XỬ LÝ PHÍM
         window.onkeydown = (e) => {
             if (e.key === "Escape") closeScreen();
             if (document.getElementById('keyboard').classList.contains('active')) {
@@ -242,90 +214,52 @@ exit</textarea>
 
         function resetKb() {
             document.querySelectorAll('.key').forEach(k => k.classList.remove('key-passed'));
-            document.getElementById('sc-up').classList.remove('scroll-passed');
-            document.getElementById('sc-down').classList.remove('scroll-passed');
         }
 
-        // 3. CHUỘT & CUỘN
         function handleMouse(e, isDown) {
             const b = document.getElementById('mouse-' + e.button);
             if(b) isDown ? b.classList.add('active') : b.classList.remove('active');
         }
+
         function handleWheel(e) {
-            const id = e.deltaY < 0 ? 'sc-up' : 'sc-down';
-            const el = document.getElementById(id);
-            if(el) { el.classList.add('scroll-passed'); setTimeout(() => el.style.transform='scale(1)', 100); }
+            const el = document.getElementById(e.deltaY < 0 ? 'sc-up' : 'sc-down');
+            if(el) { el.classList.add('scroll-passed'); setTimeout(()=>el.classList.remove('scroll-passed'), 200); }
         }
 
-        // 4. THÔNG SỐ MÁY (NEW)
         function copySystemCmd() {
-            const code = document.getElementById('cmd-script').value;
-            navigator.clipboard.writeText(code).then(() => {
-                const btn = event.currentTarget;
-                const old = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i> ĐÃ COPY!';
-                setTimeout(() => btn.innerHTML = old, 2000);
-            });
+            navigator.clipboard.writeText(document.getElementById('cmd-script').value);
+            alert("Đã copy!");
         }
 
         function downloadBatFile() {
-            const code = document.getElementById('cmd-script').value;
-            const blob = new Blob([code], { type: 'text/plain' });
+            const blob = new Blob([document.getElementById('cmd-script').value], { type: 'text/plain' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = url;
-            a.download = 'CheckSystem_HAD.bat';
-            a.click();
-            window.URL.revokeObjectURL(url);
+            a.href = url; a.download = 'Check_HAD.bat'; a.click();
         }
 
-        // 5. MÀN HÌNH & ÂM THANH
         function openScreen(c) {
             const o = document.getElementById('screen-overlay');
             o.style.backgroundColor = c; o.style.display = 'block';
-            if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+            document.documentElement.requestFullscreen();
         }
+
         function closeScreen() {
             document.getElementById('screen-overlay').style.display = 'none';
             if (document.fullscreenElement) document.exitFullscreen();
         }
 
-        let aCtx;
-        function playAudio(p, s) {
-            if(!aCtx) aCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = aCtx.createOscillator();
-            const pan = aCtx.createStereoPanner();
-            const gn = aCtx.createGain();
-            osc.type = 'sine'; osc.frequency.setValueAtTime(440, aCtx.currentTime);
-            pan.pan.value = p; gn.gain.setValueAtTime(0.5, aCtx.currentTime);
-            gn.gain.exponentialRampToValueAtTime(0.01, aCtx.currentTime + 1);
-            osc.connect(pan).connect(gn).connect(aCtx.destination);
-            osc.start(); osc.stop(aCtx.currentTime + 1);
-            const unit = document.getElementById('spk-' + s);
-            unit.style.transform = 'scale(1.2)'; unit.style.filter = 'drop-shadow(0 0 20px #3b82f6)';
-            setTimeout(() => { unit.style.transform='scale(1)'; unit.style.filter='none'; }, 1000);
+        function calcHealth() {
+            const d = document.getElementById('in-design').value;
+            const f = document.getElementById('in-full').value;
+            if(!d || !f) return;
+            const h = Math.round((f/d)*100);
+            const res = document.getElementById('health-result');
+            document.getElementById('health-result-container').classList.remove('hidden');
+            res.innerText = h + "%";
+            res.style.color = h > 80 ? '#10b981' : (h > 50 ? '#f59e0b' : '#ef4444');
         }
 
-        // 6. MICRO & CAMERA
-        async function startMic() {
-            const s = await navigator.mediaDevices.getUserMedia({audio:true});
-            const ctx = new AudioContext(); const ana = ctx.createAnalyser();
-            ctx.createMediaStreamSource(s).connect(ana);
-            const data = new Uint8Array(ana.frequencyBinCount);
-            const loop = () => {
-                ana.getByteFrequencyData(data);
-                let v = Math.round((Math.max(...data) / 255) * 100);
-                document.getElementById('m-status').innerText = v + "%";
-                requestAnimationFrame(loop);
-            }
-            loop();
-        }
-        async function startCam() {
-            const s = await navigator.mediaDevices.getUserMedia({video:true});
-            document.getElementById('v').srcObject = s;
-        }
-
-        // 7. PIN & ĐỘ CHAI
         if(navigator.getBattery) navigator.getBattery().then(bat => {
             const up = () => {
                 const lv = Math.round(bat.level * 100);
@@ -336,15 +270,31 @@ exit</textarea>
             up(); bat.onlevelchange = up; bat.onchargingchange = up;
         });
 
-        function calcHealth() {
-            const d = document.getElementById('in-design').value;
-            const f = document.getElementById('in-full').value;
-            if(!d || !f) return;
-            const h = Math.round((f / d) * 100);
-            const res = document.getElementById('health-result');
-            document.getElementById('health-result-container').classList.remove('hidden');
-            res.innerText = h + "%";
-            res.style.color = h > 80 ? '#10b981' : (h > 50 ? '#f59e0b' : '#ef4444');
+        let aCtx;
+        function playAudio(p, s) {
+            if(!aCtx) aCtx = new AudioContext();
+            const osc = aCtx.createOscillator();
+            const pan = aCtx.createStereoPanner();
+            osc.frequency.setValueAtTime(440, aCtx.currentTime);
+            pan.pan.value = p;
+            osc.connect(pan).connect(aCtx.destination);
+            osc.start(); osc.stop(aCtx.currentTime + 0.5);
+        }
+
+        async function startMic() {
+            const s = await navigator.mediaDevices.getUserMedia({audio:true});
+            const ctx = new AudioContext(); const ana = ctx.createAnalyser();
+            ctx.createMediaStreamSource(s).connect(ana);
+            const data = new Uint8Array(ana.frequencyBinCount);
+            const loop = () => {
+                ana.getByteFrequencyData(data);
+                document.getElementById('m-status').innerText = Math.round((Math.max(...data)/255)*100) + "%";
+                requestAnimationFrame(loop);
+            }; loop();
+        }
+
+        async function startCam() {
+            document.getElementById('v').srcObject = await navigator.mediaDevices.getUserMedia({video:true});
         }
     </script>
 </body>
