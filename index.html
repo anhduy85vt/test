@@ -196,33 +196,36 @@ pause</textarea>
         <div class="space-y-4 mb-8">
             <button onclick="downloadBatteryBat()" class="w-full bg-blue-600/20 border border-blue-500/50 py-4 rounded-xl font-bold uppercase text-[11px] hover:bg-blue-600 transition flex items-center justify-center gap-3">
                 <i class="fas fa-file-download text-lg"></i>
-                Tải file tạo báo cáo (.BAT)
+                1. Tải file tạo báo cáo (.BAT)
             </button>
-            <p class="text-[10px] text-gray-400 italic">* Sau khi tải, chuột phải vào file chọn "Run as Administrator"</p>
+
+            <div class="relative">
+                <input type="file" id="battery-file" accept=".html" onchange="handleBatteryFile(this)" class="hidden">
+                <label for="battery-file" class="w-full bg-green-600/20 border border-green-500/50 py-4 rounded-xl font-bold uppercase text-[11px] hover:bg-green-600 transition flex items-center justify-center gap-3 cursor-pointer">
+                    <i class="fas fa-upload text-lg"></i>
+                    2. Chọn file "battery-report.html" để xem kết quả
+                </label>
+            </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
-            <input type="number" id="in-design" placeholder="Design Capacity" class="bg-black/40 p-3 rounded-lg border border-white/10 text-xs outline-none focus:border-blue-500">
-            <input type="number" id="in-full" placeholder="Full Charge Capacity" class="bg-black/40 p-3 rounded-lg border border-white/10 text-xs outline-none focus:border-blue-500">
-        </div>
-        <button onclick="calcPin()" class="w-full mt-4 bg-green-600 py-3 rounded-xl font-black uppercase text-[10px]">Tính toán</button>
-        
-        <div id="pin-res-box" class="mt-6 hidden">
-            <p class="text-xs text-gray-400 uppercase font-bold">Sức khỏe pin:</p>
-            <div id="pin-res" class="text-5xl font-black mt-2">--%</div>
+        <div id="pin-res-box" class="mt-6 p-6 bg-black/40 rounded-2xl border border-white/5 hidden">
+            <div class="grid grid-cols-2 gap-4 mb-4 text-[10px] uppercase font-bold text-gray-400">
+                <div>Thiết kế: <span id="txt-design" class="text-white">--</span> mAh</div>
+                <div>Thực tế: <span id="txt-full" class="text-white">--</span> mAh</div>
+            </div>
+            <p class="text-xs text-gray-400 uppercase font-bold">Sức khỏe pin (Health):</p>
+            <div id="pin-res" class="text-6xl font-black mt-2 text-green-500">--%</div>
         </div>
 
         <textarea id="battery-script-content" style="display:none;">@echo off
-title Battery Report - Hardware Test
+title Battery Report - Anh Duy Tech
 echo Dang khoi tao bao cao pin...
-:: Luu vao thu muc User Profile de khong can quyen Admin cao
 powercfg /batteryreport /output "%USERPROFILE%\Downloads\battery-report.html"
 echo --------------------------------------------------
 echo DA TAO XONG! File luu tai: Downloads\battery-report.html
 echo --------------------------------------------------
-start "" "%USERPROFILE%\Downloads\battery-report.html"
-pause
-)</textarea>
+start "" "%USERPROFILE%\Downloads"
+pause</textarea>
     </div>
 </section>
         <section id="screen" class="test-section">
@@ -450,6 +453,57 @@ function handleBatteryFile(input) {
     // 5. Dọn dẹp bộ nhớ
     document.body.removeChild(link);
     window.URL.revokeObjectURL(link.href);
+}
+                                                              //battery health
+function handleBatteryFile(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const content = e.target.result;
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(content, 'text/html');
+
+        // Tìm tất cả các ô dữ liệu trong file report của Windows
+        const cells = doc.querySelectorAll('td');
+        let designCap = 0;
+        let fullCap = 0;
+
+        cells.forEach((cell, index) => {
+            const text = cell.innerText.toLowerCase();
+            // Lấy con số nằm ngay sau chữ "Design Capacity"
+            if (text.includes('design capacity')) {
+                const val = cells[index + 1].innerText;
+                designCap = parseInt(val.replace(/[^0-9]/g, ''));
+            }
+            // Lấy con số nằm ngay sau chữ "Full Charge Capacity"
+            if (text.includes('full charge capacity')) {
+                const val = cells[index + 1].innerText;
+                fullCap = parseInt(val.replace(/[^0-9]/g, ''));
+            }
+        });
+
+        if (designCap && fullCap) {
+            // Hiển thị con số lên giao diện
+            document.getElementById('txt-design').innerText = designCap;
+            document.getElementById('txt-full').innerText = fullCap;
+            
+            // Tính phần trăm
+            const health = Math.round((fullCap / designCap) * 100);
+            const resLabel = document.getElementById('pin-res');
+            const resBox = document.getElementById('pin-res-box');
+            
+            resLabel.innerText = health + "%";
+            resBox.classList.remove('hidden');
+            
+            // Đổi màu theo tình trạng pin
+            resLabel.style.color = health > 80 ? '#10b981' : (health > 50 ? '#f59e0b' : '#ef4444');
+        } else {
+            alert("Không tìm thấy dữ liệu pin. Hãy chắc chắn bạn chọn đúng file battery-report.html");
+        }
+    };
+    reader.readAsText(file);
 }
         
     </script>
