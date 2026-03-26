@@ -54,6 +54,9 @@
         <nav class="flex-grow space-y-1 overflow-y-auto">
             <div onclick="showTab('keyboard')" id="m-keyboard" class="nav-item active"><i class="fas fa-keyboard w-8"></i> Bàn phím & Chuột</div>
             <div onclick="showTab('sys_info')" id="m-sys_info" class="nav-item"><i class="fas fa-info-circle w-8"></i> Thông số Máy</div>
+
+<div onclick="showTab('disk_health')" id="m-disk_health" class="nav-item"><i class="fas fa-hdd w-8"></i> Sức khỏe Ổ cứng</div>
+            
             <div onclick="showTab('battery_health')" id="m-battery_health" class="nav-item"><i class="fas fa-heartbeat w-8"></i> Độ chai Pin</div>
             <div onclick="showTab('screen')" id="m-screen" class="nav-item"><i class="fas fa-desktop w-8"></i> Màn hình</div>
             <div onclick="showTab('speaker')" id="m-speaker" class="nav-item"><i class="fas fa-volume-up w-8"></i> Loa Stereo</div>
@@ -163,6 +166,29 @@ pause</textarea>
             </div>
         </section>
 
+        <section id="disk_health" class="test-section">
+    <div class="w-full max-w-2xl glass p-8 rounded-[2rem]">
+        <h2 class="text-xl font-black text-blue-400 mb-6 uppercase">Kiểm tra Ổ cứng (PowerShell)</h2>
+        <textarea id="disk-script" readonly class="w-full h-48 bg-black/40 p-4 rounded-xl border border-white/5 text-cyan-400 font-mono text-[11px] outline-none">@echo off
+title Check Disk Health - Hardware Test
+color 0b
+echo ==================================================
+echo         DANG KIEM TRA SUC KHOE O CUNG...
+echo ==================================================
+echo.
+powershell -Command "Get-PhysicalDisk | Select-Object FriendlyName, HealthStatus, OperationalStatus | FT -AutoSize"
+echo.
+echo [!] Healthy: O cung tot.
+echo [!] Warning/Unhealthy: Can sao luu du lieu ngay!
+echo ==================================================
+pause</textarea>
+        <div class="flex gap-3 mt-4">
+            <button onclick="copyDiskCmd()" class="flex-1 bg-blue-600 py-4 rounded-xl font-bold uppercase text-[10px]">Copy mã lệnh</button>
+            <button onclick="downDiskBat()" class="flex-1 bg-cyan-600 py-4 rounded-xl font-bold uppercase text-[10px]">Tải file .BAT</button>
+        </div>
+    </div>
+</section>
+
         <section id="battery_health" class="test-section">
             <div class="flex flex-col lg:flex-row gap-8 max-w-6xl w-full px-10">
                 <div class="glass p-6 rounded-3xl border border-blue-500/20 flex-1">
@@ -270,6 +296,20 @@ pause</textarea>
             const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'CheckSystem_AD.bat'; a.click();
         }
 
+function copyDiskCmd() { 
+    navigator.clipboard.writeText(document.getElementById('disk-script').value); 
+    alert("Đã copy mã kiểm tra ổ cứng!"); 
+}
+
+function downDiskBat() {
+    const content = document.getElementById('disk-script').value;
+    const blob = new Blob([content], {type: 'text/plain'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'CheckDiskHealth_AD.bat';
+    a.click();
+}
+        
         function calcPin() {
             const d = document.getElementById('in-design').value, f = document.getElementById('in-full').value;
             if(!d || !f) return;
