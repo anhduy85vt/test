@@ -47,7 +47,7 @@
             
             <div class="mt-4 text-left bg-black/40 p-3 rounded-2xl border border-white/5 text-[10px] text-gray-300 space-y-1">
                 <p class="flex items-center gap-2 truncate"><i class="fas fa-envelope text-blue-500"></i> anhduy85vt@gmail.com</p>
-                <p class="flex items-center gap-2"><i class="fas fa-mobile-alt text-pink-500"></i> Momo: 0937041885</p>
+                <p class="flex items-center gap-2"><i class="fas fa-mobile-alt text-pink-500"></i> Donate Momo: 0937041885</p>
             </div>
         </div>
 
@@ -187,27 +187,44 @@ pause</textarea>
             <button onclick="downDiskBat()" class="flex-1 bg-cyan-600 py-4 rounded-xl font-bold uppercase text-[10px]">Tải file .BAT</button>
         </div>
     </div>
+                                          //batteryreport
 </section>
+<section id="battery_health" class="test-section">
+    <div class="w-full max-w-xl glass p-8 rounded-[2rem] text-center">
+        <h2 class="text-xl font-black text-blue-400 mb-6 uppercase">Kiểm tra độ chai Pin</h2>
+        
+        <div class="space-y-4 mb-8">
+            <button onclick="downloadBatteryBat()" class="w-full bg-blue-600/20 border border-blue-500/50 py-4 rounded-xl font-bold uppercase text-[11px] hover:bg-blue-600 transition flex items-center justify-center gap-3">
+                <i class="fas fa-file-download text-lg"></i>
+                Tải file tạo báo cáo (.BAT)
+            </button>
+            <p class="text-[10px] text-gray-400 italic">* Sau khi tải, chuột phải vào file chọn "Run as Administrator"</p>
+        </div>
 
- <div class="space-y-3">
-  <button onclick="downloadBatteryBat()" class="w-full bg-blue-600/20 border border-blue-500/50 py-3 rounded-xl font-bold uppercase text-[10px] hover:bg-blue-600 transition">
-    <i class="fas fa-file-download mr-2"></i>1. Tải file tạo báo cáo (.BAT)
-</button>
+        <div class="grid grid-cols-2 gap-4">
+            <input type="number" id="in-design" placeholder="Design Capacity" class="bg-black/40 p-3 rounded-lg border border-white/10 text-xs outline-none focus:border-blue-500">
+            <input type="number" id="in-full" placeholder="Full Charge Capacity" class="bg-black/40 p-3 rounded-lg border border-white/10 text-xs outline-none focus:border-blue-500">
+        </div>
+        <button onclick="calcPin()" class="w-full mt-4 bg-green-600 py-3 rounded-xl font-black uppercase text-[10px]">Tính toán</button>
+        
+        <div id="pin-res-box" class="mt-6 hidden">
+            <p class="text-xs text-gray-400 uppercase font-bold">Sức khỏe pin:</p>
+            <div id="pin-res" class="text-5xl font-black mt-2">--%</div>
+        </div>
 
-<textarea id="battery-script-content" style="display:none;">@echo off
+        <textarea id="battery-script-content" style="display:none;">@echo off
 title Battery Report - Hardware Test
 echo Dang khoi tao bao cao pin...
-powercfg /batteryreport /output "C:\battery-report.html"
-echo.
+:: Luu vao thu muc User Profile de khong can quyen Admin cao
+powercfg /batteryreport /output "%USERPROFILE%\Downloads\battery-report.html"
 echo --------------------------------------------------
-echo DA TAO XONG! File luu tai: C:\battery-report.html
+echo DA TAO XONG! File luu tai: Downloads\battery-report.html
 echo --------------------------------------------------
-echo Nhan phim bat ky de mo file...
+start "" "%USERPROFILE%\Downloads\battery-report.html"
 pause
-start C:\battery-report.html
-</textarea>
-</div>
-
+)</textarea>
+    </div>
+</section>
         <section id="screen" class="test-section">
             <div class="grid grid-cols-4 md:grid-cols-6 gap-4">
                 <div onclick="openScr('#fff')" class="color-box bg-white"></div>
@@ -350,13 +367,16 @@ function downDiskBat() {
             }; up(); b.onlevelchange = up;
         });
 // Hàm tải file .BAT để tạo báo cáo pin
-function downBatteryBat() {
-    const content = document.getElementById('battery-script').value;
-    const blob = new Blob([content], {type: 'text/plain'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'TaoBaoCaoPin_AD.bat';
-    a.click();
+function downloadBatteryBat() {
+    const content = document.getElementById('battery-script-content').value;
+    const blob = new Blob([content], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'TaoBaoCaoPin_AnhDuyTech.bat';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(link.href);
 }
 
 // Hàm mở file báo cáo đã tạo (Lưu ý: Trình duyệt chỉ mở được nếu file nằm đúng đường dẫn C:\)
