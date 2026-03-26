@@ -230,21 +230,28 @@ exit</textarea>
     </div>
 
 </section>
-        <section id="screen" class="test-section">
-            <div class="grid grid-cols-4 md:grid-cols-6 gap-4">
-                <div onclick="openScr('#fff')" class="color-box bg-white"></div>
-                <div onclick="openScr('#000')" class="color-box bg-black border border-white/10"></div>
-                <div onclick="openScr('#f00')" class="color-box bg-red-600"></div>
-                <div onclick="openScr('#0f0')" class="color-box bg-green-600"></div>
-                <div onclick="openScr('#00f')" class="color-box bg-blue-600"></div>
-                <div onclick="openScr('#ff0')" class="color-box bg-yellow-400"></div>
-                <div onclick="openScr('#ff8c00')" class="color-box bg-orange-500"></div>
-                <div onclick="openScr('#8a2be2')" class="color-box bg-purple-600"></div>
-                <div onclick="openScr('#ff69b4')" class="color-box bg-pink-500"></div>
-                <div onclick="openScr('#0ff')" class="color-box bg-cyan-400"></div>
-                <div onclick="openScr('#808080')" class="color-box bg-gray-500"></div>
-                <div onclick="openScr('#4b2c20')" class="color-box bg-amber-900"></div>
-            </div>
+     <section id="screen" class="test-section">
+    <div class="text-center mb-8">
+        <h2 class="text-xl font-black text-blue-400 uppercase tracking-widest">Kiểm tra điểm chết màn hình</h2>
+        <p class="text-[10px] text-gray-500 mt-2">CHỌN MÀU ĐỂ KIỂM TRA - NHẤN ESC HOẶC CLICK ĐỂ THOÁT</p>
+    </div>
+    
+    <div class="grid grid-cols-4 md:grid-cols-6 gap-6 p-6 glass rounded-[2rem]">
+        <div onclick="openScr('#ffffff')" class="color-box bg-white border-2 border-white/20 hover:scale-110 transition-transform shadow-lg shadow-white/5" title="Trắng"></div>
+        
+        <div onclick="openScr('#000000')" class="color-box bg-black border border-white/20 hover:scale-110 transition-transform" title="Đen"></div>
+        <div onclick="openScr('#ff0000')" class="color-box bg-red-600 hover:scale-110 transition-transform" title="Đỏ"></div>
+        <div onclick="openScr('#00ff00')" class="color-box bg-green-600 hover:scale-110 transition-transform" title="Xanh lá"></div>
+        <div onclick="openScr('#0000ff')" class="color-box bg-blue-600 hover:scale-110 transition-transform" title="Xanh dương"></div>
+        <div onclick="openScr('#ffff00')" class="color-box bg-yellow-400 hover:scale-110 transition-transform" title="Vàng"></div>
+        <div onclick="openScr('#ff8c00')" class="color-box bg-orange-500 hover:scale-110 transition-transform"></div>
+        <div onclick="openScr('#8a2be2')" class="color-box bg-purple-600 hover:scale-110 transition-transform"></div>
+        <div onclick="openScr('#ff69b4')" class="color-box bg-pink-500 hover:scale-110 transition-transform"></div>
+        <div onclick="openScr('#00ffff')" class="color-box bg-cyan-400 hover:scale-110 transition-transform"></div>
+        <div onclick="openScr('#808080')" class="color-box bg-gray-500 hover:scale-110 transition-transform"></div>
+        <div onclick="openScr('#4b2c20')" class="color-box bg-amber-900 hover:scale-110 transition-transform"></div>
+    </div>
+
         </section>
 
         <section id="mic" class="test-section">
@@ -337,8 +344,18 @@ function downDiskBat() {
             r.style.color = h > 80 ? '#10b981' : (h > 50 ? '#f59e0b' : '#ef4444');
         }
 
-        function openScr(c) { const o = document.getElementById('screen-overlay'); o.style.backgroundColor = c; o.style.display = 'block'; document.documentElement.requestFullscreen(); }
-        function closeScr() { document.getElementById('screen-overlay').style.display = 'none'; if (document.fullscreenElement) document.exitFullscreen(); }
+function openScr(c) { 
+    const o = document.getElementById('screen-overlay'); 
+    o.style.backgroundColor = c; 
+    o.style.display = 'block'; 
+    
+    // Yêu cầu toàn màn hình để kiểm tra kỹ hơn
+    if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen(); 
+    }
+}
+        
+  function closeScr() { document.getElementById('screen-overlay').style.display = 'none'; if (document.fullscreenElement) document.exitFullscreen(); }
 
         async function startMic() {
             const s = await navigator.mediaDevices.getUserMedia({audio:true});
