@@ -189,30 +189,49 @@ pause</textarea>
     </div>
 </section>
 
-        <section id="battery_health" class="test-section">
-            <div class="flex flex-col lg:flex-row gap-8 max-w-6xl w-full px-10">
-                <div class="glass p-6 rounded-3xl border border-blue-500/20 flex-1">
-                    <h3 class="text-blue-400 font-bold mb-4 uppercase text-xs italic">Bước 1: Lấy báo cáo Pin</h3>
-                    <p class="text-[11px] text-gray-300 leading-relaxed">
-                        1. Mở <b>CMD</b> (Quyền Admin).<br>
-                        2. Dán lệnh: <b class="text-white">powercfg /batteryreport</b> và Enter.<br><br>
-                        <b>Đường dẫn chứa file báo cáo:</b><br>
-                        <span class="text-yellow-400 font-mono">C:\Users\%username%\battery-report.html</span><br><br>
-                        3. Mở file đó lên, tìm mục <b>Installed Batteries</b>, lấy 2 số liệu dán vào ô bên phải.
-                    </p>
-                </div>
-                <div class="flex-1 space-y-3">
-                    <div class="glass p-8 rounded-3xl">
-                        <input id="in-design" type="number" placeholder="Design Capacity (mWh)" class="w-full bg-slate-900 p-4 rounded-xl border border-white/5 outline-none mb-3">
-                        <input id="in-full" type="number" placeholder="Full Charge Capacity (mWh)" class="w-full bg-slate-900 p-4 rounded-xl border border-white/5 outline-none mb-3">
-                        <button onclick="calcPin()" class="w-full bg-green-600 py-4 rounded-xl font-black uppercase">Tính độ chai</button>
-                    </div>
-                    <div id="pin-res-box" class="hidden glass p-4 rounded-3xl text-center">
-                        <div id="pin-res" class="text-6xl font-black italic">--%</div>
-                    </div>
-                </div>
+     <section id="battery_health" class="test-section">
+    <div class="flex flex-col lg:flex-row gap-8 max-w-6xl w-full px-10">
+        <div class="glass p-6 rounded-3xl border border-blue-500/20 flex-1">
+            <h3 class="text-blue-400 font-bold mb-4 uppercase text-xs italic">Công cụ báo cáo Pin</h3>
+            <p class="text-[11px] text-gray-300 leading-relaxed mb-6">
+                1. Tải file <b>.BAT</b> bên dưới và chạy với quyền <b>Admin</b>.<br>
+                2. Sau khi chạy xong, nhấn nút <b>"Mở báo cáo"</b> để xem dữ liệu.<br>
+                3. Lấy số liệu <b>Design Capacity</b> và <b>Full Charge Capacity</b> dán vào ô bên phải.
+            </p>
+            
+            <div class="space-y-3">
+                <button onclick="downBatteryBat()" class="w-full bg-blue-600/20 border border-blue-500/50 py-3 rounded-xl font-bold uppercase text-[10px] hover:bg-blue-600 transition">
+                    <i class="fas fa-file-download mr-2"></i>Tải file tạo báo cáo (.BAT)
+                </button>
+                <button onclick="openBatteryReport()" class="w-full bg-amber-600/20 border border-amber-500/50 py-3 rounded-xl font-bold uppercase text-[10px] hover:bg-amber-600 transition">
+                    <i class="fas fa-external-link-alt mr-2"></i>Mở file báo cáo (HTML)
+                </button>
             </div>
-        </section>
+            
+            <textarea id="battery-script" class="hidden">@echo off
+title Battery Report - Hardware Test
+echo Dang tao bao cao pin...
+powercfg /batteryreport /output "C:\battery-report.html"
+echo.
+echo --------------------------------------------------
+echo DA TAO XONG! File luu tai: C:\battery-report.html
+echo --------------------------------------------------
+pause</textarea>
+        </div>
+
+        <div class="flex-1 space-y-3">
+            <div class="glass p-8 rounded-3xl">
+                <input id="in-design" type="number" placeholder="Design Capacity (mWh)" class="w-full bg-slate-900 p-4 rounded-xl border border-white/5 outline-none mb-3 text-sm">
+                <input id="in-full" type="number" placeholder="Full Charge Capacity (mWh)" class="w-full bg-slate-900 p-4 rounded-xl border border-white/5 outline-none mb-3 text-sm">
+                <button onclick="calcPin()" class="w-full bg-green-600 py-4 rounded-xl font-black uppercase text-xs shadow-lg shadow-green-900/20">Tính độ chai ngay</button>
+            </div>
+            <div id="pin-res-box" class="hidden glass p-4 rounded-3xl text-center border border-white/5">
+                <p class="text-[10px] uppercase text-gray-500 font-bold">Sức khỏe Pin hiện tại</p>
+                <div id="pin-res" class="text-6xl font-black italic">--%</div>
+            </div>
+        </div>
+    </div>
+</section>
 
         <section id="screen" class="test-section">
             <div class="grid grid-cols-4 md:grid-cols-6 gap-4">
@@ -250,6 +269,8 @@ pause</textarea>
     <div id="screen-overlay" onclick="closeScr()"></div>
 
     <script>
+
+        
         function showTab(id) {
             document.querySelectorAll('.test-section, .nav-item').forEach(el => el.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -353,6 +374,24 @@ function downDiskBat() {
                 document.getElementById('mini-text').innerText = l + "%";
             }; up(); b.onlevelchange = up;
         });
+// Hàm tải file .BAT để tạo báo cáo pin
+function downBatteryBat() {
+    const content = document.getElementById('battery-script').value;
+    const blob = new Blob([content], {type: 'text/plain'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'TaoBaoCaoPin_AD.bat';
+    a.click();
+}
+
+// Hàm mở file báo cáo đã tạo (Lưu ý: Trình duyệt chỉ mở được nếu file nằm đúng đường dẫn C:\)
+function openBatteryReport() {
+    // Chúng ta cố gắng điều hướng trình duyệt mở file cục bộ
+    // Lưu ý: Một số trình duyệt bảo mật cao có thể chặn, 
+    // nhưng nếu người dùng copy link dán vào tab mới sẽ hoạt động.
+    window.open('file:///C:/battery-report.html', '_blank');
+}
+        
     </script>
 </body>
 </html>
