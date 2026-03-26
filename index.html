@@ -250,17 +250,21 @@ echo ======================================================
 echo          DANG KHOI TAO BAO CAO PIN...
 echo ======================================================
 echo.
-:: Luu vao Downloads de khong bi loi quyen ghi o C:\
-powercfg /batteryreport /output "%USERPROFILE%\Downloads\battery-report.html"
-echo.
+
+:: Chạy lệnh tạo báo cáo và lưu vào thư mục Downloads
+powercfg /batteryreport /output "%USERPROFILE%\Downloads\battery-report.html" >nul 2>&1
+
 echo ------------------------------------------------------
-echo DA TAO XONG! File luu tai: Downloads\battery-report.html
+echo [OK] DA TAO XONG BAO CAO!
 echo ------------------------------------------------------
 echo.
-echo [!] Vui long quay lai trinh duyet va thuc hien BUOC 2.
+echo [+] File luu tai: Downloads\battery-report.html
+echo [+] Vui long quay lai trinh duyet va thuc hien BUOC 2.
 echo.
-start "" "%USERPROFILE%\Downloads"
-timeout /t 5
+echo Cua so se tu dong dong sau 3 giay...
+
+:: Cho 3 giay de nguoi dung kip doc thong bao roi tu dong thoat
+timeout /t 3 /nobreak >nul
 exit</textarea>
     </div>
 
