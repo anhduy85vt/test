@@ -190,16 +190,22 @@ pause</textarea>
 </section>
 
  <div class="space-y-3">
-    <button onclick="downBatteryBat()" class="w-full bg-blue-600/20 border border-blue-500/50 py-3 rounded-xl font-bold uppercase text-[10px] hover:bg-blue-600 transition">
-        <i class="fas fa-file-download mr-2"></i>1. Tải file tạo báo cáo (.BAT)
-    </button>
-    
-    <label class="w-full flex items-center justify-center bg-purple-600/20 border border-purple-500/50 py-3 rounded-xl font-bold uppercase text-[10px] cursor-pointer hover:bg-purple-600 transition">
-        <i class="fas fa-upload mr-2"></i>2. Chọn file battery-report.html
-        <input type="file" id="battery-file" class="hidden" accept=".html" onchange="handleBatteryFile(this)">
-    </label>
+  <button onclick="downloadBatteryBat()" class="w-full bg-blue-600/20 border border-blue-500/50 py-3 rounded-xl font-bold uppercase text-[10px] hover:bg-blue-600 transition">
+    <i class="fas fa-file-download mr-2"></i>1. Tải file tạo báo cáo (.BAT)
+</button>
 
-    <p class="text-[9px] text-gray-500 italic text-center">* Sau khi chạy file .BAT, hãy chọn file report để hệ thống tự điền số liệu.</p>
+<textarea id="battery-script-content" style="display:none;">@echo off
+title Battery Report - Hardware Test
+echo Dang khoi tao bao cao pin...
+powercfg /batteryreport /output "C:\battery-report.html"
+echo.
+echo --------------------------------------------------
+echo DA TAO XONG! File luu tai: C:\battery-report.html
+echo --------------------------------------------------
+echo Nhan phim bat ky de mo file...
+pause
+start C:\battery-report.html
+</textarea>
 </div>
 
         <section id="screen" class="test-section">
@@ -402,6 +408,28 @@ function handleBatteryFile(input) {
         }
     };
     reader.readAsText(file);
+}
+
+//new
+        function downloadBatteryBat() {
+    // 1. Lấy nội dung từ textarea
+    const content = document.getElementById('battery-script-content').value;
+    
+    // 2. Tạo đối tượng Blob (Binary Large Object)
+    const blob = new Blob([content], { type: 'text/plain' });
+    
+    // 3. Tạo link tải giả lập
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'TaoBaoCaoPin_AnhDuyTech.bat'; // Tên file khi tải về
+    
+    // 4. Kích hoạt lệnh tải
+    document.body.appendChild(link);
+    link.click();
+    
+    // 5. Dọn dẹp bộ nhớ
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(link.href);
 }
         
     </script>
