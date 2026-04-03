@@ -6,9 +6,29 @@
     <title>Hardware Test - ANH DUY TECH</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <style>
+        body {
+    /* 1. ĐƯỜNG DẪN ĐẾN FILE ẢNH CỦA BẠN (Thay đổi tên file cho đúng) */
+    background-image: 
+        /* TẠO LỚP PHỦ TỐI (OVERLAY) ĐỂ NỔI BẬT CHỮ - Cực kỳ quan trọng! */
+        linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), 
+        /* ĐƯỜNG DẪN ẢNH CỤC BỘ (Nếu file ảnh nằm cùng thư mục file HTML) */
+        url('/bg-tech.jpg');
     
-    <style>
-        body { background: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; margin:0; display: flex; }
+    /* 2. CÁC THUỘC TÍNH TỐI ƯU HÌNH NỀN */
+    background-size: cover;      /* Ảnh luôn phủ kín toàn bộ màn hình */
+    background-position: center;  /* Ảnh luôn được căn giữa màn hình */
+    background-repeat: no-repeat; /* Không lặp lại ảnh khi cuộn */
+    background-attachment: fixed; /* Hình nền đứng yên khi cuộn trang (Hiệu ứng Parallax nhẹ) */
+
+    /* 3. CÁC THUỘC TÍNH CŨ CỦA BẠN */
+    color: white; 
+    font-family: 'Segoe UI', sans-serif; 
+    height: 100vh; 
+    overflow: hidden; 
+    margin: 0; 
+    display: flex;
+}
         .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-item { transition: 0.3s; cursor: pointer; padding: 0.8rem 1.2rem; display: flex; align-items: center; border-radius: 12px; margin-bottom: 0.4rem; font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
         .nav-item:hover { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
