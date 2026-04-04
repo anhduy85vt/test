@@ -53,16 +53,15 @@
     </style>
 </head>
 <body>
-
-<body class="flex overflow-hidden m-0 h-screen font-sans">
-    <nav class="w-64 h-full bg-black/20 backdrop-blur-2xl border-r border-white/5 flex flex-col shrink-0 overflow-y-auto">
+<body class="flex m-0 h-screen w-full bg-[#0f172a] text-white font-sans overflow-hidden">
+        <nav class="w-64 h-full bg-black/30 backdrop-blur-2xl border-r border-white/5 flex flex-col shrink-0">
                 <div class="w-full py-8 border-b border-white/5 flex flex-col items-center shrink-0">
-            <div class="px-6 w-full">
+            <div class="px-6 w-full text-center">
                 <img src="logo-anh-duy.png" alt="ANH DUY TECH" 
-                     class="max-w-full h-auto mx-auto object-contain drop-shadow-[0_0_15px_rgba(255,165,0,0.3)]">
-                             <p class="text-[9px] text-gray-500 tracking-[0.4em] font-black uppercase mt-3 text-center">Hardware Test</p>
+                     class="max-w-full h-16 w-auto mx-auto object-contain drop-shadow-[0_0_15px_rgba(255,165,0,0.3)]">
+                                <p class="text-[9px] text-gray-500 tracking-[0.4em] font-black uppercase mt-3">Hardware Test</p>
             </div>
-            <div class="mx-4 mt-6 p-3 bg-black/40 rounded-xl border border-white/5 text-left w-[85%]">
+            <div class="mx-4 mt-6 p-3 bg-black/40 rounded-xl border border-white/5 text-left self-stretch">
                 <div class="flex items-center gap-2 mb-2">
                     <i class="fas fa-envelope text-[10px] text-yellow-500/80 w-3 shrink-0"></i>
                     <span class="text-[9px] text-gray-400 truncate font-bold">anhduy85vt@gmail.com</span>
@@ -73,14 +72,18 @@
                 </div>
             </div>
         </div>
-        <div class="p-4 flex-1">
+        <div class="flex-1 p-4 space-y-1 overflow-y-auto custom-scroll">
+            <div onclick="showTab('keyboard')" class="nav-item active">
+                <i class="fas fa-keyboard w-8"></i> Bàn phím
+            </div>
             </div>
     </nav>
-    <main class="flex-1 relative h-full overflow-hidden">
-        </main>
+    <main class="flex-1 h-full relative overflow-y-auto bg-transparent">
+        <div class="p-8">
+             </div>
+    </main>
 </body>
-    
-        <nav class="flex-grow space-y-1 overflow-y-auto">
+            <nav class="flex-grow space-y-1 overflow-y-auto">
             <div onclick="showTab('keyboard')" id="m-keyboard" class="nav-item active"><i class="fas fa-keyboard w-8"></i> Bàn phím & Chuột</div>
             <div onclick="showTab('sys_info')" id="m-sys_info" class="nav-item"><i class="fas fa-info-circle w-8"></i> Thông số Máy</div>
             <div onclick="showTab('disk_health')" id="m-disk_health" class="nav-item"><i class="fas fa-hdd w-8"></i> Sức khỏe Ổ cứng</div>
