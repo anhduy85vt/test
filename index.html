@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            /* 1. HÌNH NỀN */
             background-image: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('bg-tech.jpg');
             background-size: cover;
             background-position: center;
@@ -20,42 +19,38 @@
             padding: 0;
             height: 100vh;
             width: 100vw;
-            display: flex; /* Kích hoạt Flexbox để Sidebar và Main nằm cạnh nhau */
-            overflow: hidden; /* Chống tràn toàn trang */
+            display: flex;
+            overflow: hidden;
         }
 
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-item { transition: 0.3s; cursor: pointer; padding: 0.8rem 1.2rem; display: flex; align-items: center; border-radius: 12px; margin-bottom: 0.4rem; font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
+        .nav-item { transition: 0.3s; cursor: pointer; padding: 0.7rem 1rem; display: flex; align-items: center; border-radius: 12px; margin-bottom: 0.3rem; font-size: 10.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
         .nav-item:hover { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
         .nav-item.active { background: #3b82f6 !important; color: white !important; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
 
-        /* Khung nội dung chính */
-        main {
-            flex: 1; /* Chiếm toàn bộ phần còn lại bên phải */
-            height: 100%;
-            overflow-y: auto; /* Chỉ cho phép cuộn bên trong nội dung */
-            position: relative;
-        }
-
+        main { flex: 1; height: 100%; overflow-y: auto; position: relative; }
         .test-section { display: none; min-height: 100%; width: 100%; animation: fadeIn 0.3s ease-out; flex-direction: column; align-items: center; justify-content: center; padding: 40px; }
         .test-section.active { display: flex !important; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
         
-        /* KEYBOARD UI */
-        .kb-outer-wrapper { background: #111827; padding: 25px; border-radius: 1.5rem; border: 3px solid #1e293b; display: flex; gap: 12px; zoom: 0.6; box-shadow: 0 20px 50px rgba(0,0,0,0.6); user-select: none; }
-        .key { background: #1e293b; color: #64748b; font-size: 11px; font-weight: 800; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 8px; border-bottom: 3px solid #0f172a; transition: all 0.1s; cursor: pointer; }
+        .kb-outer-wrapper { background: #111827; padding: 20px; border-radius: 1.5rem; border: 3px solid #1e293b; display: flex; gap: 10px; zoom: 0.6; }
+        .key { background: #1e293b; color: #64748b; font-size: 11px; font-weight: 800; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 8px; border-bottom: 3px solid #0f172a; }
+        
+        /* Tùy chỉnh thanh cuộn menu */
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
     </style>
 </head>
 <body>
-    <nav class="w-64 h-full bg-black/40 backdrop-blur-3xl border-r border-white/10 flex flex-col shrink-0">
-        <div class="w-full py-8 border-b border-white/5 flex flex-col items-center shrink-0">
+    <nav class="w-66 h-full bg-black/40 backdrop-blur-3xl border-r border-white/10 flex flex-col shrink-0 overflow-hidden">
+        
+        <div class="w-full py-6 border-b border-white/5 flex flex-col items-center shrink-0">
             <div class="px-6 w-full text-center">
-                <img src="logo-anh-duy.png" alt="ANH DUY TECH" class="h-16 w-auto mx-auto object-contain drop-shadow-[0_0_15px_rgba(255,165,0,0.4)]">
+                <img src="logo-anh-duy.png" alt="ANH DUY TECH" class="h-14 w-auto mx-auto object-contain drop-shadow-[0_0_15px_rgba(255,165,0,0.4)]">
                 <p class="text-[9px] text-gray-500 tracking-[0.4em] font-black uppercase mt-3">Hardware Test</p>
             </div>
 
-            <div class="mx-4 mt-6 p-3 bg-black/40 rounded-xl border border-white/5 self-stretch">
-                <div class="flex items-center gap-2 mb-2">
+            <div class="mx-4 mt-4 p-3 bg-black/40 rounded-xl border border-white/5 self-stretch">
+                <div class="flex items-center gap-2 mb-1.5">
                     <i class="fas fa-envelope text-[10px] text-yellow-500/80 w-3"></i>
                     <span class="text-[9px] text-gray-400 truncate font-bold">anhduy85vt@gmail.com</span>
                 </div>
@@ -66,30 +61,58 @@
             </div>
         </div>
 
-        <div class="flex-1 p-4 space-y-1 overflow-y-auto">
-            <div onclick="showTab('keyboard')" class="nav-item active">
-                <i class="fas fa-keyboard w-8"></i> Bàn phím
+        <div class="flex-1 p-4 space-y-1 overflow-y-auto custom-scroll">
+            <div onclick="showTab('keyboard', this)" class="nav-item active"><i class="fas fa-keyboard w-8"></i> Bàn phím & Chuột</div>
+            <div onclick="showTab('sys_info', this)" class="nav-item"><i class="fas fa-info-circle w-8"></i> Thông số Máy</div>
+            <div onclick="showTab('disk_health', this)" class="nav-item"><i class="fas fa-hdd w-8"></i> Sức khỏe Ổ cứng</div>
+            <div onclick="showTab('battery_health', this)" class="nav-item"><i class="fas fa-heartbeat w-8"></i> Độ chai Pin</div>
+            <div onclick="showTab('screen', this)" class="nav-item"><i class="fas fa-desktop w-8"></i> Màn hình</div>
+            <div onclick="showTab('speaker', this)" class="nav-item"><i class="fas fa-volume-up w-8"></i> Loa Stereo</div>
+            <div onclick="showTab('camera', this)" class="nav-item"><i class="fas fa-camera w-8"></i> Camera</div>
+            <div onclick="showTab('mic', this)" class="nav-item"><i class="fas fa-microphone w-8"></i> Micro</div>
+            <div onclick="showTab('sys_cleanup', this)" class="nav-item"><i class="fas fa-broom w-8"></i> Dọn dẹp Windows</div>
+        </div>
+
+        <div class="p-4 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-4 border border-slate-600 rounded-sm p-[1px] relative">
+                    <div id="mini-fill" class="h-full bg-green-500 w-[60%]"></div>
+                </div>
+                <span id="mini-text" class="text-[10px] font-bold text-gray-300">60%</span>
             </div>
-            </div>
+        </div>
     </nav>
 
     <main>
         <section id="keyboard" class="test-section active">
-            <h1 class="text-2xl font-black text-blue-400 mb-8 uppercase tracking-widest">Kiểm tra bàn phím</h1>
+            <h1 class="text-xl font-black text-blue-400 mb-8 uppercase tracking-widest">Kiểm tra bàn phím</h1>
             <div class="kb-outer-wrapper">
                 <div class="key">Esc</div>
                 <div class="key">F1</div>
                 <div class="key">F2</div>
             </div>
         </section>
-    </main>
+
+        <section id="sys_info" class="test-section">
+            <h1 class="text-xl font-black text-yellow-400 mb-8 uppercase tracking-widest">Thông số hệ thống</h1>
+            <div class="text-gray-400">Đang lấy dữ liệu...</div>
+        </section>
+
+        </main>
 
     <script>
-        function showTab(tabId) {
+        function showTab(tabId, element) {
+            // Ẩn tất cả section
             document.querySelectorAll('.test-section').forEach(s => s.classList.remove('active'));
+            // Bỏ active tất cả menu
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            
+            // Hiện section được chọn
+            const target = document.getElementById(tabId);
+            if(target) target.classList.add('active');
+            
+            // Active menu được click
+            element.classList.add('active');
         }
     </script>
 </body>
