@@ -666,9 +666,11 @@ async function runStereoTest() {
         await audioContext.resume();
     }
 
-    // 2. Tạo luồng âm thanh (Dùng link nhạc test ổn định)
-    const audio = new Audio('https://github.com/anhduy85vt/test/blob/fe800d3f1d1669c64fd254a903346d5855df4d20/SoundHelix-Song-1.mp3');
-    audio.crossOrigin = "anonymous";
+// Thay thế đoạn link bằng link "raw" của bạn
+const musicUrl = 'https://raw.githubusercontent.com/anhduy85vt/test/main/SoundHelix-Song-1.mp3';
+
+const audio = new Audio(musicUrl);
+audio.crossOrigin = "anonymous"; // Rất quan trọng khi lấy nhạc từ server khác (GitHub)
     
     audioSource = audioContext.createMediaElementSource(audio);
     stereoPanner = audioContext.createStereoPanner();
