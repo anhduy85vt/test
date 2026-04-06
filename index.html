@@ -639,13 +639,23 @@ document.getElementById('test-audio').onended = function() {
 let panner;
 let source;
 
-function startSpeakerTest() {
-    // Khởi tạo Audio Context
+async function startSpeakerTest() {
+    // 1. Khởi tạo hoặc khởi động lại AudioContext (BẮT BUỘC)
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
     
-    const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+    // Nếu AudioContext đang ở trạng thái 'suspended' (bị treo), hãy kích hoạt nó
+    if (audioCtx.state === 'suspended') {
+        await audioCtx.resume();
+    }
+
+    // 2. Tiếp tục các bước phát nhạc bên dưới...
+ const audio = new Audio();
+audio.crossOrigin = "anonymous"; // Cho phép xử lý âm thanh từ nguồn khác
+audio.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+    // ... code cũ của bạn
+}
     source = audioCtx.createMediaElementSource(audio);
     panner = audioCtx.createStereoPanner();
     
