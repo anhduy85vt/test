@@ -615,36 +615,34 @@ function downloadCleanupBat() {
     document.body.removeChild(link);
     window.URL.revokeObjectURL(link.href);
 }
-        let isMusicPlaying = false;
-function toggleMusic() {
+            
+let isMusicPlaying = false; // Biến trạng thái để kiểm soát nút dừng/phát
+let audioContext;
+let stereoPanner;
+let audioSource;
+let currentAudio; // Lưu lại audio đang phát để có thể dừng nếu cần
+
+            function toggleMusic() {
     const audio = document.getElementById('test-audio');
     const btnText = document.getElementById('play-text');
     const btnIcon = document.getElementById('play-icon');
     const disk = document.getElementById('music-disk');
+
     if (!isMusicPlaying) {
-        audio.play();
-        btnText.innerText = "Dừng nhạc";
-        btnIcon.classList.replace('fa-play', 'fa-pause');
-        disk.classList.add('animate-spin'); // Làm cái đĩa xoay cho đẹp
-        isMusicPlaying = true;
+        audio.play().then(() => {
+            btnText.innerText = "Dừng nhạc";
+            btnIcon.classList.replace('fa-play', 'fa-pause');
+            if(disk) disk.classList.add('animate-spin');
+            isMusicPlaying = true;
+        }).catch(err => console.log("Trình duyệt chặn phát tự động: ", err));
     } else {
         audio.pause();
         btnText.innerText = "Phát nhạc";
         btnIcon.classList.replace('fa-pause', 'fa-play');
-        disk.classList.remove('animate-spin');
+        if(disk) disk.classList.remove('animate-spin');
         isMusicPlaying = false;
     }
 }
-// Tự động dừng đĩa khi nhạc hết
-document.getElementById('test-audio').onended = function() {
-    isMusicPlaying = false;
-    document.getElementById('play-text').innerText = "Phát nhạc";
-    document.getElementById('play-icon').classList.replace('fa-pause', 'fa-play');
-    document.getElementById('music-disk').classList.remove('animate-spin');
-};
-            let audioContext;
-let stereoPanner;
-let audioSource;
 
 async function runStereoTest() {
     const btn = document.getElementById('btn-speaker');
@@ -654,11 +652,7 @@ async function runStereoTest() {
     const wLeft = document.getElementById('wave-left');
     const wRight = document.getElementById('wave-right');
 
-    // Vô hiệu hóa nút khi đang chạy
-    btn.disabled = true;
-    btn.style.opacity = "0.5";
-
-    // 1. Khởi tạo Audio Context (Khắc phục lỗi trình duyệt chặn âm thanh)
+    // Khởi tạo Audio Context
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
@@ -666,59 +660,68 @@ async function runStereoTest() {
         await audioContext.resume();
     }
 
-// Thay thế đoạn link bằng link "raw" của bạn
-const musicUrl = 'https://raw.githubusercontent.com/anhduy85vt/test/main/SoundHelix-Song-1.mp3';
+    // --- FIX: Dừng mọi nhạc đang phát trước đó để không bị lồng tiếng ---
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
 
-const audio = new Audio(musicUrl);
-audio.crossOrigin = "anonymous"; // Rất quan trọng khi lấy nhạc từ server khác (GitHub)
-    
-    audioSource = audioContext.createMediaElementSource(audio);
-    stereoPanner = audioContext.createStereoPanner();
-    
-    audioSource.connect(stereoPanner);
-    stereoPanner.connect(audioContext.destination);
+    const musicUrl = 'https://raw.githubusercontent.com/anhduy85vt/test/main/SoundHelix-Song-1.mp3';
+    const audio = new Audio(musicUrl);
+    audio.crossOrigin = "anonymous";
+    currentAudio = audio; // Lưu lại để quản lý
 
+    // Kết nối âm thanh qua bộ điều hướng (Panner)
+    try {
+        audioSource = audioContext.createMediaElementSource(audio);
+        stereoPanner = audioContext.createStereoPanner();
+        audioSource.connect(stereoPanner);
+        stereoPanner.connect(audioContext.destination);
+    } catch(e) {
+        // Nếu đã connect rồi thì bỏ qua lỗi để phát tiếp
+    }
+
+    // Vô hiệu hóa nút khi đang chạy
+    btn.disabled = true;
+    btn.style.opacity = "0.5";
     audio.play();
 
     // --- GIAI ĐOẠN 1: LOA TRÁI (0s - 4s) ---
     msg.innerText = "Kiểm tra: LOA TRÁI (LEFT)...";
-    stereoPanner.pan.value = -1; // Đẩy hết sang trái
+    stereoPanner.pan.value = -1;
     sLeft.classList.add('opacity-100', 'border-blue-500', 'scale-105');
     wLeft.style.width = "100%";
 
+    // --- GIAI ĐOẠN 2: LOA PHẢI ---
     setTimeout(() => {
-        // --- GIAI ĐOẠN 2: LOA PHẢI (4s - 8s) ---
         msg.innerText = "Kiểm tra: LOA PHẢI (RIGHT)...";
-        stereoPanner.pan.value = 1; // Đẩy hết sang phải
-        
+        stereoPanner.pan.value = 1;
         sLeft.classList.remove('opacity-100', 'border-blue-500', 'scale-105');
         wLeft.style.width = "0%";
-        
         sRight.classList.add('opacity-100', 'border-red-500', 'scale-105');
         wRight.style.width = "100%";
     }, 4000);
 
+    // --- GIAI ĐOẠN 3: STEREO ---
     setTimeout(() => {
-        // --- GIAI ĐOẠN 3: CẢ HAI LOA (8s - 12s) ---
         msg.innerText = "Kiểm tra: CẢ HAI LOA (STEREO)...";
-        stereoPanner.pan.value = 0; // Về giữa
-        
+        stereoPanner.pan.value = 0;
         sLeft.classList.add('opacity-100', 'border-green-500');
-        sRight.classList.add('opacity-100', 'border-green-500');
+        sRight.classList.add('opacity-100', 'border-green-500', 'scale-105');
         wLeft.style.width = "100%";
         wRight.style.width = "100%";
     }, 8000);
 
+    // --- KẾT THÚC ---
     setTimeout(() => {
-        // KẾT THÚC
         audio.pause();
         msg.innerText = "KIỂM TRA HOÀN TẤT!";
         btn.disabled = false;
         btn.style.opacity = "1";
         
-        // Reset giao diện
+        // Reset giao diện về trạng thái ban đầu
         [sLeft, sRight].forEach(s => {
-            s.className = s.className.replace(/opacity-100|border-\w+-500|scale-105/g, '').trim();
+            s.classList.remove('opacity-100', 'border-blue-500', 'border-red-500', 'border-green-500', 'scale-105');
             s.classList.add('opacity-30');
         });
         wLeft.style.width = "0%";
